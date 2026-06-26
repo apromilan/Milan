@@ -1,6 +1,4 @@
-clc
-clear all
-close all
+
 
 %Manual mode excitation data
 freq=1;
@@ -15,7 +13,7 @@ a_y=0.2*9.81*0;
 
 %% Suspension
 
-front_sheet = "Front_1";
+front_sheet = "Front_2";
 rear_sheet = "Rear_4";
 % ==== 1 = Double A Arm with pullrod attached to UCA ====
 % ==== 2 = Double A Arm with pushrod attached to LCA ====
