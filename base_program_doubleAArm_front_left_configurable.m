@@ -1,5 +1,5 @@
 
-function base_program_doubleAArm_front_left_configurable_v3()
+function base_program_doubleAArm_front_left_configurable()
     clc; clear; close all;
 
     % =========================================================================
@@ -236,8 +236,8 @@ function base_program_doubleAArm_front_left_configurable_v3()
     figure('Name', ['Alap Kinematika' title_suffix], 'WindowState', 'maximized');
     subplot(2,2,1); plot(sweep_range, Results.Camber, 'b', 'LineWidth', 2); grid on; title('Kerékdőlés'); xlabel(xlbl); ylabel('Kerékdőlés (deg)');
     subplot(2,2,2); plot(sweep_range, Results.Toe, 'r', 'LineWidth', 2); grid on; title('Kerékszög'); xlabel(xlbl); ylabel('Kerékszög (deg)');
-    % subplot(2,2,3); plot(sweep_range, Results.RC_Z, 'k', 'LineWidth', 2); grid on; title('Kinematic Roll Center Z'); xlabel(xlbl); ylabel('Height (mm)');
-    % subplot(2,2,4); plot(sweep_range, Results.HalfTrack, 'm', 'LineWidth', 2); grid on; title('Half-Track Change'); xlabel(xlbl); ylabel('\Delta Y (mm)');
+    subplot(2,2,3); plot(sweep_range, Results.RC_Z, 'k', 'LineWidth', 2); grid on; title('Kinematic Roll Center Z'); xlabel(xlbl); ylabel('Height (mm)');
+    subplot(2,2,4); plot(sweep_range, Results.HalfTrack, 'm', 'LineWidth', 2); grid on; title('Half-Track Change'); xlabel(xlbl); ylabel('\Delta Y (mm)');
     
     figure('Name', ['Kormány Geometria' title_suffix], 'WindowState', 'maximized');
     subplot(2,2,1); plot(sweep_range, Results.Caster, 'g', 'LineWidth', 2); grid on; title('Csaphátradőlés'); xlabel(xlbl); ylabel('Csaphátradőlés (deg)');

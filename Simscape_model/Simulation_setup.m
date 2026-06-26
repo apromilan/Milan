@@ -1,4 +1,7 @@
-%% 
+clc
+clear all
+close all
+
 %Manual mode excitation data
 freq=1;
 gains=[1,1,1,1];
@@ -10,123 +13,508 @@ a_y=0.2*9.81*0;
 
 % pitch, roll centerekre function-t kell írni, de már megvan csak máshol
 
-%% Quarter 1
-%UCA
-UCA_front_1=[142.910; 130.958; 588.738];
-UCA_rear_1=[-423.620; 168.674; 470.738];
-UCA_upright_1=[-51.340; 691.900; 521.820];
-%LCA
-LCA_front_1=[205.470; 126.962; 394.866];
-LCA_rear_1=[-407.280; 161.941; 344.481];
-LCA_upright_1=[-20.720; 746.210; 303.980];
-%Wheel
-WheelCenter_1=[0; 830; 360];
-ContactPatch_1=[0; 830; 0];
-%Damper
-Damper_chassis_1=[-20.720; 20; 600.784];
-%Tierod
-Tierod_inner_1=[170.14; 130.958; 540.912];
-Tierod_upright_1=[25.017; 696.430; 481.810];
-%Pushrod
-Pushrod_upright_1 = [-20.720; 709.481; 319.812];
-%Rocker
-Rocker_center_1=[-20.720; 120.822; 550.784];
-Pushrod_rocker_1=[-20.720; 140.881; 570.784];
-Damper_rocker_1=[-20.720; 130.881; 600.784];
-Droplink_rocker_1=[-46.95; 210; 520];
-% ARB
-Droplink_ARB_1=[-74.5; 0; 520];
-ARB_1=[21.475; 0; 520];
+%% Suspension
 
-%% Quarter 2
-%UCA
-UCA_front_2=diag([1,-1,1])*UCA_front_1;
-UCA_rear_2=diag([1,-1,1])*UCA_rear_1;
-UCA_upright_2=diag([1,-1,1])*UCA_upright_1;
-%LCA
-LCA_front_2=diag([1,-1,1])*LCA_front_1;
-LCA_rear_2=diag([1,-1,1])*LCA_rear_1;
-LCA_upright_2=diag([1,-1,1])*LCA_upright_1;
-%Wheel
-WheelCenter_2=diag([1,-1,1])*WheelCenter_1;
-ContactPatch_2=diag([1,-1,1])*ContactPatch_1;
-%Damper
-Damper_chassis_2=diag([1,-1,1])*Damper_chassis_1;
-%Tierod
-Tierod_inner_2=diag([1,-1,1])*Tierod_inner_1;
-Tierod_upright_2=diag([1,-1,1])*Tierod_upright_1;
-%Pushrod
-Pushrod_upright_2=diag([1,-1,1])*Pushrod_upright_1;
-%Rocker
-Rocker_center_2=diag([1,-1,1])*Rocker_center_1;
-Pushrod_rocker_2=diag([1,-1,1])*Pushrod_rocker_1;
-Damper_rocker_2=diag([1,-1,1])*Damper_rocker_1;
-% Droplink_rocker_2=diag([1,-1,1])*Droplink_rocker_1;
-Droplink_rocker_2 = [6; -210; 520];
-% ARB
-Droplink_ARB_2=diag([1,-1,1])*Droplink_ARB_1;
-Droplink_ARB_2 = [33.550; 0; 520];
-ARB_2=diag([1,-1,1])*ARB_1;
+front_sheet = "Front_1";
+rear_sheet = "Rear_4";
+% ==== 1 = Double A Arm with pullrod attached to UCA ====
+% ==== 2 = Double A Arm with pushrod attached to LCA ====
+% ==== 3 = Double A Arm with pushrod attached to UCA ====
+% ==== 4 = Multilink with pullrod ====
+% ==== 5 = Multilink with pushrod ====
 
-%% Quarter 3
-%UCA
-UCA_front_3=[-2610.180; 149.557; 471.424];
-UCA_rear_3=[-3021.190; 79.993; 502.424];
-UCA_upright_front_3=[-2963.942; 704.412; 494.308];
-UCA_upright_rear_3=[-3046.858; 707.128; 505.611];
-%LCA
-LCA_front_3=[-2606.680; 153.689; 371.311];
-LCA_rear_3=[-2987.790; 77.777; 372.804];
-LCA_upright_front_3=[-2968.608; 733.282; 358.001];
-LCA_upright_rear_3=[-3017.324; 737.420; 348.449];
-%Wheel
-WheelCenter_3=[-3000; 775; 360];
-ContactPatch_3=[-3000; 775; 0];
-%Damper
-Damper_chassis_3=[-3051.844; 120.000; 156.805];
-%Tierod
-Tierod_inner_3=[-2480.310; 133.848; 419.589];
-Tierod_upright_3=[-2900.351; 687.442; 430.244];
-%Pullrod
-Pullrod_upright_3=[-2942.829; 655.968; 562.495];
-%Rocker
-Rocker_center_3=[-2881.215; 167.295; 240.816];
-Pullrod_rocker_3=[-2942.829; 194.264; 234.154];
-Damper_rocker_3=[-2918.002; 113.009; 186.805];
-Droplink_rocker_3=[-2741.91; 101.449; 464.403];
-%ARB
-Droplink_ARB_3=[-2800.63; 101.449; 464.403];
-ARB_3=[-2800.63; 0; 464.403];
+% Front
+front_points = readtable("suspension_points.xlsx", "Sheet", front_sheet);
+for i = 1:height(front_points)
+    rawName = front_points.Point{i};
+    baseName = rawName;
+    X_val = front_points.X(i);
+    Y_val = front_points.Y(i);
+    Z_val = front_points.Z(i);
+    varName1 = [baseName, '1'];
+    vectorValue1 = [X_val; Y_val; Z_val];
+    assignin('base', varName1, vectorValue1);
+    varName2 = [baseName, '2'];
+    vectorValue2 = [X_val; Y_val * -1; Z_val];
+    assignin('base', varName2, vectorValue2);
+end
 
-%% Quarter 4
-%UCA
-UCA_front_4=diag([1,-1,1])*UCA_front_3;
-UCA_rear_4=diag([1,-1,1])*UCA_rear_3;
-UCA_upright_front_4=diag([1,-1,1])*UCA_upright_front_3;
-UCA_upright_rear_4=diag([1,-1,1])*UCA_upright_rear_3;
-%LCA
-LCA_front_4=diag([1,-1,1])*LCA_front_3;
-LCA_rear_4=diag([1,-1,1])*LCA_rear_3;
-LCA_upright_front_4=diag([1,-1,1])*LCA_upright_front_3;
-LCA_upright_rear_4=diag([1,-1,1])*LCA_upright_rear_3;
-%Wheel
-WheelCenter_4=diag([1,-1,1])*WheelCenter_3;
-ContactPatch_4=diag([1,-1,1])*ContactPatch_3;
-%Damper
-Damper_chassis_4=diag([1,-1,1])*Damper_chassis_3;
-%Tierod
-Tierod_inner_4=diag([1,-1,1])*Tierod_inner_3;
-Tierod_upright_4=diag([1,-1,1])*Tierod_upright_3;
-%Pullrod
-Pullrod_upright_4=diag([1,-1,1])*Pullrod_upright_3;
-%Rocker
-Rocker_center_4=diag([1,-1,1])*Rocker_center_3;
-Pullrod_rocker_4=diag([1,-1,1])*Pullrod_rocker_3;
-Damper_rocker_4=diag([1,-1,1])*Damper_rocker_3;
-Droplink_rocker_4=diag([1,-1,1])*Droplink_rocker_3;
-%ARB
-Droplink_ARB_4=diag([1,-1,1])*Droplink_ARB_3;
-ARB_4=diag([1,-1,1])*ARB_3;
+if contains(front_sheet, 'Front_1') || contains(front_sheet, 'Front_2') || contains(front_sheet, 'Front_3')
+
+    ARB_front_length = ARB_1(2)*2;
+    ARB_lever_front_length = abs(ARB_1(1)-Droplink_ARB_1(1));
+    Droplink_front_length = norm(Droplink_ARB_1-Droplink_rocker_1);
+    Damper_front_length = norm(Damper_chassis_1-Damper_rocker_1);
+    Push_pull_rod_front_length = norm(Push_pull_rod_rocker_1-Push_pull_rod_upright_1);
+    Tierod_front_length = norm(Tierod_inner_1-Tierod_upright_1);
+
+    % Diameters
+    ARB_diameter=10;
+    Droplink_diameter=18;
+    UCA_diameter=18;
+    LCA_diameter=18;
+    Tierod_front_diameter=8;
+    Tierod_rear_diameter=18;
+    Push_pull_rod_diameter=18;
+    Rack_diameter=14;
+
+    % Quarter 1 %
+        UCA_front_1_vec = UCA_front_1-UCA_upright_1; 
+        UCA_front_1_center = (UCA_front_1+UCA_upright_1)/2; 
+        UCA_rear_1_vec = UCA_rear_1-UCA_upright_1; 
+        UCA_rear_1_center = (UCA_rear_1+UCA_upright_1)/2; 
+        UCA_front_front_length = norm(UCA_front_1_vec); 
+        UCA_front_rear_length = norm(UCA_rear_1_vec); 
+        UCA_front_1_vec_unit = UCA_front_1_vec/UCA_front_front_length;
+        UCA_rear_1_vec_unit = UCA_rear_1_vec/UCA_front_rear_length; 
+        Base_to_UCA_front_1 = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_1_vec_unit));
+        UCA_front_1_rot = inv(Base_to_UCA_front_1)*vrrotvec2mat(vrrotvec(UCA_front_1_vec_unit,UCA_rear_1_vec_unit))*(Base_to_UCA_front_1);
+        UCA_front_1_trans = inv(Base_to_UCA_front_1)*(UCA_rear_1_center-UCA_front_1_center);
+        UCA_to_push_pull_rod_1_trans = inv(Base_to_UCA_front_1)*(Push_pull_rod_upright_1-UCA_front_1_center);
+        
+        LCA_front_1_vec = LCA_front_1-LCA_upright_1;
+        LCA_front_1_center = (LCA_front_1+LCA_upright_1)/2;
+        LCA_rear_1_vec = LCA_rear_1-LCA_upright_1;
+        LCA_rear_1_center = (LCA_rear_1+LCA_upright_1)/2;
+        LCA_front_front_length = norm(LCA_front_1_vec);
+        LCA_front_rear_length = norm(LCA_rear_1_vec);
+        LCA_front_1_vec_unit = LCA_front_1_vec/LCA_front_front_length;
+        LCA_rear_1_vec_unit = LCA_rear_1_vec/LCA_front_rear_length;
+        Base_to_LCA_front_1 = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_1_vec_unit));
+        LCA_front_1_rot = inv(Base_to_LCA_front_1)*vrrotvec2mat(vrrotvec(LCA_front_1_vec_unit,LCA_rear_1_vec_unit))*(Base_to_LCA_front_1);
+        LCA_front_1_trans = inv(Base_to_LCA_front_1)*(LCA_rear_1_center-LCA_front_1_center);
+        LCA_to_push_pull_rod_1_trans = inv(Base_to_LCA_front_1)*(Push_pull_rod_upright_1-LCA_front_1_center);
+    
+    
+    % Quarter 2 %
+        UCA_front_2_vec = UCA_front_2-UCA_upright_2; 
+        UCA_front_2_center = (UCA_front_2+UCA_upright_2)/2; 
+        UCA_rear_2_vec = UCA_rear_2-UCA_upright_2; 
+        UCA_rear_2_center = (UCA_rear_2+UCA_upright_2)/2; 
+        UCA_front_front_length = norm(UCA_front_2_vec); 
+        UCA_front_rear_length = norm(UCA_rear_2_vec); 
+        UCA_front_2_vec_unit = UCA_front_2_vec/UCA_front_front_length;
+        UCA_rear_2_vec_unit = UCA_rear_2_vec/UCA_front_rear_length; 
+        Base_to_UCA_front_2 = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_2_vec_unit));
+        UCA_front_2_rot = inv(Base_to_UCA_front_2)*vrrotvec2mat(vrrotvec(UCA_front_2_vec_unit,UCA_rear_2_vec_unit))*(Base_to_UCA_front_2);
+        UCA_front_2_trans = inv(Base_to_UCA_front_2)*(UCA_rear_2_center-UCA_front_2_center);
+        UCA_to_push_pull_rod_2_trans = inv(Base_to_UCA_front_2)*(Push_pull_rod_upright_2-UCA_front_2_center);
+        
+        LCA_front_2_vec = LCA_front_2-LCA_upright_2;
+        LCA_front_2_center = (LCA_front_2+LCA_upright_2)/2;
+        LCA_rear_2_vec = LCA_rear_2-LCA_upright_2;
+        LCA_rear_2_center = (LCA_rear_2+LCA_upright_2)/2;
+        LCA_front_front_length = norm(LCA_front_2_vec);
+        LCA_front_rear_length = norm(LCA_rear_2_vec);
+        LCA_front_2_vec_unit = LCA_front_2_vec/LCA_front_front_length;
+        LCA_rear_2_vec_unit = LCA_rear_2_vec/LCA_front_rear_length;
+        Base_to_LCA_front_2 = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_2_vec_unit));
+        LCA_front_2_rot = inv(Base_to_LCA_front_2)*vrrotvec2mat(vrrotvec(LCA_front_2_vec_unit,LCA_rear_2_vec_unit))*(Base_to_LCA_front_2);
+        LCA_front_2_trans = inv(Base_to_LCA_front_2)*(LCA_rear_2_center-LCA_front_2_center);
+        LCA_to_push_pull_rod_2_trans = inv(Base_to_LCA_front_2)*(Push_pull_rod_upright_2-LCA_front_2_center);
+
+elseif contains(front_sheet, 'Front_4') || contains(front_sheet, 'Front_5')
+
+    ARB_front_length = ARB_1(2)*2;
+    ARB_lever_front_length = abs(ARB_1(1)-Droplink_ARB_1(1));
+    Droplink_front_length = norm(Droplink_ARB_1-Droplink_rocker_1);
+    Damper_front_length = norm(Damper_chassis_1-Damper_rocker_1);
+    Push_pull_rod_front_length = norm(Push_pull_rod_rocker_1-Push_pull_rod_upright_1);
+    Tierod_front_length = norm(Tierod_inner_1-Tierod_upright_1);
+
+    % Quarter 1 %
+        % Upper Front
+        UCA_front_1_vec=UCA_front_1-UCA_upright_front_1;
+        UCA_front_1_center=(UCA_front_1+UCA_upright_front_1)/2;
+        UCA_front_front_length=norm(UCA_front_1_vec);
+        UCA_front_1_vec_unit=UCA_front_1_vec/UCA_front_front_length;
+        Base_UCA_front_1_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_1_vec_unit));
+        UCA_front_1_trans = [0; 0; 0];
+        
+        % Upper Rear
+        UCA_rear_1_vec=UCA_rear_1-UCA_upright_rear_1;
+        UCA_rear_1_center=(UCA_rear_1+UCA_upright_rear_1)/2;
+        UCA_front_rear_length=norm(UCA_rear_1_vec);
+        UCA_rear_1_vec_unit=UCA_rear_1_vec/UCA_front_rear_length;
+        Base_UCA_rear_1_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_rear_1_vec_unit));
+        UCA_rear_1_trans = [0; 0; 0];
+        
+        % Push/Pullrod
+        Push_pull_rod_front_1_vec = Push_pull_rod_rocker_1-Push_pull_rod_upright_1;
+        Push_pull_rod_front_1_center = (Push_pull_rod_rocker_1+Push_pull_rod_upright_1)/2;
+        Push_pull_rod_front_length=norm(Push_pull_rod_front_1_vec);
+        Push_pull_rod_front_1_vec_unit=Push_pull_rod_front_1_vec/Push_pull_rod_front_length;
+        Base_Push_pull_rod_front_1_rot = vrrotvec2mat(vrrotvec([0;0;1],Push_pull_rod_front_1_vec_unit));
+        Push_pull_rod_front_1_trans = [0; 0; 0];
+        
+        % Lower Front
+        LCA_front_1_vec=LCA_front_1-LCA_upright_front_1;
+        LCA_front_1_center=(LCA_front_1+LCA_upright_front_1)/2;
+        LCA_front_front_length=norm(LCA_front_1_vec);
+        LCA_front_1_vec_unit=LCA_front_1_vec/LCA_front_front_length;
+        Base_LCA_front_1_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_1_vec_unit));
+        LCA_front_1_trans = [0; 0; 0];
+        
+        % Lower Rear
+        LCA_rear_1_vec=LCA_rear_1-LCA_upright_rear_1;
+        LCA_rear_1_center=(LCA_rear_1+LCA_upright_rear_1)/2;
+        LCA_front_rear_length=norm(LCA_rear_1_vec);
+        LCA_rear_1_vec_unit=LCA_rear_1_vec/LCA_front_rear_length;
+        Base_LCA_rear_1_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_1_vec_unit));
+        LCA_rear_1_trans = [0; 0; 0];
+
+    % Quarter 2 %
+        % Upper Front
+        UCA_front_2_vec=UCA_front_2-UCA_upright_front_2;
+        UCA_front_2_center=(UCA_front_2+UCA_upright_front_2)/2;
+        UCA_front_front_length=norm(UCA_front_2_vec);
+        UCA_front_2_vec_unit=UCA_front_2_vec/UCA_front_front_length;
+        Base_UCA_front_2_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_2_vec_unit));
+        UCA_front_2_trans = [0; 0; 0];
+        
+        % Upper Rear
+        UCA_rear_2_vec=UCA_rear_2-UCA_upright_rear_2;
+        UCA_rear_2_center=(UCA_rear_2+UCA_upright_rear_2)/2;
+        UCA_front_rear_length=norm(UCA_rear_2_vec);
+        UCA_rear_2_vec_unit=UCA_rear_2_vec/UCA_front_rear_length;
+        Base_UCA_rear_2_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_rear_2_vec_unit));
+        UCA_rear_2_trans = [0; 0; 0];
+        
+        % Push/Pullrod
+        Push_pull_rod_front_2_vec = Push_pull_rod_rocker_2-Push_pull_rod_upright_2;
+        Push_pull_rod_front_2_center = (Push_pull_rod_rocker_2+Push_pull_rod_upright_2)/2;
+        Push_pull_rod_front_length=norm(Push_pull_rod_front_2_vec);
+        Push_pull_rod_front_2_vec_unit=Push_pull_rod_front_2_vec/Push_pull_rod_front_length;
+        Base_Push_pull_rod_front_2_rot = vrrotvec2mat(vrrotvec([0;0;1],Push_pull_rod_front_2_vec_unit));
+        Push_pull_rod_front_2_trans = [0; 0; 0];
+        
+        % Lower Front
+        LCA_front_2_vec=LCA_front_2-LCA_upright_front_2;
+        LCA_front_2_center=(LCA_front_2+LCA_upright_front_2)/2;
+        LCA_front_front_length=norm(LCA_front_2_vec);
+        LCA_front_2_vec_unit=LCA_front_2_vec/LCA_front_front_length;
+        Base_LCA_front_2_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_2_vec_unit));
+        LCA_front_2_trans = [0; 0; 0];
+        
+        % Lower Rear
+        LCA_rear_2_vec=LCA_rear_2-LCA_upright_rear_2;
+        LCA_rear_2_center=(LCA_rear_2+LCA_upright_rear_2)/2;
+        LCA_front_rear_length=norm(LCA_rear_2_vec);
+        LCA_rear_2_vec_unit=LCA_rear_2_vec/LCA_front_rear_length;
+        Base_LCA_rear_2_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_2_vec_unit));
+        LCA_rear_2_trans = [0; 0; 0];
+
+else
+    error('Elírtad haver');
+end
+
+% Rear
+rear_points = readtable("suspension_points.xlsx", "Sheet",rear_sheet);
+
+for i = 1:height(rear_points)
+    rawName = rear_points.Point{i};
+    baseName = rawName;
+    X_val = rear_points.X(i);
+    Y_val = rear_points.Y(i);
+    Z_val = rear_points.Z(i);
+    varName1 = [baseName, '3'];
+    vectorValue1 = [X_val; Y_val; Z_val];
+    assignin('base', varName1, vectorValue1);
+    varName2 = [baseName, '4'];
+    vectorValue2 = [X_val; Y_val * -1; Z_val];
+    assignin('base', varName2, vectorValue2);
+end
+
+if contains(rear_sheet, 'Rear_1') || contains(rear_sheet, 'Rear_2') || contains(rear_sheet, 'Rear_3')
+
+    ARB_rear_length = ARB_3(2)*2;
+    ARB_lever_rear_length = abs(ARB_3(1)-Droplink_ARB_3(1));
+    Droplink_rear_length = norm(Droplink_ARB_3-Droplink_rocker_3);
+    Damper_rear_length = norm(Damper_chassis_3-Damper_rocker_3);
+    Push_pull_rod_rear_length = norm(Push_pull_rod_rocker_3-Push_pull_rod_upright_3);
+    Tierod_rear_length = norm(Tierod_inner_3-Tierod_upright_3);
+
+    % Diameters
+    ARB_diameter=10;
+    Droplink_diameter=18;
+    UCA_diameter=18;
+    LCA_diameter=18;
+    Tierod_front_diameter=8;
+    Tierod_rear_diameter=18;
+    Push_pull_rod_diameter=18;
+    Rack_diameter=14;
+
+    % Quarter 3 %
+    UCA_front_3_vec = UCA_front_3-UCA_upright_3; 
+    UCA_front_3_center = (UCA_front_3+UCA_upright_3)/2; 
+    UCA_rear_3_vec = UCA_rear_3-UCA_upright_3; 
+    UCA_rear_3_center = (UCA_rear_3+UCA_upright_3)/2; 
+    UCA_rear_front_length = norm(UCA_front_3_vec); 
+    UCA_rear_rear_length = norm(UCA_rear_3_vec); 
+    UCA_front_3_vec_unit = UCA_front_3_vec/UCA_rear_front_length;
+    UCA_rear_3_vec_unit = UCA_rear_3_vec/UCA_rear_rear_length; 
+    Base_to_UCA_front_3 = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_3_vec_unit));
+    UCA_front_3_rot = inv(Base_to_UCA_front_3)*vrrotvec2mat(vrrotvec(UCA_front_3_vec_unit,UCA_rear_3_vec_unit))*(Base_to_UCA_front_3);
+    UCA_front_3_trans = inv(Base_to_UCA_front_3)*(UCA_rear_3_center-UCA_front_3_center);
+    UCA_to_push_pull_rod_3_trans = inv(Base_to_UCA_front_3)*(Push_pull_rod_upright_3-UCA_front_3_center);
+    
+    LCA_front_3_vec = LCA_front_3-LCA_upright_3; 
+    LCA_front_3_center = (LCA_front_3+LCA_upright_3)/2; 
+    LCA_rear_3_vec = LCA_rear_3-LCA_upright_3; 
+    LCA_rear_3_center = (LCA_rear_3+LCA_upright_3)/2; 
+    LCA_rear_front_length = norm(LCA_front_3_vec); 
+    LCA_rear_rear_length = norm(LCA_rear_3_vec); 
+    LCA_front_3_vec_unit = LCA_front_3_vec/LCA_rear_front_length;
+    LCA_rear_3_vec_unit = LCA_rear_3_vec/LCA_rear_rear_length; 
+    Base_to_LCA_front_3 = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_3_vec_unit));
+    LCA_front_3_rot = inv(Base_to_LCA_front_3)*vrrotvec2mat(vrrotvec(LCA_front_3_vec_unit,LCA_rear_3_vec_unit))*(Base_to_LCA_front_3);
+    LCA_front_3_trans = inv(Base_to_LCA_front_3)*(LCA_rear_3_center-LCA_front_3_center);
+    LCA_to_push_pull_rod_3_trans = inv(Base_to_LCA_front_3)*(Push_pull_rod_upright_3-LCA_front_3_center);
+    
+    
+    % Quarter 4 %
+    UCA_front_4_vec = UCA_front_4-UCA_upright_4; 
+    UCA_front_4_center = (UCA_front_4+UCA_upright_4)/2; 
+    UCA_rear_4_vec = UCA_rear_4-UCA_upright_4; 
+    UCA_rear_4_center = (UCA_rear_4+UCA_upright_4)/2; 
+    UCA_rear_front_length = norm(UCA_front_4_vec); 
+    UCA_rear_rear_length = norm(UCA_rear_4_vec); 
+    UCA_front_4_vec_unit = UCA_front_4_vec/UCA_rear_front_length;
+    UCA_rear_4_vec_unit = UCA_rear_4_vec/UCA_rear_rear_length; 
+    Base_to_UCA_front_4 = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_4_vec_unit));
+    UCA_front_4_rot = inv(Base_to_UCA_front_4)*vrrotvec2mat(vrrotvec(UCA_front_4_vec_unit,UCA_rear_4_vec_unit))*(Base_to_UCA_front_4);
+    UCA_front_4_trans = inv(Base_to_UCA_front_4)*(UCA_rear_4_center-UCA_front_4_center);
+    UCA_to_push_pull_rod_4_trans = inv(Base_to_UCA_front_4)*(Push_pull_rod_upright_4-UCA_front_4_center);
+    
+    LCA_front_4_vec = LCA_front_4-LCA_upright_4; 
+    LCA_front_4_center = (LCA_front_4+LCA_upright_4)/2; 
+    LCA_rear_4_vec = LCA_rear_4-LCA_upright_4; 
+    LCA_rear_4_center = (LCA_rear_4+LCA_upright_4)/2; 
+    LCA_rear_front_length = norm(LCA_front_4_vec); 
+    LCA_rear_rear_length = norm(LCA_rear_4_vec); 
+    LCA_front_4_vec_unit = LCA_front_4_vec/LCA_rear_front_length;
+    LCA_rear_4_vec_unit = LCA_rear_4_vec/LCA_rear_rear_length; 
+    Base_to_LCA_front_4 = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_4_vec_unit));
+    LCA_front_4_rot = inv(Base_to_LCA_front_4)*vrrotvec2mat(vrrotvec(LCA_front_4_vec_unit,LCA_rear_4_vec_unit))*(Base_to_LCA_front_4);
+    LCA_front_4_trans = inv(Base_to_LCA_front_4)*(LCA_rear_4_center-LCA_front_4_center);
+    LCA_to_push_pull_rod_4_trans = inv(Base_to_LCA_front_4)*(Push_pull_rod_upright_4-LCA_front_4_center);
+
+
+elseif contains(rear_sheet, 'Rear_4') || contains(rear_sheet, 'Rear_5')
+
+    ARB_rear_length = ARB_3(2)*2;
+    ARB_lever_rear_length = abs(ARB_3(1)-Droplink_ARB_3(1));
+    Droplink_rear_length = norm(Droplink_ARB_3-Droplink_rocker_3);
+    Damper_rear_length = norm(Damper_chassis_3-Damper_rocker_3);
+    Push_pull_rod_rear_length = norm(Push_pull_rod_rocker_3-Push_pull_rod_upright_3);
+    Tierod_rear_length = norm(Tierod_inner_3-Tierod_upright_3);
+
+    %%%%% Quarter 3 %%%%%
+        % Upper Front
+        UCA_front_3_vec=UCA_front_3-UCA_upright_front_3;
+        UCA_front_3_center=(UCA_front_3+UCA_upright_front_3)/2;
+        UCA_rear_front_length=norm(UCA_front_3_vec);
+        UCA_front_3_vec_unit=UCA_front_3_vec/UCA_rear_front_length;
+        Base_UCA_front_3_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_3_vec_unit));
+        UCA_front_3_trans = [0; 0; 0];
+        
+        % Upper Rear
+        UCA_rear_3_vec=UCA_rear_3-UCA_upright_rear_3;
+        UCA_rear_3_center=(UCA_rear_3+UCA_upright_rear_3)/2;
+        UCA_rear_rear_length=norm(UCA_rear_3_vec);
+        UCA_rear_3_vec_unit=UCA_rear_3_vec/UCA_rear_rear_length;
+        Base_UCA_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_rear_3_vec_unit));
+        UCA_rear_3_trans = [0; 0; 0];
+        
+        % Push/Pullrod
+        Push_pull_rod_rear_3_vec = Push_pull_rod_rocker_3-Push_pull_rod_upright_3;
+        Push_pull_rod_rear_3_center = (Push_pull_rod_rocker_3+Push_pull_rod_upright_3)/2;
+        Push_pull_rod_rear_length=norm(Push_pull_rod_rear_3_vec);
+        Push_pull_rod_rear_3_vec_unit=Push_pull_rod_rear_3_vec/Push_pull_rod_rear_length;
+        Base_Push_pull_rod_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],Push_pull_rod_rear_3_vec_unit));
+        Push_pull_rod_rear_3_trans = [0; 0; 0];
+        
+        % Lower Front
+        LCA_front_3_vec=LCA_front_3-LCA_upright_front_3;
+        LCA_front_3_center=(LCA_front_3+LCA_upright_front_3)/2;
+        LCA_rear_front_length=norm(LCA_front_3_vec);
+        LCA_front_3_vec_unit=LCA_front_3_vec/LCA_rear_front_length;
+        Base_LCA_front_3_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_3_vec_unit));
+        LCA_front_3_trans = [0; 0; 0];
+        
+        % Lower Rear
+        LCA_rear_3_vec=LCA_rear_3-LCA_upright_rear_3;
+        LCA_rear_3_center=(LCA_rear_3+LCA_upright_rear_3)/2;
+        LCA_rear_rear_length=norm(LCA_rear_3_vec);
+        LCA_rear_3_vec_unit=LCA_rear_3_vec/LCA_rear_rear_length;
+        Base_LCA_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_3_vec_unit));
+        LCA_rear_3_trans = [0; 0; 0];
+
+    % Quarter 4 %
+        % Upper Front
+        UCA_front_4_vec=UCA_front_4-UCA_upright_front_4;
+        UCA_front_4_center=(UCA_front_4+UCA_upright_front_4)/2;
+        UCA_rear_front_length=norm(UCA_front_4_vec);
+        UCA_front_4_vec_unit=UCA_front_4_vec/UCA_rear_front_length;
+        Base_UCA_front_4_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_4_vec_unit));
+        UCA_front_4_trans = [0; 0; 0];
+    
+        % Upper Rear
+        UCA_rear_4_vec=UCA_rear_4-UCA_upright_rear_4;
+        UCA_rear_4_center=(UCA_rear_4+UCA_upright_rear_4)/2;
+        UCA_rear_rear_length=norm(UCA_rear_4_vec);
+        UCA_rear_4_vec_unit=UCA_rear_4_vec/UCA_rear_rear_length;
+        Base_UCA_rear_4_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_rear_4_vec_unit));
+        UCA_rear_4_trans = [0; 0; 0];
+    
+        % Push/Pullrod
+        Push_pull_rod_rear_4_vec = Push_pull_rod_rocker_4-Push_pull_rod_upright_4;
+        Push_pull_rod_rear_4_center = (Push_pull_rod_rocker_4+Push_pull_rod_upright_4)/2;
+        Push_pull_rod_rear_length=norm(Push_pull_rod_rear_4_vec);
+        Push_pull_rod_rear_4_vec_unit=Push_pull_rod_rear_4_vec/Push_pull_rod_rear_length;
+        Base_Push_pull_rod_rear_4_rot = vrrotvec2mat(vrrotvec([0;0;1],Push_pull_rod_rear_4_vec_unit));
+        Push_pull_rod_rear_4_trans = [0; 0; 0];
+    
+        % Lower Front
+        LCA_front_4_vec=LCA_front_4-LCA_upright_front_4;
+        LCA_front_4_center=(LCA_front_4+LCA_upright_front_4)/2;
+        LCA_rear_front_length=norm(LCA_front_4_vec);
+        LCA_front_4_vec_unit=LCA_front_4_vec/LCA_rear_front_length;
+        Base_LCA_front_4_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_4_vec_unit));
+        LCA_front_4_trans = [0; 0; 0];
+    
+        % Lower Rear
+        LCA_rear_4_vec=LCA_rear_4-LCA_upright_rear_4;
+        LCA_rear_4_center=(LCA_rear_4+LCA_upright_rear_4)/2;
+        LCA_rear_rear_length=norm(LCA_rear_4_vec);
+        LCA_rear_4_vec_unit=LCA_rear_4_vec/LCA_rear_rear_length;
+        Base_LCA_rear_4_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_4_vec_unit));
+        LCA_rear_4_trans = [0; 0; 0];
+
+else
+    error('Elírtad haver');
+end
+
+
+
+
+% % Quarter 1
+% %UCA
+% UCA_front_1=[142.910; 130.958; 588.738];
+% UCA_rear_1=[-423.620; 168.674; 470.738];
+% UCA_upright_1=[-51.340; 691.900; 521.820];
+% %LCA
+% LCA_front_1=[205.470; 126.962; 394.866];
+% LCA_rear_1=[-407.280; 161.941; 344.481];
+% LCA_upright_1=[-20.720; 746.210; 303.980];
+% %Wheel
+% WheelCenter_1=[0; 830; 360];
+% ContactPatch_1=[0; 830; 0];
+% %Damper
+% Damper_chassis_1=[-20.720; 20; 600.784];
+% %Tierod
+% Tierod_inner_1=[170.14; 130.958; 540.912];
+% Tierod_upright_1=[25.017; 696.430; 481.810];
+% %Pushrod
+% Pushrod_upright_1 = [-20.720; 709.481; 319.812];
+% %Rocker
+% Rocker_center_1=[-20.720; 120.822; 550.784];
+% Pushrod_rocker_1=[-20.720; 140.881; 570.784];
+% Damper_rocker_1=[-20.720; 130.881; 600.784];
+% Droplink_rocker_1=[-46.95; 210; 520];
+% % ARB
+% Droplink_ARB_1=[-74.5; 0; 520];
+% ARB_1=[21.475; 0; 520];
+% 
+% % Quarter 2
+% %UCA
+% UCA_front_2=diag([1,-1,1])*UCA_front_1;
+% UCA_rear_2=diag([1,-1,1])*UCA_rear_1;
+% UCA_upright_2=diag([1,-1,1])*UCA_upright_1;
+% %LCA
+% LCA_front_2=diag([1,-1,1])*LCA_front_1;
+% LCA_rear_2=diag([1,-1,1])*LCA_rear_1;
+% LCA_upright_2=diag([1,-1,1])*LCA_upright_1;
+% %Wheel
+% WheelCenter_2=diag([1,-1,1])*WheelCenter_1;
+% ContactPatch_2=diag([1,-1,1])*ContactPatch_1;
+% %Damper
+% Damper_chassis_2=diag([1,-1,1])*Damper_chassis_1;
+% %Tierod
+% Tierod_inner_2=diag([1,-1,1])*Tierod_inner_1;
+% Tierod_upright_2=diag([1,-1,1])*Tierod_upright_1;
+% %Pushrod
+% Pushrod_upright_2=diag([1,-1,1])*Pushrod_upright_1;
+% %Rocker
+% Rocker_center_2=diag([1,-1,1])*Rocker_center_1;
+% Pushrod_rocker_2=diag([1,-1,1])*Pushrod_rocker_1;
+% Damper_rocker_2=diag([1,-1,1])*Damper_rocker_1;
+% % Droplink_rocker_2=diag([1,-1,1])*Droplink_rocker_1;
+% Droplink_rocker_2 = [6; -210; 520];
+% % ARB
+% Droplink_ARB_2=diag([1,-1,1])*Droplink_ARB_1;
+% Droplink_ARB_2 = [33.550; 0; 520];
+% ARB_2=diag([1,-1,1])*ARB_1;
+
+% % Quarter 3
+% %UCA
+% UCA_front_3=[-2610.180; 149.557; 471.424];
+% UCA_rear_3=[-3021.190; 79.993; 502.424];
+% UCA_upright_front_3=[-2963.942; 704.412; 494.308];
+% UCA_upright_rear_3=[-3046.858; 707.128; 505.611];
+% %LCA
+% LCA_front_3=[-2606.680; 153.689; 371.311];
+% LCA_rear_3=[-2987.790; 77.777; 372.804];
+% LCA_upright_front_3=[-2968.608; 733.282; 358.001];
+% LCA_upright_rear_3=[-3017.324; 737.420; 348.449];
+% %Wheel
+% WheelCenter_3=[-3000; 775; 360];
+% ContactPatch_3=[-3000; 775; 0];
+% %Damper
+% Damper_chassis_3=[-3051.844; 120.000; 156.805];
+% %Tierod
+% Tierod_inner_3=[-2480.310; 133.848; 419.589];
+% Tierod_upright_3=[-2900.351; 687.442; 430.244];
+% %Pullrod
+% Pullrod_upright_3=[-2942.829; 655.968; 562.495];
+% %Rocker
+% Rocker_center_3=[-2881.215; 167.295; 240.816];
+% Pullrod_rocker_3=[-2942.829; 194.264; 234.154];
+% Damper_rocker_3=[-2918.002; 113.009; 186.805];
+% Droplink_rocker_3=[-2741.91; 101.449; 464.403];
+% %ARB
+% Droplink_ARB_3=[-2800.63; 101.449; 464.403];
+% ARB_3=[-2800.63; 0; 464.403];
+% 
+% % Quarter 4
+% %UCA
+% UCA_front_4=diag([1,-1,1])*UCA_front_3;
+% UCA_rear_4=diag([1,-1,1])*UCA_rear_3;
+% UCA_upright_front_4=diag([1,-1,1])*UCA_upright_front_3;
+% UCA_upright_rear_4=diag([1,-1,1])*UCA_upright_rear_3;
+% %LCA
+% LCA_front_4=diag([1,-1,1])*LCA_front_3;
+% LCA_rear_4=diag([1,-1,1])*LCA_rear_3;
+% LCA_upright_front_4=diag([1,-1,1])*LCA_upright_front_3;
+% LCA_upright_rear_4=diag([1,-1,1])*LCA_upright_rear_3;
+% %Wheel
+% WheelCenter_4=diag([1,-1,1])*WheelCenter_3;
+% ContactPatch_4=diag([1,-1,1])*ContactPatch_3;
+% %Damper
+% Damper_chassis_4=diag([1,-1,1])*Damper_chassis_3;
+% %Tierod
+% Tierod_inner_4=diag([1,-1,1])*Tierod_inner_3;
+% Tierod_upright_4=diag([1,-1,1])*Tierod_upright_3;
+% %Pullrod
+% Pullrod_upright_4=diag([1,-1,1])*Pullrod_upright_3;
+% %Rocker
+% Rocker_center_4=diag([1,-1,1])*Rocker_center_3;
+% Pullrod_rocker_4=diag([1,-1,1])*Pullrod_rocker_3;
+% Damper_rocker_4=diag([1,-1,1])*Damper_rocker_3;
+% Droplink_rocker_4=diag([1,-1,1])*Droplink_rocker_3;
+% %ARB
+% Droplink_ARB_4=diag([1,-1,1])*Droplink_ARB_3;
+% ARB_4=diag([1,-1,1])*ARB_3;
 
 
 %% Parameters
@@ -170,17 +558,6 @@ parameterStruct = mfeval.readTIR('Tyre Models\F1_tyre_modell_v5.tir');
 % % % parameterStruct.Value = TyreParamsF1;
 % % % parameterStruct.DataType = 'Bus: TyreBus';
 % % % parameterStruct.CoderInfo.StorageClass = 'ExportedGlobal';
-
-% Diameters
-ARB_diameter=10;
-Droplink_diameter=18;
-UCA_diameter=18;
-LCA_diameter=18;
-Tierod_front_diameter=8;
-Tierod_rear_diameter=18;
-Pushrod_diameter=18;
-Pullrod_diameter=18;
-Rack_diameter=14;
 
 % Weights
 m10=21.5;
@@ -230,7 +607,7 @@ I_engine = 0.2;
 % A sima erőnél az emelőhatás csak egyszer működik (a karok aránya határozza meg az erőt). 
 % A merevségnél azért kell a négyzet, mert az emelő kétszeresen büntet: egyszer lefelezi (ha MR=2) a rugó elmozdulását, másodszor pedig lefelezi (ha MR=2) a rugóból visszajutó erőt is!
 % Front
-front_spring = 10000;
+front_spring = 8000;
 front_spring_stiffness = front_spring*175.127; %[lbf/in]*conversion constant=[N/m]
 front_static_length = 110.881; % mm
 front_static_motion_ratio = 1.860; % needs optkin
@@ -251,7 +628,7 @@ front_roll_center = 183.615;
 pitch_center = 140;
 
 % Rear 
-rear_spring = 10000;
+rear_spring = 8000;
 rear_spring_stiffness = rear_spring*175.127; %[lbf/in]*conversion constant=[N/m]
 rear_static_length = 137.341; % mm
 rear_static_motion_ratio = 1.717; % needs optkin
@@ -301,168 +678,9 @@ static_load_fl = m_s0_driver*weight_distribution/2*g;
 static_load_fr = m_s0_driver*weight_distribution/2*g;
 static_load_rl = m_s0_driver*(1-weight_distribution)/2*g;
 static_load_rr = m_s0_driver*(1-weight_distribution)/2*g;
-ARB_front_length=ARB_1(2)*2;
-ARB_lever_front_length=abs(ARB_1(1)-Droplink_ARB_1(1));
-Droplink_front_length=norm(Droplink_ARB_1-Droplink_rocker_1);
 
-ARB_rear_length=ARB_3(2)*2;
-ARB_lever_rear_length=abs(ARB_3(1)-Droplink_ARB_3(1));
-Droplink_rear_length=norm(Droplink_ARB_3-Droplink_rocker_3);
-
-Damper_front_length=norm(Damper_chassis_1-Damper_rocker_1);
-Damper_rear_length=norm(Damper_chassis_3-Damper_rocker_3);
-
-Pushrod_front_length=norm(Pushrod_rocker_1-Pushrod_upright_1);
-Pullrod_rear_length=norm(Pullrod_rocker_3-Pullrod_upright_3);
-
-Tierod_front_length=norm(Tierod_inner_1-Tierod_upright_1);
-Tierod_rear_length=norm(Tierod_inner_3-Tierod_upright_3);
-
-
-%% Double A Arm rudak egymáshoz kényszerezése
-
-%%%%% Quarter 1 %%%%%
-UCA_front_1_vec=UCA_front_1-UCA_upright_1; % rúd irányvektora
-UCA_front_1_center=(UCA_front_1+UCA_upright_1)/2; % rúd közepe a térben
-UCA_rear_1_vec=UCA_rear_1-UCA_upright_1; % hátsó rúd rúd irányvektora
-UCA_rear_1_center=(UCA_rear_1+UCA_upright_1)/2; % hátsó közepe rúd közepe a térben
-UCA_front_front_length=norm(UCA_front_1_vec); % első rúd hossza
-UCA_front_rear_length=norm(UCA_rear_1_vec); % hátsó rúd hossza
-UCA_front_1_vec_unit=UCA_front_1_vec/UCA_front_front_length; % első rúd irányvektora
-UCA_rear_1_vec_unit=UCA_rear_1_vec/UCA_front_rear_length; % hátsó rúd iránxvektora
-Base_to_UCA_front_1=vrrotvec2mat(vrrotvec([0;0;1],UCA_front_1_vec_unit)); % A bázis Z tengely elforgatása a lokális rúdirányba
-UCA_front_1_rot=inv(Base_to_UCA_front_1)*vrrotvec2mat(vrrotvec(UCA_front_1_vec_unit,UCA_rear_1_vec_unit))*(Base_to_UCA_front_1);
-UCA_front_1_trans=inv(Base_to_UCA_front_1)*(UCA_rear_1_center-UCA_front_1_center);
-UCA_to_pushrod_1_trans=inv(Base_to_UCA_front_1)*(Pushrod_upright_1-UCA_front_1_center);
-
-LCA_front_1_vec=LCA_front_1-LCA_upright_1;
-LCA_front_1_center=(LCA_front_1+LCA_upright_1)/2;
-LCA_rear_1_vec=LCA_rear_1-LCA_upright_1;
-LCA_rear_1_center=(LCA_rear_1+LCA_upright_1)/2;
-LCA_front_front_length=norm(LCA_front_1_vec);
-LCA_front_rear_length=norm(LCA_rear_1_vec);
-LCA_front_1_vec_unit=LCA_front_1_vec/LCA_front_front_length;
-LCA_rear_1_vec_unit=LCA_rear_1_vec/LCA_front_rear_length;
-Base_to_LCA_front_1=vrrotvec2mat(vrrotvec([0;0;1],LCA_front_1_vec_unit));
-LCA_front_1_rot=inv(Base_to_LCA_front_1)*vrrotvec2mat(vrrotvec(LCA_front_1_vec_unit,LCA_rear_1_vec_unit))*(Base_to_LCA_front_1);
-LCA_front_1_trans=inv(Base_to_LCA_front_1)*(LCA_rear_1_center-LCA_front_1_center);
-LCA_to_pushrod_1_trans=inv(Base_to_LCA_front_1)*(Pushrod_upright_1-LCA_front_1_center);
-
-
-%%%%% Quarter 2 %%%%%
-UCA_front_2_vec=UCA_front_2-UCA_upright_2;
-UCA_front_2_center=(UCA_front_2+UCA_upright_2)/2;
-UCA_rear_2_vec=UCA_rear_2-UCA_upright_2;
-UCA_rear_2_center=(UCA_rear_2+UCA_upright_2)/2;
-UCA_front_2_vec_unit=UCA_front_2_vec/UCA_front_front_length;
-UCA_rear_2_vec_unit=UCA_rear_2_vec/UCA_front_rear_length;
-Base_to_UCA_front_2=vrrotvec2mat(vrrotvec([0;0;1],UCA_front_2_vec_unit));
-UCA_front_2_rot=inv(Base_to_UCA_front_2)*vrrotvec2mat(vrrotvec(UCA_front_2_vec_unit,UCA_rear_2_vec_unit))*(Base_to_UCA_front_2);
-UCA_front_2_trans=inv(Base_to_UCA_front_2)*(UCA_rear_2_center-UCA_front_2_center);
-UCA_to_pushrod_2_trans=inv(Base_to_UCA_front_2)*(Pushrod_upright_2-UCA_front_2_center);
-
-LCA_front_2_vec=LCA_front_2-LCA_upright_2;
-LCA_front_2_center=(LCA_front_2+LCA_upright_2)/2;
-LCA_rear_2_vec=LCA_rear_2-LCA_upright_2;
-LCA_rear_2_center=(LCA_rear_2+LCA_upright_2)/2;
-LCA_front_front_length=norm(LCA_front_2_vec);
-LCA_front_rear_length=norm(LCA_rear_2_vec);
-LCA_front_2_vec_unit=LCA_front_2_vec/LCA_front_front_length;
-LCA_rear_2_vec_unit=LCA_rear_2_vec/LCA_front_rear_length;
-Base_to_LCA_front_2=vrrotvec2mat(vrrotvec([0;0;1],LCA_front_2_vec_unit));
-LCA_front_2_rot=inv(Base_to_LCA_front_2)*vrrotvec2mat(vrrotvec(LCA_front_2_vec_unit,LCA_rear_2_vec_unit))*(Base_to_LCA_front_2);
-LCA_front_2_trans=inv(Base_to_LCA_front_2)*(LCA_rear_2_center-LCA_front_2_center);
-LCA_to_pushrod_2_trans=inv(Base_to_LCA_front_2)*(Pushrod_upright_2-LCA_front_2_center);
-
-%%%%% Quarter 3 %%%%%
-
-% Upper Front
-UCA_front_3_vec=UCA_front_3-UCA_upright_front_3;
-UCA_front_3_center=(UCA_front_3+UCA_upright_front_3)/2;
-UCA_rear_front_length=norm(UCA_front_3_vec);
-UCA_front_3_vec_unit=UCA_front_3_vec/UCA_rear_front_length;
-Base_UCA_front_3_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_front_3_vec_unit));
-UCA_front_3_trans = [0; 0; 0];
-
-% Upper Rear
-UCA_rear_3_vec=UCA_rear_3-UCA_upright_rear_3;
-UCA_rear_3_center=(UCA_rear_3+UCA_upright_rear_3)/2;
-UCA_rear_rear_length=norm(UCA_rear_3_vec);
-UCA_rear_3_vec_unit=UCA_rear_3_vec/UCA_rear_rear_length;
-Base_UCA_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],UCA_rear_3_vec_unit));
-UCA_rear_3_trans = [0; 0; 0];
-
-% Pullrod
-Pullrod_rear_3_vec = Pullrod_rocker_3-Pullrod_upright_3;
-Pullrod_rear_3_center = (Pullrod_rocker_3+Pullrod_upright_3)/2;
-Pullrod_rear_rear_length=norm(Pullrod_rear_3_vec);
-Pullrod_rear_3_vec_unit=Pullrod_rear_3_vec/Pullrod_rear_rear_length;
-Base_Pullrod_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],Pullrod_rear_3_vec_unit));
-Pullrod_rear_3_trans = [0; 0; 0];
-
-% Lower Front
-LCA_front_3_vec=UCA_front_3-UCA_upright_front_3;
-LCA_front_3_center=(UCA_front_3+UCA_upright_front_3)/2;
-LCA_rear_front_length=norm(LCA_front_3_vec);
-LCA_front_3_vec_unit=LCA_front_3_vec/LCA_rear_front_length;
-Base_LCA_front_3_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_front_3_vec_unit));
-LCA_front_3_trans = [0; 0; 0];
-
-% Lower Rear
-LCA_rear_3_vec=UCA_rear_3-UCA_upright_rear_3;
-LCA_rear_3_center=(UCA_rear_3+UCA_upright_rear_3)/2;
-LCA_rear_rear_length=norm(LCA_rear_3_vec);
-LCA_rear_3_vec_unit=LCA_rear_3_vec/LCA_rear_rear_length;
-Base_LCA_rear_3_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_3_vec_unit));
-LCA_rear_3_trans = [0; 0; 0];
-
-
-% UCA_rear_3_vec=UCA_rear_3-UCA_upright_rear_3;
-% UCA_rear_3_center=(UCA_rear_3+UCA_upright_rear_3)/2;
-% 
-% UCA_rear_rear_length=norm(UCA_rear_3_vec);
-% 
-% UCA_rear_3_vec_unit=UCA_rear_3_vec/UCA_rear_rear_length;
-% Base_to_UCA_front_3=vrrotvec2mat(vrrotvec([0;0;1],UCA_front_3_vec_unit));
-% UCA_front_3_rot=inv(Base_to_UCA_front_3)*vrrotvec2mat(vrrotvec(UCA_front_3_vec_unit,UCA_rear_3_vec_unit))*(Base_to_UCA_front_3);
-% UCA_front_3_trans=inv(Base_to_UCA_front_3)*(UCA_rear_3_center-UCA_front_3_center);
-% UCA_to_pullrod_3_trans=inv(Base_to_UCA_front_3)*(Pullrod_upright_3-UCA_front_3_center);
-
-% LCA_front_3_vec=LCA_front_3-LCA_upright_front_3;
-% LCA_front_3_center=(LCA_front_3+LCA_upright_front_3)/2;
-% LCA_rear_3_vec=LCA_rear_3-LCA_upright_rear_3;
-% LCA_rear_3_center=(LCA_rear_3+LCA_upright_rear_3)/2;
-% LCA_rear_front_length=norm(LCA_front_3_vec);
-% LCA_rear_rear_length=norm(LCA_rear_3_vec);
-% LCA_front_3_vec_unit=LCA_front_3_vec/LCA_rear_front_length;
-% LCA_rear_3_vec_unit=LCA_rear_3_vec/LCA_rear_rear_length;
-% Base_to_LCA_front_3=vrrotvec2mat(vrrotvec([0;0;1],LCA_front_3_vec_unit));
-% LCA_front_3_rot=inv(Base_to_LCA_front_3)*vrrotvec2mat(vrrotvec(LCA_front_3_vec_unit,LCA_rear_3_vec_unit))*(Base_to_LCA_front_3);
-% LCA_front_3_trans=inv(Base_to_LCA_front_3)*(LCA_rear_3_center-LCA_front_3_center);
-
-%%%%% Quarter 4 %%%%%
-UCA_front_4_vec=UCA_front_4-UCA_upright_front_4;
-UCA_front_4_center=(UCA_front_4+UCA_upright_front_4)/2;
-UCA_rear_4_vec=UCA_rear_4-UCA_upright_rear_4;
-UCA_rear_4_center=(UCA_rear_4+UCA_upright_rear_4)/2;
-UCA_front_4_vec_unit=UCA_front_4_vec/LCA_rear_front_length;
-UCA_rear_4_vec_unit=UCA_rear_4_vec/LCA_rear_rear_length;
-Base_to_UCA_front_4=vrrotvec2mat(vrrotvec([0;0;1],UCA_front_4_vec_unit));
-UCA_front_4_rot=inv(Base_to_UCA_front_4)*vrrotvec2mat(vrrotvec(UCA_front_4_vec_unit,UCA_rear_4_vec_unit))*(Base_to_UCA_front_4);
-UCA_front_4_trans=inv(Base_to_UCA_front_4)*(UCA_rear_4_center-UCA_front_4_center);
-UCA_to_pullrod_4_trans=inv(Base_to_UCA_front_4)*(Pullrod_upright_4-UCA_front_4_center);
-
-LCA_front_4_vec=LCA_front_4-LCA_upright_front_4;
-LCA_front_4_center=(LCA_front_4+LCA_upright_front_4)/2;
-LCA_rear_4_vec=LCA_rear_4-LCA_upright_rear_4;
-LCA_rear_4_center=(LCA_rear_4+LCA_upright_rear_4)/2;
-LCA_rear_front_length=norm(LCA_front_4_vec);
-LCA_rear_rear_length=norm(LCA_rear_4_vec);
-LCA_front_4_vec_unit=LCA_front_4_vec/LCA_rear_front_length;
-LCA_rear_4_vec_unit=LCA_rear_4_vec/LCA_rear_rear_length;
-Base_to_LCA_front_4=vrrotvec2mat(vrrotvec([0;0;1],LCA_front_4_vec_unit));
-LCA_front_4_rot=inv(Base_to_LCA_front_4)*vrrotvec2mat(vrrotvec(LCA_front_4_vec_unit,LCA_rear_4_vec_unit))*(Base_to_LCA_front_4);
-LCA_front_4_trans=inv(Base_to_LCA_front_4)*(LCA_rear_4_center-LCA_front_4_center);
+%% Rudak egymáshoz kényszerezése
+    
 
 %% Fogasléces kormánymű
 
