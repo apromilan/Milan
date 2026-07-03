@@ -47,13 +47,12 @@ if contains(front_sheet, 'Front_1') || contains(front_sheet, 'Front_2') || conta
     Tierod_front_length = norm(Tierod_inner_1-Tierod_upright_1);
 
     % Diameters
-    ARB_diameter=10;
-    Droplink_diameter=18;
-    UCA_diameter=18;
-    LCA_diameter=18;
+    ARB_front_diameter=10;
+    Droplink_front_diameter=18;
+    UCA_front_diameter=18;
+    LCA_front_diameter=18;
     Tierod_front_diameter=8;
-    Tierod_rear_diameter=18;
-    Push_pull_rod_diameter=18;
+    Push_pull_rod_front_diameter=18;
     Rack_diameter=14;
 
     % Quarter 1 %
@@ -111,14 +110,27 @@ if contains(front_sheet, 'Front_1') || contains(front_sheet, 'Front_2') || conta
         LCA_front_2_trans = inv(Base_to_LCA_front_2)*(LCA_rear_2_center-LCA_front_2_center);
         LCA_to_push_pull_rod_2_trans = inv(Base_to_LCA_front_2)*(Push_pull_rod_upright_2-LCA_front_2_center);
 
+        R_normal_1 = pointsToRotationMatrix(Rocker_center_1, Rocker_axis_1);
+        R_back_1 = R_normal_1';
+        R_normal_2 = pointsToRotationMatrix(Rocker_center_2, Rocker_axis_2);
+        R_back_2 = R_normal_2';
+
 elseif contains(front_sheet, 'Front_4') || contains(front_sheet, 'Front_5')
 
     ARB_front_length = ARB_1(2)*2;
     ARB_lever_front_length = abs(ARB_1(1)-Droplink_ARB_1(1));
     Droplink_front_length = norm(Droplink_ARB_1-Droplink_rocker_1);
     Damper_front_length = norm(Damper_chassis_1-Damper_rocker_1);
-    Push_pull_rod_front_length = norm(Push_pull_rod_rocker_1-Push_pull_rod_upright_1);
     Tierod_front_length = norm(Tierod_inner_1-Tierod_upright_1);
+
+    % Diameters
+    ARB_front_diameter=10;
+    Droplink_front_diameter=18;
+    UCA_front_diameter=18;
+    LCA_front_diameter=18;
+    Tierod_front_diameter=8;
+    Push_pull_rod_front_diameter=18;
+    Rack_diameter=14;
 
     % Quarter 1 %
         % Upper Front
@@ -202,6 +214,11 @@ elseif contains(front_sheet, 'Front_4') || contains(front_sheet, 'Front_5')
         Base_LCA_rear_2_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_2_vec_unit));
         LCA_rear_2_trans = [0; 0; 0];
 
+        R_normal_1 = pointsToRotationMatrix(Rocker_center_1, Rocker_axis_1);
+        R_back_1 = R_normal_1';
+        R_normal_2 = pointsToRotationMatrix(Rocker_center_2, Rocker_axis_2);
+        R_back_2 = R_normal_2';
+
 else
     error('Elírtad haver');
 end
@@ -233,14 +250,12 @@ if contains(rear_sheet, 'Rear_1') || contains(rear_sheet, 'Rear_2') || contains(
     Tierod_rear_length = norm(Tierod_inner_3-Tierod_upright_3);
 
     % Diameters
-    ARB_diameter=10;
-    Droplink_diameter=18;
-    UCA_diameter=18;
-    LCA_diameter=18;
-    Tierod_front_diameter=8;
-    Tierod_rear_diameter=18;
-    Push_pull_rod_diameter=18;
-    Rack_diameter=14;
+    ARB_rear_diameter=10;
+    Droplink_rear_diameter=18;
+    UCA_rear_diameter=18;
+    LCA_rear_diameter=18;
+    Tierod_rear_diameter=8;
+    Push_pull_rod_rear_diameter=18;
 
     % Quarter 3 %
     UCA_front_3_vec = UCA_front_3-UCA_upright_3; 
@@ -297,6 +312,10 @@ if contains(rear_sheet, 'Rear_1') || contains(rear_sheet, 'Rear_2') || contains(
     LCA_front_4_trans = inv(Base_to_LCA_front_4)*(LCA_rear_4_center-LCA_front_4_center);
     LCA_to_push_pull_rod_4_trans = inv(Base_to_LCA_front_4)*(Push_pull_rod_upright_4-LCA_front_4_center);
 
+    R_normal_3 = pointsToRotationMatrix(Rocker_center_3, Rocker_axis_3);
+    R_back_3 = R_normal_3';
+    R_normal_4 = pointsToRotationMatrix(Rocker_center_4, Rocker_axis_4);
+    R_back_4 = R_normal_4';
 
 elseif contains(rear_sheet, 'Rear_4') || contains(rear_sheet, 'Rear_5')
 
@@ -304,8 +323,15 @@ elseif contains(rear_sheet, 'Rear_4') || contains(rear_sheet, 'Rear_5')
     ARB_lever_rear_length = abs(ARB_3(1)-Droplink_ARB_3(1));
     Droplink_rear_length = norm(Droplink_ARB_3-Droplink_rocker_3);
     Damper_rear_length = norm(Damper_chassis_3-Damper_rocker_3);
-    Push_pull_rod_rear_length = norm(Push_pull_rod_rocker_3-Push_pull_rod_upright_3);
     Tierod_rear_length = norm(Tierod_inner_3-Tierod_upright_3);
+
+    % Diameters
+    ARB_rear_diameter=10;
+    Droplink_rear_diameter=18;
+    UCA_rear_diameter=18;
+    LCA_rear_diameter=18;
+    Tierod_rear_diameter=8;
+    Push_pull_rod_rear_diameter=18;
 
     %%%%% Quarter 3 %%%%%
         % Upper Front
@@ -389,131 +415,14 @@ elseif contains(rear_sheet, 'Rear_4') || contains(rear_sheet, 'Rear_5')
         Base_LCA_rear_4_rot = vrrotvec2mat(vrrotvec([0;0;1],LCA_rear_4_vec_unit));
         LCA_rear_4_trans = [0; 0; 0];
 
+        R_normal_3 = pointsToRotationMatrix(Rocker_center_3, Rocker_axis_3);
+        R_back_3 = R_normal_3';
+        R_normal_4 = pointsToRotationMatrix(Rocker_center_4, Rocker_axis_4);
+        R_back_4 = R_normal_4';
+
 else
     error('Elírtad haver');
 end
-
-
-
-
-% % Quarter 1
-% %UCA
-% UCA_front_1=[142.910; 130.958; 588.738];
-% UCA_rear_1=[-423.620; 168.674; 470.738];
-% UCA_upright_1=[-51.340; 691.900; 521.820];
-% %LCA
-% LCA_front_1=[205.470; 126.962; 394.866];
-% LCA_rear_1=[-407.280; 161.941; 344.481];
-% LCA_upright_1=[-20.720; 746.210; 303.980];
-% %Wheel
-% WheelCenter_1=[0; 830; 360];
-% ContactPatch_1=[0; 830; 0];
-% %Damper
-% Damper_chassis_1=[-20.720; 20; 600.784];
-% %Tierod
-% Tierod_inner_1=[170.14; 130.958; 540.912];
-% Tierod_upright_1=[25.017; 696.430; 481.810];
-% %Pushrod
-% Pushrod_upright_1 = [-20.720; 709.481; 319.812];
-% %Rocker
-% Rocker_center_1=[-20.720; 120.822; 550.784];
-% Pushrod_rocker_1=[-20.720; 140.881; 570.784];
-% Damper_rocker_1=[-20.720; 130.881; 600.784];
-% Droplink_rocker_1=[-46.95; 210; 520];
-% % ARB
-% Droplink_ARB_1=[-74.5; 0; 520];
-% ARB_1=[21.475; 0; 520];
-% 
-% % Quarter 2
-% %UCA
-% UCA_front_2=diag([1,-1,1])*UCA_front_1;
-% UCA_rear_2=diag([1,-1,1])*UCA_rear_1;
-% UCA_upright_2=diag([1,-1,1])*UCA_upright_1;
-% %LCA
-% LCA_front_2=diag([1,-1,1])*LCA_front_1;
-% LCA_rear_2=diag([1,-1,1])*LCA_rear_1;
-% LCA_upright_2=diag([1,-1,1])*LCA_upright_1;
-% %Wheel
-% WheelCenter_2=diag([1,-1,1])*WheelCenter_1;
-% ContactPatch_2=diag([1,-1,1])*ContactPatch_1;
-% %Damper
-% Damper_chassis_2=diag([1,-1,1])*Damper_chassis_1;
-% %Tierod
-% Tierod_inner_2=diag([1,-1,1])*Tierod_inner_1;
-% Tierod_upright_2=diag([1,-1,1])*Tierod_upright_1;
-% %Pushrod
-% Pushrod_upright_2=diag([1,-1,1])*Pushrod_upright_1;
-% %Rocker
-% Rocker_center_2=diag([1,-1,1])*Rocker_center_1;
-% Pushrod_rocker_2=diag([1,-1,1])*Pushrod_rocker_1;
-% Damper_rocker_2=diag([1,-1,1])*Damper_rocker_1;
-% % Droplink_rocker_2=diag([1,-1,1])*Droplink_rocker_1;
-% Droplink_rocker_2 = [6; -210; 520];
-% % ARB
-% Droplink_ARB_2=diag([1,-1,1])*Droplink_ARB_1;
-% Droplink_ARB_2 = [33.550; 0; 520];
-% ARB_2=diag([1,-1,1])*ARB_1;
-
-% % Quarter 3
-% %UCA
-% UCA_front_3=[-2610.180; 149.557; 471.424];
-% UCA_rear_3=[-3021.190; 79.993; 502.424];
-% UCA_upright_front_3=[-2963.942; 704.412; 494.308];
-% UCA_upright_rear_3=[-3046.858; 707.128; 505.611];
-% %LCA
-% LCA_front_3=[-2606.680; 153.689; 371.311];
-% LCA_rear_3=[-2987.790; 77.777; 372.804];
-% LCA_upright_front_3=[-2968.608; 733.282; 358.001];
-% LCA_upright_rear_3=[-3017.324; 737.420; 348.449];
-% %Wheel
-% WheelCenter_3=[-3000; 775; 360];
-% ContactPatch_3=[-3000; 775; 0];
-% %Damper
-% Damper_chassis_3=[-3051.844; 120.000; 156.805];
-% %Tierod
-% Tierod_inner_3=[-2480.310; 133.848; 419.589];
-% Tierod_upright_3=[-2900.351; 687.442; 430.244];
-% %Pullrod
-% Pullrod_upright_3=[-2942.829; 655.968; 562.495];
-% %Rocker
-% Rocker_center_3=[-2881.215; 167.295; 240.816];
-% Pullrod_rocker_3=[-2942.829; 194.264; 234.154];
-% Damper_rocker_3=[-2918.002; 113.009; 186.805];
-% Droplink_rocker_3=[-2741.91; 101.449; 464.403];
-% %ARB
-% Droplink_ARB_3=[-2800.63; 101.449; 464.403];
-% ARB_3=[-2800.63; 0; 464.403];
-% 
-% % Quarter 4
-% %UCA
-% UCA_front_4=diag([1,-1,1])*UCA_front_3;
-% UCA_rear_4=diag([1,-1,1])*UCA_rear_3;
-% UCA_upright_front_4=diag([1,-1,1])*UCA_upright_front_3;
-% UCA_upright_rear_4=diag([1,-1,1])*UCA_upright_rear_3;
-% %LCA
-% LCA_front_4=diag([1,-1,1])*LCA_front_3;
-% LCA_rear_4=diag([1,-1,1])*LCA_rear_3;
-% LCA_upright_front_4=diag([1,-1,1])*LCA_upright_front_3;
-% LCA_upright_rear_4=diag([1,-1,1])*LCA_upright_rear_3;
-% %Wheel
-% WheelCenter_4=diag([1,-1,1])*WheelCenter_3;
-% ContactPatch_4=diag([1,-1,1])*ContactPatch_3;
-% %Damper
-% Damper_chassis_4=diag([1,-1,1])*Damper_chassis_3;
-% %Tierod
-% Tierod_inner_4=diag([1,-1,1])*Tierod_inner_3;
-% Tierod_upright_4=diag([1,-1,1])*Tierod_upright_3;
-% %Pullrod
-% Pullrod_upright_4=diag([1,-1,1])*Pullrod_upright_3;
-% %Rocker
-% Rocker_center_4=diag([1,-1,1])*Rocker_center_3;
-% Pullrod_rocker_4=diag([1,-1,1])*Pullrod_rocker_3;
-% Damper_rocker_4=diag([1,-1,1])*Damper_rocker_3;
-% Droplink_rocker_4=diag([1,-1,1])*Droplink_rocker_3;
-% %ARB
-% Droplink_ARB_4=diag([1,-1,1])*Droplink_ARB_3;
-% ARB_4=diag([1,-1,1])*ARB_3;
-
 
 %% Parameters
 
@@ -534,28 +443,15 @@ weight_distribution = 0.45;
 a = wheelbase*(1-weight_distribution);
 b = wheelbase*weight_distribution;
 wheel_radius = 0.360; %m
-% load('C:\Users\aprom\Desktop\Milan\FRT\Tyre analysis\Round 9\Tyre Data\F1\TyreParamsF1');
 parameterStruct = mfeval.readTIR('Tyre Models\F1_tyre_modell_v5.tir');
-
-% % Biztosítjuk, hogy sima struktúra legyen
-% if ~isstruct(TyreParamsF1)
-%     TyreParamsF1 = struct(TyreParamsF1);
-% end
-% 
-% % Base workspace-be rakjuk
-% assignin('base', 'TyreParamsF1', TyreParamsF1);
-% % % % 1. Busz objektum létrehozása
-% % % % Megjegyzés: Ha a struktúrád neve 'TyreParamsF1', a createObject egy 'slBus1' nevű 
-% % % % változót hoz létre a Base Workspace-ben.
-% % % Simulink.Bus.createObject(TyreParamsF1); 
-% % % TyreBus = slBus1; 
-% % % clear slBus1; % Takarítás
-% % % 
-% % % % 2. Simulink Paraméter létrehozása
-% % % parameterStruct = Simulink.Parameter; % Használd azt a nevet, amit a hibaüzenet ír!
-% % % parameterStruct.Value = TyreParamsF1;
-% % % parameterStruct.DataType = 'Bus: TyreBus';
-% % % parameterStruct.CoderInfo.StorageClass = 'ExportedGlobal';
+fl_static_toe = 0;
+fr_static_toe = 0;
+rl_static_toe = 0;
+rr_static_toe = 0;
+fl_static_camber = 0;
+fr_static_camber = 0;
+rl_static_camber = 0;
+rr_static_camber = 0;
 
 % Weights
 m10=21.5;
@@ -574,8 +470,8 @@ m_rocker_front=0.5;
 m_rocker_rear=0.5;
 m_damper_front=0.8;
 m_damper_rear=0.8;
-m_pushrod_front=0.504;
-m_pullrod_rear=0.596;
+m_push_pull_rod_front=0.504;
+m_push_pull_rod_rear=0.596;
 m_droplink_front=0.106;
 m_droplink_rear=0.083;
 m_ARB_lever_front=0.026;
@@ -696,3 +592,51 @@ Rack_center=(Tierod_inner_2+Tierod_inner_1)/2;
 % megfordulnak
 
 % State target hatul a rockernel : 78,429 maybe
+
+function R = pointsToRotationMatrix(P1, P2)
+% POINTS_TO_ROTATION_MATRIX Kiszámolja a 3x3-as forgatási mátrixot két pontból
+% Bemenet: P1 és P2 (1x3 vagy 3x1 vektorok, pl. [x, y, z])
+% Kimenet: R (3x3 forgatási mátrix / DCM)
+
+% Vektor a két pont között
+v = P2 - P1;
+
+% Ellenőrzés: ha a két pont egybeesik, nem lehet irányt meghatározni
+if norm(v) == 0
+    error('A két pont egybeesik, a forgatási mátrix nem számítható ki!');
+end
+
+% 1. Lokális Z-tengely (fő irány) kiszámítása és normálása
+z_vec = v / norm(v);
+
+% Biztosítjuk, hogy sorvektor legyen (1x3) a stabil keresztszorzathoz
+z_vec = z_vec(:)'; 
+
+% 2. Up-Vector (segédvektor) kiválasztása
+% Ellenőrizzük, hogy a z_vec mennyire párhuzamos a globális Z-tengellyel [0, 0, 1]
+% Ha a z komponens abszolút értéke majdnem 1, akkor párhuzamos (vagy egybeesik)
+tol = 0.99; % Tolerancia (abs(0.99) kb. 8 fokos eltérést enged meg)
+
+if abs(z_vec(3)) > tol
+    % Szingularitás elkerülése: ha párhuzamos a Z-vel, a globális Y-t használjuk
+    up_vec = [0, 1, 0];
+    % disp('Infó: A vektor majdnem párhuzamos a globális Z-vel. Up-vector átállítva Y-ra.');
+else
+    % Alapértelmezett eset: a globális Z-t használjuk Up-Vectornak
+    up_vec = [0, 0, 1];
+end
+
+% 3. Lokális X-tengely kiszámítása
+% Az X merőleges lesz a segédvektorra és a lokális Z-tengelyre
+x_vec = cross(up_vec, z_vec);
+x_vec = x_vec / norm(x_vec); % Normálás egységvektorrá
+
+% 4. Lokális Y-tengely kiszámítása
+% Az Y merőleges a lokális Z-re és a frissen kiszámolt X-re
+y_vec = cross(z_vec, x_vec);
+% (Nem kell normálni, mert z_vec és x_vec ortogonális egységvektorok)
+
+% 5. Forgatási mátrix összeállítása
+% A tengelyvektorok a mátrix oszlopai lesznek (Direction Cosine Matrix formátum)
+R = [x_vec(:), y_vec(:), z_vec(:)];
+end
