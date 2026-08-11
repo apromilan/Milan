@@ -13,8 +13,8 @@ a_y=0.2*9.81*0;
 
 %% Suspension
 
-front_sheet = "Front_2";
-rear_sheet = "Rear_4";
+front_sheet = "Front_3";
+rear_sheet = "Rear_3";
 % ==== 1 = Double A Arm with pullrod attached to UCA ====
 % ==== 2 = Double A Arm with pushrod attached to LCA ====
 % ==== 3 = Double A Arm with pushrod attached to UCA ====
@@ -22,7 +22,7 @@ rear_sheet = "Rear_4";
 % ==== 5 = Multilink with pushrod ====
 
 % Front
-front_points = readtable("suspension_points.xlsx", "Sheet", front_sheet);
+front_points = readtable("suspension_points_fred.xlsx", "Sheet", front_sheet);
 for i = 1:height(front_points)
     rawName = front_points.Point{i};
     baseName = rawName;
@@ -224,7 +224,7 @@ else
 end
 
 % Rear
-rear_points = readtable("suspension_points.xlsx", "Sheet",rear_sheet);
+rear_points = readtable("suspension_points_fred.xlsx", "Sheet",rear_sheet);
 
 for i = 1:height(rear_points)
     rawName = rear_points.Point{i};
@@ -427,23 +427,23 @@ end
 %% Parameters
 
 % Bruh
-PLANETARY_GEAR_RATIO = 15;
-R_WHEEL = 0.36;
+PLANETARY_GEAR_RATIO = 12.3;
+R_WHEEL = 0.193;
 
-wheelbase = 3;
-front_track = 1.66;
-rear_track = 1.55;
-COG = [-1650; 0; 300]; %sprung mass cog
+wheelbase = 1.54;
+front_track = 1.22;
+rear_track = 1.20;
+COG = [-770.09; 0; 272.71]; %sprung mass cog
 aero_distribution = 0.45; % [%]
 COP = [-wheelbase*aero_distribution*1000; 0; 100];
 g = 9.81;
-front_cog_height = 0.28;
-rear_cog_height = 0.33;
-weight_distribution = 0.45;
+front_cog_height = 0.22;
+rear_cog_height = 0.31;
+weight_distribution = 0.49;
 a = wheelbase*(1-weight_distribution);
 b = wheelbase*weight_distribution;
-wheel_radius = 0.360; %m
-parameterStruct = mfeval.readTIR('Tyre Models\F1_tyre_modell_v5.tir');
+wheel_radius = 0.193; %m
+parameterStruct = mfeval.readTIR('Tyre Models\Hoosier_43075_16x7_5_10_LCO_7inch.tir');
 fl_static_toe = 0;
 fr_static_toe = 0;
 rl_static_toe = 0;
@@ -454,99 +454,103 @@ rl_static_camber = 0;
 rr_static_camber = 0;
 
 % Weights
-m10=21.5;
-m30=21.5;
-m_tyre=8;
-m_rim=4;
-m_upright=1.5;
-m1=m10-(m_tyre+m_rim+m_upright);
-m3=m30-(m_tyre+m_rim+m_upright);
-m_s0=800.82;
-m_fuel = 10;
-m_driver = 80;
+m_tyre = 3.2;
+m_rim = 0.78;
+m_upright = 0.88+3.13+7.08+0.66; % upright, brake, motor, gearbox
+m10 = 0.4158+m_upright; % 1102-es assembly (rudak) * 0.66
+m30 = 0.4158+m_upright;
+m1 = m10-(m_tyre+m_rim+m_upright);
+m3 = m30-(m_tyre+m_rim+m_upright);
+m_s0 = 179.6;
+m_fuel = 0;
+m_driver = 75;
 m_s0_driver = m_s0+m_fuel+m_driver;
 m_sprung = m_s0_driver-2*m10-2*m30; 
-m_rocker_front=0.5;
-m_rocker_rear=0.5;
-m_damper_front=0.8;
-m_damper_rear=0.8;
-m_push_pull_rod_front=0.504;
-m_push_pull_rod_rear=0.596;
-m_droplink_front=0.106;
-m_droplink_rear=0.083;
-m_ARB_lever_front=0.026;
-m_ARB_lever_rear=0.026;
-m_ARB_front=0.192;
-m_ARB_rear=0.149;
-m_UCA_front=0.41;
-m_UCA_rear=0.378;
-m_LCA_front=0.894;
-m_LCA_rear=0.840;
-m_tierod_front=0.409;
-m_tierod_rear=0.416;
-m_s=m_s0-(m_rocker_front+m_rocker_rear+m_damper_front+m_damper_front+m_droplink_front+m_droplink_rear+m_ARB_lever_front+m_ARB_lever_rear+m_ARB_front+m_ARB_rear)*2;
+m_rocker_front = 0.1975;
+m_rocker_rear = 0.1955;
+m_damper_front = 0.8225;
+m_damper_rear = 0.8287;
+m_push_pull_rod_front = 0.1031;
+m_push_pull_rod_rear = 0.0912;
+m_droplink_front = 0.0485;
+m_droplink_rear = 0.0485;
+m_ARB_lever_front = 0.008;
+m_ARB_lever_rear = 0.008;
+m_ARB_front = 0.0696;
+m_ARB_rear = 0.0696;
+m_UCA_front = 0.2327;
+m_UCA_rear = 0.1814;
+m_LCA_front = 0.2259;
+m_LCA_rear = 0.2244;
+m_tierod_front = 0.0708;
+m_tierod_rear = 0.067;
+m_aerodynamics = 13;
+m_chassis = 20;
+m_s = m_s0-(m_rocker_front+m_rocker_rear+m_damper_front+m_damper_front+m_droplink_front+m_droplink_rear+m_ARB_lever_front+m_ARB_lever_rear+m_ARB_front+m_ARB_rear)*2;
 
 % Inertias
-roll_inertia = 310;
-pitch_inertia = 1250;
-yaw_inertia = 850;
+roll_inertia = 38.215;
+pitch_inertia = 121.714;
+yaw_inertia = 96.280;
 Theta_S = [roll_inertia, pitch_inertia, yaw_inertia];
-tyre_IYY = (m_tyre+m_rim)*wheel_radius^2+0.0;
-tyre_IXX = 0.651;
+% tyre_IYY = (m_tyre+m_rim)*wheel_radius^2+0.0;
+tyre_IYY = m_tyre*wheel_radius^2;
+tyre_IXX = 0.651/4;
 vehicle_inertia_at_wheel_2wd = m_s0_driver/2*wheel_radius^2;
 vehicle_inertia_at_wheel_4wd = m_s0_driver/4*wheel_radius^2;
 I_engine = 0.2;
+I_powertrain = 0.0013;
 
 % Stiffnesses
 % A sima erőnél az emelőhatás csak egyszer működik (a karok aránya határozza meg az erőt). 
 % A merevségnél azért kell a négyzet, mert az emelő kétszeresen büntet: egyszer lefelezi (ha MR=2) a rugó elmozdulását, másodszor pedig lefelezi (ha MR=2) a rugóból visszajutó erőt is!
 % Front
-front_spring = 8000;
+front_spring = 225;
 front_spring_stiffness = front_spring*175.127; %[lbf/in]*conversion constant=[N/m]
-front_static_length = 110.881; % mm
-front_static_motion_ratio = 1.860; % needs optkin
-front_lower_limit_motion_ratio = 1.903; % needs optkin
-front_upper_limit_motion_ratio = 1.806; % needs optkin
+front_static_length = Damper_front_length; % mm
+front_static_motion_ratio = 1.256; % needs optkin
+front_lower_limit_motion_ratio = 0.981; % needs optkin
+front_upper_limit_motion_ratio = 1.468; % needs optkin
 front_wheel_fz = m_s0_driver*weight_distribution/2*g;
 front_static_spring_force = front_wheel_fz*front_static_motion_ratio;
 front_static_spring_compression = front_static_spring_force/front_spring_stiffness*1000; % mm! ez lesz a delta x, amit hozzá kell adni a beépítési hosszhoz és kijön a equilibrium position
 front_equilibrium_position = front_static_length+front_static_spring_compression;
-front_lower_limit = front_static_length-30/front_lower_limit_motion_ratio;
-front_upper_limit = front_static_length+30/front_upper_limit_motion_ratio;
+front_lower_limit = front_static_length-33/front_lower_limit_motion_ratio;
+front_upper_limit = front_static_length+29/front_upper_limit_motion_ratio;
 ARB_K_tors_front = 409; %[Nm/rad]
 front_damping_ratio = 0.7;
 front_c_krit = 2*sqrt(front_spring_stiffness/front_static_motion_ratio^2*(m_sprung*weight_distribution)/2);
 front_c = front_damping_ratio*front_c_krit;
 front_damping_coefficient = front_c*front_static_motion_ratio^2;
-front_roll_center = 183.615;
-pitch_center = 140;
+front_roll_center = 123;
+pitch_center = 198;
 
 % Rear 
-rear_spring = 8000;
+rear_spring = 225;
 rear_spring_stiffness = rear_spring*175.127; %[lbf/in]*conversion constant=[N/m]
-rear_static_length = 137.341; % mm
-rear_static_motion_ratio = 1.717; % needs optkin
-rear_lower_limit_motion_ratio = 2.131; % needs optkin
-rear_upper_limit_motion_ratio = 1.578; % needs optkin
+rear_static_length = Damper_rear_length; % mm
+rear_static_motion_ratio = 1.081; % needs optkin
+rear_lower_limit_motion_ratio = 1.006; % needs optkin
+rear_upper_limit_motion_ratio = 1.161; % needs optkin
 rear_wheel_fz = m_s0_driver*(1-weight_distribution)/2*g;
 rear_static_spring_force = rear_wheel_fz*rear_static_motion_ratio;
 rear_static_spring_compression = rear_static_spring_force/rear_spring_stiffness*1000; % mm! ez lesz a delta x, amit hozzá kell adni a beépítési hosszhoz és kijön a equilibrium position
 rear_equilibrium_position = rear_static_length+rear_static_spring_compression;
-rear_lower_limit = rear_static_length-30/rear_lower_limit_motion_ratio;
-rear_upper_limit = rear_static_length+30/rear_upper_limit_motion_ratio;
+rear_lower_limit = rear_static_length-33/rear_lower_limit_motion_ratio;
+rear_upper_limit = rear_static_length+29/rear_upper_limit_motion_ratio;
 ARB_K_tors_rear = 271; % [Nm/rad]
 rear_damping_ratio = 0.7;
 rear_c_krit = 2*sqrt(rear_spring_stiffness/rear_static_motion_ratio^2*(m_sprung*(1-weight_distribution))/2);
 rear_c = rear_damping_ratio*rear_c_krit;
 rear_damping_coefficient = rear_c*rear_static_motion_ratio^2;
-rear_roll_center = 100;
+rear_roll_center = 125;
 
 % Aerodynamics
 cl = 5;
 cd = 1;
 A = 1.6;
 rho = 1.22;
-
+ 
 % Gearbox
 gear_ratios = [3.25, 2.35, 1.9, 1.6, 1.35, 1.2, 1.05, 0.9]; % 3.25 és 2.35 átírva
 final_drive = 4.2;
@@ -557,9 +561,9 @@ load("Engine\powertrain_torque.mat");
 load("Engine\revolution.mat");
 torque_vector = powertrain_torque;
 rpm_vector = powertrain_rpm;
-
-% % Driver 
-% acc_pedal = single(acceleration_pedal/100);
+% 
+% % % Driver 
+% % acc_pedal = single(acceleration_pedal/100);
 
 % Braking System
 max_braking_torque = 5000;
