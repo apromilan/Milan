@@ -11,7 +11,7 @@ function base_program_multilink_rear_left()
     points(2).name  = 'Upper Rear Chassis';     points(2).pos = [-3021.190,  79.993, 502.424];  points(2).fixed = true;
     points(3).name  = 'Lower Front Chassis';    points(3).pos = [-2606.680, 153.689, 371.311];  points(3).fixed = true;
     points(4).name  = 'Lower Rear Chassis';     points(4).pos = [-2987.790,  77.777, 372.804];  points(4).fixed = true;
-    points(5).name  = 'Toe Link Chassis';       points(5).pos = [-2480.310, 133.848, 419.589];  points(5).fixed = true;
+    points(5).name  = 'Toe Link Chassis';       points(5).pos = [-2480.310, 133.848, 449.589];  points(5).fixed = true;
 
     % Csonkállvány (Upright) mozgó pontjai (tervezési magasságban)
     points(6).name  = 'Upper Front Upright';    points(6).pos = [-2963.942, 704.412, 494.308];  points(6).fixed = false;
@@ -263,8 +263,8 @@ function base_program_multilink_rear_left()
     
     subplot(2,2,1); plot(wheel_travel_range, Results.Camber, 'b', 'LineWidth', 2); grid on; title('Kerékdőlési szög'); xlabel('Rugóút (mm)'); ylabel('Kerékdőlés (deg)');
     subplot(2,2,2); plot(wheel_travel_range, Results.Toe, 'r', 'LineWidth', 2); grid on; title('Kerékszög'); xlabel('Rugóút (mm)'); ylabel('Kerékszög (deg)');
-    % subplot(2,2,3); plot(wheel_travel_range, Results.RC_Z, 'k', 'LineWidth', 2); grid on; title('Kinematic Roll Center Z'); xlabel('Rugóút (mm)'); ylabel('Height (mm)');
-    % subplot(2,2,4); plot(wheel_travel_range, Results.HalfTrack, 'm', 'LineWidth', 2); grid on; title('Half-Track Change'); xlabel('Rugóút (mm)'); ylabel('\Delta Y (mm)');
+    subplot(2,2,3); plot(wheel_travel_range, Results.RC_Z, 'k', 'LineWidth', 2); grid on; title('Kinematic Roll Center Z'); xlabel('Rugóút (mm)'); ylabel('Height (mm)');
+    subplot(2,2,4); plot(wheel_travel_range, Results.HalfTrack, 'm', 'LineWidth', 2); grid on; title('Half-Track Change'); xlabel('Rugóút (mm)'); ylabel('\Delta Y (mm)');
     
     % --- FIGURE 3: Kormányzási Geometria ---
     fig_steer = figure('Name', 'Multilink - Kormányzási Geometria', 'Position', [200, 200, 1000, 800], 'WindowState','maximized');

@@ -427,7 +427,7 @@ end
 %% Parameters
 
 % Bruh
-PLANETARY_GEAR_RATIO = 12.3;
+PLANETARY_GEAR_RATIO = 12.13;
 R_WHEEL = 0.193;
 
 wheelbase = 1.54;
@@ -524,7 +524,7 @@ front_c = front_damping_ratio*front_c_krit;
 front_damping_coefficient = front_c*front_static_motion_ratio^2;
 front_roll_center = 123;
 pitch_center = 198;
-
+    
 % Rear 
 rear_spring = 225;
 rear_spring_stiffness = rear_spring*175.127; %[lbf/in]*conversion constant=[N/m]

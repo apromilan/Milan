@@ -1,21 +1,19 @@
-function EV_log(LOG)
-data = readtable(LOG);
+data = readtable("torque_and_steering.csv");
+xd = data.steering_angle;
+time = (0:0.05:length(xd)*0.05-0.05)';
 
 % Data
-timestamps = data.Time; 
+timestamps = time; 
 steering_angle = timeseries(single(data.steering_angle), timestamps);
-acceleration_pedal = timeseries(single(data.acceleration_pedal)/100, timestamps);
-brake_pedal = timeseries(single(data.brake_pedal), timestamps);
-% engine_torque = timeseries(single(data.engine_torque_3), timestamps);
-gear = timeseries(single(data.gear), timestamps);
-engine_rpm = timeseries(single(data.engine_rpm), timestamps);
+torque1 = timeseries(single(data.Torque1), timestamps);
+torque2 = timeseries(single(data.Torque2), timestamps);
+torque3= timeseries(single(data.Torque3), timestamps);
+torque4= timeseries(single(data.Torque4), timestamps);
 
 % Data back to workspace for the from workspace block
-assignin('base', 'steering_angle', steering_angle);
-assignin('base', 'acceleration_pedal', acceleration_pedal);
-assignin('base', 'brake_pedal', brake_pedal);
-% assignin('base', 'engine_torque', engine_torque);
-assignin('base', 'gear', gear);
-assignin('base', 'engine_rpm', engine_rpm);
+% assignin('base', 'steering_angle', steering_angle);
+% assignin('base', 'Torque1', torque1);
+% assignin('base', 'Torque2', torque2);
+% assignin('base', 'Torque3', torque3);
+% assignin('base', 'Torque4', torque4);
 
-end    

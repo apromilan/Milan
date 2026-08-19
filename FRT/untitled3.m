@@ -1,0 +1,80 @@
+clc
+clear all
+close all
+
+% =========================================================================
+% FORMULA STUDENT - HASMAGASSÁG ÉS ELŐFESZÍTÉS SZÁMÍTÓ SCRIPT
+% Cél: Kiszámolni a kívánt hasmagassághoz szükséges előfeszítést és a 
+%      belőle adódó kirugózási utat (droop).
+% =========================================================================
+
+% --- BEKÉRENDŐ PARAMÉTEREK ---
+
+full_spring_length = 120; % Terheletlen rugóhossz [mm]
+current_spring_length = 116; % Beszerelt rugóhossz a bakon [mm]
+% 1. Jármű adatok
+m_corner_sprung = 87.58/2;   % Rugózott saroksúly [kg]
+MR = 1.246;              % Módosítási viszony (Motion Ratio) [-]
+k_s = 30.647;               % Főrugó merevsége [N/mm]
+
+% 2. Jelenlegi (referencia) állapot
+h_current = 40;         % Jelenlegi mért hasmagasság a keréknél [mm]
+preload_current = full_spring_length-current_spring_length;   % Jelenlegi előfeszítés a rugón [mm]
+
+% 3. CÉL állapot
+h_target = 30;          % Cél hasmagasság [mm]
+
+% --- SZÁMÍTÁS (Fizika és Geometria) ---
+
+g = 9.81; % Gravitáció [m/s^2]
+
+% Rugóra ható statikus erő
+F_wheel = m_corner_sprung * g;
+F_spring = F_wheel * MR;
+
+% A rugó teljes statikus összenyomódása (ez állandó, amíg a súly nem változik)
+x_total_static_compression = F_spring / k_s;
+
+% Hasmagasság változás (Delta H)
+delta_h = h_target - h_current; % Ha ültetünk, ez az érték negatív lesz
+
+% ÚJ ELŐFESZÍTÉS KISZÁMÍTÁSA
+% Ha emelni akarjuk az autót, növelni kell az előfeszítést.
+% Ha ültetni akarjuk, csökkenteni kell. Az áttétel (MR) miatt a gátlón 
+% delta_h * MR elmozdulás történik.
+preload_new = preload_current + (delta_h / MR);
+
+% ÚJ KIRUGÓZÁSI ÚT (DROOP) KISZÁMÍTÁSA
+% A teljes összenyomódásból levonjuk a rugóba "bezárt" előfeszítést, 
+% a maradék lesz az a távolság, amennyit a gátló össze tud ülni (droop).
+droop_shock_new = x_total_static_compression - preload_new;
+droop_wheel_new = droop_shock_new * MR;
+
+% --- EREDMÉNYEK KIÍRATÁSA ---
+clc;
+fprintf('=== HASMAGASSÁG ALAPÚ FUTÓMŰ BEÁLLÍTÁS ===\n\n');
+fprintf('Igényelt hasmagasság változás: %.1f mm\n', delta_h);
+fprintf('A gátlón (rugón) szükséges állítás: %.2f mm\n\n', delta_h / MR);
+
+fprintf('--- BEÁLLÍTANDÓ ÉRTÉKEK ---\n');
+if preload_new > 0
+    fprintf('>> ÚJ ELŐFESZÍTÉS: %.1f mm\n', preload_new);
+elseif preload_new == 0
+    fprintf('>> ÚJ ELŐFESZÍTÉS: 0 mm (A rugó pont érintőre van húzva)\n');
+else
+    fprintf('>> HIBA: Negatív előfeszítés jött ki! (%.1f mm)\n', preload_new);
+    fprintf('   Ezt a hasmagasságot ezzel a rugóval és pushrod hosszal nem lehet elérni,\n');
+    fprintf('   mert a rugó lötyögne a tányéron teljes kirugózáskor.\n');
+    fprintf('   Megoldás: Rövidíts a pushrod-on, vagy használj tender rugót!\n');
+end
+
+fprintf('\n--- EZZEL ELÉRT KIRUGÓZÁSI ÚT (DROOP) ---\n');
+if droop_shock_new >= 0
+    fprintf('Gátló (Shock) droop: %.1f mm\n', droop_shock_new);
+    fprintf('Kerék (Wheel) droop: %.1f mm\n', droop_wheel_new);
+else
+    fprintf('HIBA: Negatív droop jött ki!\n');
+    fprintf('A gátló teljesen kiérne (top-out), mielőtt elérnéd a %.1f mm hasmagasságot.\n', h_target);
+    fprintf('Megoldás: Hosszabbíts a pushrod-on!\n');
+end
+fprintf('==========================================\n');
