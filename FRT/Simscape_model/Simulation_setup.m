@@ -550,24 +550,6 @@ cl = 5;
 cd = 1;
 A = 1.6;
 rho = 1.22;
- 
-% Gearbox
-gear_ratios = [3.25, 2.35, 1.9, 1.6, 1.35, 1.2, 1.05, 0.9]; % 3.25 és 2.35 átírva
-final_drive = 4.2;
-% gear_idx = gear;
-
-% Engine
-load("Engine\powertrain_torque.mat");
-load("Engine\revolution.mat");
-torque_vector = powertrain_torque;
-rpm_vector = powertrain_rpm;
-% 
-% % % Driver 
-% % acc_pedal = single(acceleration_pedal/100);
-
-% Braking System
-max_braking_torque = 5000;
-brake_balance = 0.54;
 
 %% Calculated quantities
 
