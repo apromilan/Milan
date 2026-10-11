@@ -1,0 +1,46 @@
+﻿MASS PROPERTIES OF THE ASSEMBLY FRED-006_2201-100
+
+VOLUME =  4.8000000e+04  MM^3
+SURFACE AREA =  1.4800000e+04  MM^2
+AVERAGE DENSITY =  7.8500000e-09 TONNE / MM^3
+MASS =  3.7680000e-04 TONNE 
+CENTER OF GRAVITY with respect to _FRED-006_2201-100 coordinate frame:
+X   Y   Z     1.0350000e+02  1.2597332e+02  3.8975509e+02  MM
+
+INERTIA with respect to _FRED-006_2201-100 coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  6.5040067e+01 -4.9128084e+00 -1.5199981e+01
+Iyx Iyy Iyz -4.9128084e+00  6.3036605e+01 -1.8798375e+01
+Izx Izy Izz -1.5199981e+01 -1.8798375e+01  1.0082494e+01
+
+INERTIA at CENTER OF GRAVITY with respect to _FRED-006_2201-100 coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  1.8212000e+00  0.0000000e+00  0.0000000e+00
+Iyx Iyy Iyz  0.0000000e+00  1.7609061e+00 -2.9796872e-01
+Izx Izy Izz  0.0000000e+00 -2.9796872e-01  6.6573850e-02
+
+PRINCIPAL MOMENTS OF INERTIA:  (TONNE * MM^2)
+I1  I2  I3   1.5700000e-02  1.8117800e+00  1.8212000e+00
+
+ROTATION MATRIX from _FRED-006_2201-100 orientation to PRINCIPAL AXES:
+       0.00000        0.00000       -1.00000
+       0.16830        0.98574        0.00000
+       0.98574       -0.16830        0.00000
+
+ROTATION ANGLES from _FRED-006_2201-100 orientation to PRINCIPAL AXES (degrees):
+angles about x  y  z   0.000        -90.000          9.689 
+
+RADII OF GYRATION with respect to PRINCIPAL AXES:
+R1  R2  R3 6.4549722e+00  6.9342147e+01  6.9522179e+01  MM
+
+---------------------------------------------
+
+MASS PROPERTIES OF COMPONENTS OF THE ASSEMBLY
+(in assembly units and the _FRED-006_2201-100 coordinate frame)
+
+   DENSITY             MASS          C.G.:  X        Y         Z
+
+               FRED-006_2201-101            MATERIAL:                  S235JR_NA_CA_STR_HR
+         7.85000e-09  3.76800e-04  1.03500e+02  1.25973e+02  3.89755e+02

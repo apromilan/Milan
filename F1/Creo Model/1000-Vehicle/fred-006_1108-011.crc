@@ -1,0 +1,36 @@
+﻿  MODEL FRED-006_1108-011 :
+ 
+
+  2 CIRCULAR REFERENCE LOOPS FOUND
+ 
+
+   LOOP #  1
+
+   Depth of loop is 3
+
+Feature number 16 (COMPONENT, id = 1018) 
+  in model FRED-006_1108-011 refers to:
+
+Feature number 11 (EXTRUDE_1, id = 289) 
+  in model FRED-006_1108-013 refers to:
+
+Feature number 16 (COMPONENT, id = 1018) 
+  in model FRED-006_1108-011 - circle closed.
+
+
+   LOOP #  2
+
+   Depth of loop is 4
+
+Feature number 16 (COMPONENT, id = 1018) 
+  in model FRED-006_1108-011 refers to:
+
+Feature number 11 (EXTRUDE_1, id = 289) 
+  in model FRED-006_1108-013 refers to:
+
+Feature number 9 (DATUM PLANE, id = 285) 
+  in model FRED-006_1108-013 refers to:
+
+Feature number 16 (COMPONENT, id = 1018) 
+  in model FRED-006_1108-011 - circle closed.
+

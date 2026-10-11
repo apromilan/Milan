@@ -1,0 +1,36 @@
+﻿  MODEL FRED-006_1100-000 :
+ 
+
+  2 CIRCULAR REFERENCE LOOPS FOUND
+ 
+
+   LOOP #  1
+
+   Depth of loop is 3
+
+Feature number 17 (COMPONENT, id = 408) 
+  in model FRED-006_1107-000 refers to:
+
+Feature number 10 (REVOLVE_1, id = 290) 
+  in model FRED-006_1107-002 refers to:
+
+Feature number 17 (COMPONENT, id = 408) 
+  in model FRED-006_1107-000 - circle closed.
+
+
+   LOOP #  2
+
+   Depth of loop is 4
+
+Feature number 18 (COMPONENT, id = 413) 
+  in model FRED-006_1107-000 refers to:
+
+Feature number 11 (REVOLVE_1, id = 304) 
+  in model FRED-006_1107-003 must follow after:
+
+Feature number 10 (SKETCH_1, id = 294) 
+  in model FRED-006_1107-003 refers to:
+
+Feature number 18 (COMPONENT, id = 413) 
+  in model FRED-006_1107-000 - circle closed.
+
