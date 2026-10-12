@@ -32,35 +32,35 @@ t_all = tic;
 P = struct();
 P.valtoszam  = 175.128;     % [N/m / lbs/in]
 P.g          = 9.81;
-P.m_total    = 254.0;
-P.distrF     = 0.50;
-P.m_SM       = 212.67;
-P.m_NSM_F    = 41.8 / 4;
-P.m_NSM_R    = 41.8 / 4;
-P.L          = 1.54;
-P.T_F        = 1.20;
-P.T_R        = 1.20;
-P.h_CG_SM    = 0.290;
-P.h_CG_total = 0.273;
-P.h_CG_NSM   = 0.044;
+P.m_total    = 725.82;
+P.distrF     = 0.45;
+P.m_SM       = 628.82;
+P.m_NSM_F    = 94.9 / 4;
+P.m_NSM_R    = 94.9 / 4;
+P.L          = 3.00;
+P.T_F        = 1.60;
+P.T_R        = 1.60;
+P.h_CG_SM    = 0.320;
+P.h_CG_total = 0.3;
+P.h_CG_NSM   = 0.360;
 P.h_RC_F     = 0.123;   % [m] ALAP RC magasság (O.OPT_RC = true esetén az optimalizáló felülírja; az önellenőrzés ezzel számol)
 P.h_RC_R     = 0.127;   % [m] ALAP RC magasság (hátsó)
-P.theta_x_CG = 2.55;
+P.theta_x_CG = 7.65;
 P.K_chassis  = 3500 * 180/pi;        % [Nm/rad]  (merev vázhoz: Inf)
 P.rho_air    = 1.2;
 P.CLA        = 5.5;
-P.aero_distr_F = 0.50;
-P.v_max_kmh  = 120;                  % [km/h] a hasmagasság-vizsgálat felső sebessége
-P.h_static_F_mm = 34;
-P.h_static_R_mm = 34;
+P.aero_distr_F = 0.45;
+P.v_max_kmh  = 360;                  % [km/h] a hasmagasság-vizsgálat felső sebessége
+P.h_static_F_mm = 35;
+P.h_static_R_mm = 80;
 % --- 0.4b DINAMIKUS MAGASSÁGOK: A ROLL CENTER A CoG-GAL EGYÜTT MOZOG ---------------
 % A kasztni függőleges elmozdulása (jacking felfelé, aero lesüllyedés lefelé) a CoG-t ÉS a roll centert is viszi.
 P.DYN_HEIGHT = true;     % true: dinamikus CoG + RC (aero lesüllyedés + jacking); false: a korábbi modell (RC fix, a CoG csak jackinggel emelkedik)
 P.k_RC_F     = 1.05;      % [-] az első RC a kasztni függőleges mozgásának hányadát követi (1 = 1:1, 0 = fix RC)  !!! ÁLLÍTSD BE a kinematikából (dRC/dheave)
 P.k_RC_R     = 1.05;      % [-] ugyanez hátul                                                                      !!! ÁLLÍTSD BE
-P.v_corner_kmh = 45;     % [km/h] kanyarsebesség: ezen a sebességen számolt aero lesüllyedés kerül a dinamikus CoG-ba / RC-be  !!! ÁLLÍTSD BE
-P.a_lat_g    = 2;
-P.K_Tire     = 588 * P.valtoszam;    % [N/m]
+P.v_corner_kmh = 120;     % [km/h] kanyarsebesség: ezen a sebességen számolt aero lesüllyedés kerül a dinamikus CoG-ba / RC-be  !!! ÁLLÍTSD BE
+P.a_lat_g    = 5;
+P.K_Tire     = 1700 * P.valtoszam;    % [N/m]
 
 % Az ARB roll-merevségének átszámítása.
 % true : K_ARB/MR^2 * T^2/4  (baszogep.m 226-229. sor, statikus becslés)
@@ -69,10 +69,10 @@ P.ARB_ROLL_T2_4 = true;
 
 % Damper mátrix [N s/m] (damper oldalon): sorok LSR, LSC, HSR, HSC; oszlopok click 1..6
 P.C = [
-    51081.6, 9940.1, 3916, 1962.9, 1129.1, 601.9;
-    61889.8, 11165.6, 5319.1, 2375.7, 960.1, 944.1;
-    2040.3, 1402.4, 1457.8, 1212.2, 569.6, 386.4;
-    2253.6, 1929.4, 1659.3, 1029.9, 621.4, 445.1
+    80000, 74500, 69000, 63500, 58000, 52500, 47000, 41500, 36000, 30500, 25000, 20000;
+    60000, 55800, 51600, 47400, 43200, 39000, 34800, 30600, 26400, 22200, 18000, 14000;
+    8000, 7420, 6840, 6260, 5680, 5100, 4520, 3940, 3360, 2780, 2200, 1600;
+    6000, 5590, 5180, 4770, 4360, 3950, 3540, 3130, 2720, 2310, 1900, 1500
 ];
 P.regime_short = {'LSR', 'LSC', 'HSR', 'HSC'};
 
@@ -102,8 +102,8 @@ O.TLTD_RANGE    = [40 50];       % [%]    !!! ÁLLÍTSD BE - TLTD (első arány)
 O.MN_RANGE      = [40 70];       % [%]    !!! ÁLLÍTSD BE - Magic Number (K_roll_F / K_roll_tot)
 
 % --- Statikus ride frekvencia cél -----------------------------------------
-O.F_RIDE_RANGE_F = [3.4 4.6];    % [Hz] első ride frekvencia megengedett tartománya (kemény korlát)  !!! ÁLLÍTSD BE
-O.F_RIDE_RANGE_R = [4.0 5.2];    % [Hz] hátsó ride frekvencia megengedett tartománya (kemény korlát)  !!! ÁLLÍTSD BE
+O.F_RIDE_RANGE_F = [5.4 6.6];    % [Hz] első ride frekvencia megengedett tartománya (kemény korlát)  !!! ÁLLÍTSD BE
+O.F_RIDE_RANGE_R = [6.0 7.2];    % [Hz] hátsó ride frekvencia megengedett tartománya (kemény korlát)  !!! ÁLLÍTSD BE
 % Lágy húzás a tartományon BELÜL: a tartomány közepe felé (W_F = 0 -> a tartományon belül a frekvencia szabad,
 % a többi tag dönt: jacking, damper, aero; nagy W_F -> a tartomány közepére szorítja). A lágy cél a W_F sor alatt (O.F_RIDE_TARGET) kézzel is felülírható.
 
@@ -126,7 +126,7 @@ O.DAMPER_STROKE_MM = 52;         % [mm] damper löket, 57 mm csak átverjük
 O.DAMPER_LMAX_MM   = 200;        % [mm] damper hossza teljesen kihúzva
 
 % --- Rugólista és diszkrét opciók -----------------------------------------
-O.SPRING_LIST_F = [150 175 200 225 250 300 350 400];   % [lbs/in] !!! ÁLLÍTSD BE a ténylegesen rendelkezésre álló rugókra
+O.SPRING_LIST_F = [500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000];   % [lbs/in] !!! ÁLLÍTSD BE a ténylegesen rendelkezésre álló rugókra
 O.SPRING_LIST_R = O.SPRING_LIST_F;
 O.STAB_MODES_F  = [0 1 2];       % 0 = nincs, 1 = roll (ARB), 2 = heave stabilizátor
 O.STAB_MODES_R  = [0 1 2];       % (egy tengelyen vagy roll vagy heave, a kettő együtt nem szerepel)
@@ -135,12 +135,12 @@ O.MR_ORDER_LIST = [1];
 
 % --- Változók határai --------------------------------------------------------
 % MR(x) = m0 + m1*x + m2*x^2,  x [mm] (+ = berugózás)
-O.MR_M0_SPRING = [0.80 1.50];
+O.MR_M0_SPRING = [0.30 1.50];
 O.MR_M0_ARB    = [1.00 3.0];
-O.MR_M1_RANGE  = [-0.112 0.112];      % [1/mm]
+O.MR_M1_RANGE  = [-0.6112 0.6112];      % [1/mm]
 O.MR_M2_RANGE  = [-4e-2  4e-2];       % [1/mm^2]
-O.MR_MIN = 0.70;                      % MR a teljes kerékúton ebben a sávban maradjon
-O.MR_MAX = 1.60;
+O.MR_MIN = 0.30;                      % MR a teljes kerékúton ebben a sávban maradjon
+O.MR_MAX = 3.60;
 O.K_ARB_MAX   = 200000;                % [N/m] droplinkre vett ARB merevség felső határa
 O.K_HEAVE_MAX = 200000;                % [N/m] droplinkre vett heave stab. merevség felső határa
 O.K_MIN_FRAC  = 0.005;                % ennél kisebb stabilizátor merevség = "nincs stabilizátor"
@@ -162,8 +162,8 @@ O.ARMS_POS_MM = [-15 0 15];
 
 % --- ROLL CENTER (RC) OPTIMALIZÁLÁS, JACKING ÉS REAKTIVITÁS ---------------------
 O.OPT_RC     = true;             % true: h_RC_F és h_RC_R is optimalizálási változó; false: P.h_RC_F / P.h_RC_R fix
-O.RC_RANGE_F = [0.010 0.100];    % [m]  !!! ÁLLÍTSD BE - a kinematikával ténylegesen megvalósítható első RC magasság
-O.RC_RANGE_R = [0.030 0.120];    % [m]  !!! ÁLLÍTSD BE - hátsó RC magasság
+O.RC_RANGE_F = [0.010 0.200];    % [m]  !!! ÁLLÍTSD BE - a kinematikával ténylegesen megvalósítható első RC magasság
+O.RC_RANGE_R = [0.030 0.220];    % [m]  !!! ÁLLÍTSD BE - hátsó RC magasság
 
 % Jacking: a_lat mellett a kasztni emelkedése dh_jack = (F_jack_F + F_jack_R) / K_ride_össz.
 % A K_ride_össz-ben a heave stabilizátor (Z-bar) is benne van, ezért a heave merevítés csökkenti a jacking-et
@@ -201,14 +201,14 @@ O.GEO_REF          = 10;          % [%]   ennyi hiány mellett J_geo = W_GEO
 O.W_TLTD          = 0.4;
 O.TLTD_TARGET     = 45;          % [%]   !!! ÁLLÍTSD BE - kívánt TLTD (első arány); a tartományon (O.TLTD_RANGE) belül marad
 O.TLTD_REF        = 5;           % [%]   ennyi eltérésnél J_tltd = W_TLTD
-O.SLALOM_V_KMH     = 30;         % [km/h] !!! ÁLLÍTSD BE - szlalom sebesség
-O.SLALOM_SPACING_M = 8;          % [m]    !!! ÁLLÍTSD BE - bóják távolsága
+O.SLALOM_V_KMH     = 80;         % [km/h] !!! ÁLLÍTSD BE - szlalom sebesség
+O.SLALOM_SPACING_M = 10;          % [m]    !!! ÁLLÍTSD BE - bóják távolsága
 O.F_SLALOM_HZ      = (O.SLALOM_V_KMH / 3.6) / (2 * O.SLALOM_SPACING_M);   % [Hz] irányváltási frekvencia
 O.LAG_MAX_DEG      = 20;        % [deg] kemény felső korlát a fáziskésésre (Inf = nincs)
 % v3: a régi 40 % kemény minimum (ELŐZŐ ÉRTÉK) csak hF+hR >= ~215 mm mellett teljesül, de a megengedett
 % RC-tartomány maximuma 90+120 = 210 mm -> a korlát sosem teljesülhetett, az sqp mindig a plafonra tolta az RC-t.
 % Most csak biztonsági háló (a lágy cél a GEO_TARGET / W_GEO); ~20 % <-> hF+hR >= ~105 mm.
-O.GEO_SHARE_MIN    = 30;         % [%]   a geometriai (azonnali) terhelésátadás kemény minimuma (az alapeset kb. 46 %)
+O.GEO_SHARE_MIN    = 20;         % [%]   a geometriai (azonnali) terhelésátadás kemény minimuma (az alapeset kb. 46 %)
 O.ROLL_GRAD_MAX_DEG_G = 0.7;     % [deg/g] max. dőlésgradiens (első tengely; Inf = nincs)
 O.RUN_TAG = '';                  % opcionális szöveg a futás-mappa nevének végére
 

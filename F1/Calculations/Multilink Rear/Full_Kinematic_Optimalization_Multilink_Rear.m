@@ -17,10 +17,10 @@ function full_kinematic_optimalization_multilink_plot
     USE_GUI_FOR_CURVES = true; 
     
     % JÁRMŰ ALAPPARAMÉTEREK
-    Vehicle.Wheelbase = 1540;   % Tengelytáv [mm] 
-    Vehicle.Trackwidth = 1200;  % Első nyomtáv [mm]
-    Vehicle.h_CG_SM = 290;          % [mm] rugózott tömeg CG magassága, statikus (anti-squat)
-    Vehicle.RearDrivePercent = 60; % [%] hajtás a hátsó tengelyen (RWD = 100)
+    Vehicle.Wheelbase = 3000;   % Tengelytáv [mm] 
+    Vehicle.Trackwidth = 1600;  % Első nyomtáv [mm]
+    Vehicle.h_CG_SM = 320;          % [mm] rugózott tömeg CG magassága, statikus (anti-squat)
+    Vehicle.RearDrivePercent = 100; % [%] hajtás a hátsó tengelyen (RWD = 100)
     Vehicle.SteerRange = 0;     % [mm] kormánymű (rack) sweep tartomány. 0 = NINCS kormányzás (hátsó tengely)
                                 % >0 esetén -SteerRange..+SteerRange között csak az Ackermann sweepel
 

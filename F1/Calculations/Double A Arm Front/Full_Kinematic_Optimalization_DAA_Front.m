@@ -21,10 +21,10 @@ function full_kinematic_optimalization_DAA
     %% 1. CÉLOK ÉS SÚLYOK
     USE_GUI_FOR_CURVES = true;
 
-    Vehicle.Wheelbase      = 1540;
-    Vehicle.Trackwidth     = 1200;
+    Vehicle.Wheelbase      = 3000;
+    Vehicle.Trackwidth     = 1600;
     Vehicle.FrontBrakeBias = 64;   % % front brake bias
-    Vehicle.h_CG_SM_static = 290;  % statikus rugózott tömeg CG magasság [mm]
+    Vehicle.h_CG_SM_static = 320;  % statikus rugózott tömeg CG magasság [mm]
 
     Target.dz    = -30:1:30;
     Target.dy    = linspace(-30, 30, 61);
