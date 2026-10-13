@@ -1,0 +1,1577 @@
+Futás-mappa: Optimalizalo_Eredmenyek\Futas_20261013_022544_RCopt
+RC mód: optimalizált (első 100...110 mm, hátsó 120...130 mm)
+Önellenőrzés (baszogep.m alapeset): phi_F = 2.992 deg | phi_R = 3.099 deg | MN = 51.80 % | TLTD = 48.70 % | f_ride = 2.86 / 2.49 Hz
+                                    RC = 123.0 / 127.0 mm | jacking = 41.44 mm (F_jack 2891 / 3462 N) | geometriai átadás = 53.1 % | dőlésgradiens = 0.598 deg/g | f_roll = 9.55 Hz
+
+Optimalizálandó esetek száma: 64 (x 2 kezdőpont)
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.620517e+01     3.973e+00     1.000e+00     0.000e+00     1.399e+02  
+    1          14    2.041131e+01     2.545e+00     1.000e+00     1.070e+00     2.990e+05  
+    2          22    2.418247e+01     5.036e-01     7.000e-01     9.510e-02     8.348e+04  
+    3          29    2.829476e+01     6.370e-01     1.000e+00     9.489e-01     2.677e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.265351e+01     3.238e+00     1.000e+00     0.000e+00     7.388e+01  
+    1          15    2.919756e+01     5.813e-01     7.000e-01     6.558e-01     1.883e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.510895e+01     3.238e+00     1.000e+00     0.000e+00     8.240e+01  
+    1          15    2.918312e+01     5.813e-01     7.000e-01     7.130e-01     2.005e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.828069e+01     3.238e+00     1.000e+00     0.000e+00     9.265e+01  
+    1          14    3.063173e+01     1.515e+00     1.000e+00     1.023e+00     8.619e+04  
+    2          21    2.745485e+01     4.946e-01     1.000e+00     3.482e-02     9.084e+03  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.816837e+01     3.238e+00     1.000e+00     0.000e+00     1.205e+02  
+    1          14    2.544468e+01     1.515e+00     1.000e+00     1.045e+00     1.652e+05  
+    2          22    2.757801e+01     5.287e-01     7.000e-01     4.130e-01     1.989e+04  
+    3          29    2.704378e+01     4.999e-01     1.000e+00     3.010e-01     1.095e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.247124e+01     3.238e+00     1.000e+00     0.000e+00     1.051e+02  
+    1          14    2.858459e+01     1.515e+00     1.000e+00     1.031e+00     1.058e+05  
+    2          21    2.918585e+01     5.659e-01     1.000e+00     6.587e-01     2.151e+04  
+    4          36    2.825609e+01     6.121e-01     1.000e+00     7.395e-01     2.641e+04  
+    5          45    2.864990e+01     6.269e-01     4.900e-01     4.113e-01     2.652e+04  
+    2          72    2.919756e+01     5.813e-01     1.481e-09     9.308e-10     1.883e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.795112e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.815349e+01     9.530e+00     1.000e+00     0.000e+00     4.510e+01  
+    1          16    2.266722e+01     3.501e+00     4.900e-01     6.702e-01     1.764e+04  
+    2          73    2.918312e+01     5.813e-01     1.037e-09     7.633e-10     2.005e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.795112e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.750213e+01     1.442e+00     1.000e+00     0.000e+00     6.375e+01  
+    3          74    2.745485e+01     4.946e-01     6.169e-09     9.509e-10     9.084e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.527255e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.988667e+01     9.790e+00     1.000e+00     0.000e+00     1.279e+02  
+    1          14    3.322961e+01     2.366e+01     1.000e+00     1.661e+00     8.524e+04  
+    4          83    2.704378e+01     4.999e-01     4.318e-09     9.663e-10     1.095e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.543830e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          76    2.918585e+01     5.659e-01     3.023e-09     9.268e-10     2.151e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.747551e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.555772e+01     3.555e+00     1.000e+00     0.000e+00     9.294e+01  
+    1          15    2.799885e+01     6.672e-01     7.000e-01     7.206e-01     4.631e+04  
+    6         101    2.864990e+01     6.269e-01     2.116e-09     9.053e-10     2.652e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.577776e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.730982e+01     1.677e+00     1.000e+00     0.000e+00     1.322e+02  
+    1          14    2.709506e+01     6.640e-01     1.000e+00     5.746e-01     6.077e+04  
+    2          24    2.838387e+01     6.481e-01     7.000e-01     5.568e-01     1.767e+04  
+    3          31    2.854686e+01     5.860e-01     1.000e+00     2.642e-01     7.349e+04  
+    1          14    2.791955e+01     6.292e-01     1.000e+00     1.199e+00     2.286e+04  
+    2          21    2.944041e+01     5.183e-01     1.000e+00     8.877e-01     3.597e+04  
+    3          28    2.944429e+01     5.185e-01     1.000e+00     8.982e-04     1.598e+04  
+    2          21    2.922128e+01     8.274e+00     1.000e+00     1.018e+00     5.950e+04  
+    3          28    2.774206e+01     1.856e+00     1.000e+00     1.478e-01     4.894e+04  
+    4          35    2.786089e+01     4.923e-01     1.000e+00     5.745e-02     1.587e+07  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.185415e+01     3.839e+00     1.000e+00     0.000e+00     1.444e+02  
+    1          14    2.055347e+01     2.121e+00     1.000e+00     9.030e-01     2.034e+05  
+    2          21    2.508264e+01     6.088e-01     1.000e+00     8.238e-01     5.119e+04  
+    2          22    2.899261e+01     5.264e-01     1.000e+00     6.060e-01     4.977e+04  
+    3          29    2.744262e+01     5.007e-01     1.000e+00     6.637e-02     4.837e+04  
+    2          21    2.881418e+01     6.645e-01     1.000e+00     4.941e-01     6.105e+04  
+    3          29    2.967976e+01     6.285e-01     7.000e-01     4.647e-01     5.583e+04  
+    4          86    2.854686e+01     5.860e-01     3.023e-09     8.219e-10     7.349e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.148423e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          75    2.944429e+01     5.185e-01     5.243e-08     1.232e-09     1.598e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.595473e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          42    2.761391e+01     5.006e-01     1.000e+00     3.821e-03     1.565e+07  
+    6          80    2.761391e+01     5.006e-01     1.299e-06     9.293e-10     1.565e+07  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.113430e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          80    2.744262e+01     5.007e-01     1.259e-08     8.536e-10     4.837e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.408519e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.056147e+01     6.383e-01     1.000e+00     0.000e+00     8.411e+01  
+    1          14    3.070388e+01     5.378e-01     1.000e+00     9.477e-01     5.070e+04  
+    2          21    3.001429e+01     5.378e-01     1.000e+00     8.215e-01     5.127e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.353311e+01     1.741e+00     1.000e+00     0.000e+00     1.150e+02  
+    1          14    2.793682e+01     5.416e-01     1.000e+00     9.031e-01     6.597e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.186542e+01     3.169e+00     1.000e+00     0.000e+00     1.375e+02  
+    1          14    2.224852e+01     7.251e-01     1.000e+00     1.016e+00     9.970e+04  
+    2          23    2.545908e+01     5.378e-01     4.900e-01     3.816e-01     3.956e+04  
+    3          78    2.508264e+01     6.088e-01     1.481e-09     1.042e-09     5.119e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.585792e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.273753e+01     1.094e+00     1.000e+00     0.000e+00     9.573e+01  
+    1          14    2.901018e+01     5.237e-01     1.000e+00     8.759e-01     6.607e+04  
+    4          87    2.967976e+01     6.285e-01     1.037e-09     8.832e-10     5.583e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.748490e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          28    2.996244e+01     5.378e-01     1.000e+00     6.343e-02     3.177e+04  
+    4          29    2.996244e+01     5.378e-01     7.000e-01     2.141e-14     3.177e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.378371e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.039895e+01     2.523e+00     1.000e+00     0.000e+00     9.818e+01  
+    1          14    2.540797e+01     6.439e-01     1.000e+00     1.166e+00     3.160e+04  
+    3          34    2.629325e+01     5.378e-01     2.401e-01     9.011e-02     2.942e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.223371e+01     1.702e+00     1.000e+00     0.000e+00     6.171e+01  
+    1          15    2.856898e+01     5.888e-01     7.000e-01     6.387e-01     2.758e+04  
+    2          21    2.731592e+01     5.273e-01     1.000e+00     6.016e-01     5.299e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.702096e+01     2.429e+00     1.000e+00     0.000e+00     1.125e+02  
+    1          14    2.624101e+01     4.892e-01     1.000e+00     1.020e+00     8.738e+04  
+    2          21    3.043008e+01     5.378e-01     1.000e+00     1.022e+00     5.234e+04  
+    3          28    2.996139e+01     5.378e-01     1.000e+00     8.615e-01     5.979e+04  
+    4          35    2.958743e+01     5.378e-01     1.000e+00     4.590e-03     4.547e+04  
+    2          67    2.793682e+01     5.416e-01     6.169e-09     1.231e-09     6.597e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.111320e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.608488e+01     5.614e+00     1.000e+00     0.000e+00     1.228e+02  
+    1          14    9.934272e+00     1.680e+01     1.000e+00     1.594e+00     5.869e+04  
+    4          89    2.629325e+01     5.378e-01     3.023e-09     8.201e-10     2.942e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.697253e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.429030e+01     5.724e+00     1.000e+00     0.000e+00     1.544e+02  
+    2          22    2.897304e+01     5.159e-01     1.000e+00     7.335e-01     2.698e+04  
+    3          29    2.854209e+01     5.168e-01     1.000e+00     5.476e-03     2.694e+04  
+    5          78    2.958743e+01     5.378e-01     2.184e-07     9.988e-10     4.547e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.131668e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.309315e+01     6.557e-01     1.000e+00     0.000e+00     9.178e+01  
+    1          14    3.006183e+01     5.378e-01     1.000e+00     9.357e-01     5.626e+04  
+    2          28    9.960317e+00     1.540e+01     8.235e-02     1.171e-01     5.868e+04  
+    3          44    1.004918e+01     1.476e+01     4.035e-02     5.271e-02     5.868e+04  
+    1          14    1.105402e+01     1.275e+01     1.000e+00     1.342e+00     1.737e+04  
+    2          21    1.497111e+01     4.609e+00     1.000e+00     1.007e+00     6.425e+05  
+    4          68    2.854209e+01     5.168e-01     9.095e-07     7.122e-10     2.694e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.036606e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.352772e+01     1.724e+00     1.000e+00     0.000e+00     8.608e+01  
+    3          68    2.731592e+01     5.273e-01     5.243e-08     1.244e-09     5.299e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.818583e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    7.746170e+01     2.390e+01     1.000e+00     0.000e+00     1.307e+02  
+    1          14    3.550790e+01     7.969e+00     1.000e+00     8.931e-01     1.424e+05  
+    2          72    2.624101e+01     4.892e-01     1.037e-09     9.292e-10     8.738e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.013623e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.337541e+01     2.221e+00     1.000e+00     0.000e+00     1.227e+02  
+    1          14    2.424595e+01     5.723e-01     1.000e+00     9.368e-01     4.920e+04  
+    4          51    1.527455e+01     4.653e+00     1.000e+00     9.013e-01     5.906e+04  
+    5          58    2.344427e+01     6.205e-01     1.000e+00     1.268e-01     6.181e+05  
+    6          65    2.934533e+01     5.451e-01     1.000e+00     8.062e-01     3.674e+06  
+    7          72    2.922405e+01     5.460e-01     1.000e+00     7.885e-01     3.730e+06  
+    1          14    3.134769e+01     5.331e-01     1.000e+00     7.611e-01     5.869e+04  
+    2          21    2.880200e+01     5.168e-01     1.000e+00     8.231e-01     9.924e+04  
+    3          28    2.853769e+01     5.168e-01     1.000e+00     3.637e-03     9.923e+04  
+    2          21    2.971040e+01     1.751e+00     1.000e+00     2.883e-01     1.652e+05  
+    3          28    2.905134e+01     5.218e-01     1.000e+00     7.035e-02     1.562e+05  
+    4          35    2.833995e+01     5.287e-01     1.000e+00     2.052e-02     4.169e+05  
+    5          42    2.793946e+01     5.287e-01     1.000e+00     4.572e-03     4.020e+05  
+    2          21    2.890171e+01     5.734e-01     1.000e+00     6.678e-01     8.337e+04  
+    2          62    3.006183e+01     5.378e-01     3.670e-08     9.939e-10     5.626e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.378355e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.275194e+01     2.625e+00     1.000e+00     0.000e+00     8.287e+01  
+    1          14    3.055061e+01     1.005e+00     1.000e+00     1.172e+00     2.655e+04  
+    2          21    2.917587e+01     5.355e-01     1.000e+00     3.940e-01     5.597e+04  
+    8          79    2.859239e+01     5.451e-01     1.000e+00     1.325e-01     3.356e+06  
+    3          80    1.497111e+01     4.609e+00     7.257e-10     7.304e-10     6.425e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 8.051389e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.092743e+01     3.973e+00     1.000e+00     0.000e+00     1.544e+02  
+    1          14    1.766586e+01     2.545e+00     1.000e+00     1.054e+00     1.847e+05  
+    6          89    2.793946e+01     5.287e-01     5.243e-08     9.317e-10     4.020e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.211961e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.646885e+01     1.741e+00     1.000e+00     0.000e+00     1.061e+02  
+    1          14    2.738563e+01     5.237e-01     1.000e+00     8.851e-01     7.474e+04  
+    3          69    2.890171e+01     5.734e-01     3.670e-08     9.761e-10     8.337e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.582403e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.311413e+01     3.169e+00     1.000e+00     0.000e+00     1.276e+02  
+    1          14    2.325963e+01     6.565e-01     1.000e+00     1.034e+00     1.137e+05  
+    3          28    2.803912e+01     5.378e-01     1.000e+00     1.261e-02     5.572e+04  
+    9         132    2.859239e+01     5.451e-01     6.169e-09     8.159e-10     3.356e+06  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 9.710250e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.876921e+01     2.429e+00     1.000e+00     0.000e+00     1.269e+02  
+    2          22    2.291873e+01     6.643e-01     7.000e-01     2.134e-01     4.990e+04  
+    4          74    2.853769e+01     5.168e-01     7.490e-08     7.784e-10     9.923e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.997431e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.409811e+01     1.702e+00     1.000e+00     0.000e+00     7.362e+01  
+    1          15    2.916081e+01     5.888e-01     7.000e-01     6.246e-01     3.401e+04  
+    2          22    2.882410e+01     5.159e-01     1.000e+00     6.832e-01     3.184e+04  
+    2          23    2.595593e+01     5.267e-01     4.900e-01     4.183e-01     4.456e+04  
+    4          72    2.803912e+01     5.378e-01     1.529e-07     7.608e-10     5.572e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.048726e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.622338e+01     1.094e+00     1.000e+00     0.000e+00     1.006e+02  
+    1          14    2.900970e+01     5.378e-01     1.000e+00     9.077e-01     6.259e+04  
+    1          14    2.551237e+01     5.416e-01     1.000e+00     1.016e+00     8.221e+04  
+    3          79    2.291873e+01     6.643e-01     1.481e-09     9.610e-10     4.990e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.672057e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.311264e+01     4.936e+00     1.000e+00     0.000e+00     1.158e+02  
+    3          29    2.829891e+01     5.168e-01     1.000e+00     6.091e-03     3.178e+04  
+    2          71    2.738563e+01     5.237e-01     1.481e-09     7.847e-10     7.474e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.008235e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.324121e+01     5.837e+00     1.000e+00     0.000e+00     1.282e+02  
+    1          14    9.814099e+00     1.587e+01     1.000e+00     1.409e+00     5.261e+04  
+    2          21    1.388216e+01     5.578e+00     1.000e+00     6.516e-01     5.490e+04  
+    3          79    2.595593e+01     5.267e-01     2.116e-09     1.085e-09     4.456e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.662179e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    2          72    2.551237e+01     5.416e-01     1.037e-09     9.347e-10     8.221e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.229589e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    1          14    2.681848e+01     2.455e+00     1.000e+00     1.235e+00     8.358e+04  
+    2          21    2.448748e+01     5.254e-01     1.000e+00     1.002e+00     4.081e+04  
+    3          28    2.734733e+01     5.377e-01     1.000e+00     3.346e-02     7.014e+04  
+    4          69    2.829891e+01     5.168e-01     6.367e-07     7.670e-10     3.178e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.036606e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.561138e+00     7.168e+00     1.000e+00     0.000e+00     2.888e+01  
+    1          16    1.792714e+01     1.526e+00     4.900e-01     5.422e-01     1.585e+03  
+    3          28    2.120301e+01     1.061e+00     1.000e+00     1.008e+00     4.573e+06  
+    4          35    2.828349e+01     5.381e-01     1.000e+00     7.101e-01     6.208e+06  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.450510e+01     4.505e+00     1.000e+00     0.000e+00     1.298e+02  
+    1          14    2.160375e+01     3.237e+00     1.000e+00     1.175e+00     1.157e+05  
+    2          21    2.511136e+01     5.642e-01     1.000e+00     2.625e-01     8.045e+04  
+    3          28    2.896950e+01     6.034e-01     1.000e+00     8.839e-01     3.968e+04  
+    2          67    2.900970e+01     5.378e-01     6.169e-09     7.311e-10     6.259e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.915264e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.048079e+00     1.863e+01     1.000e+00     0.000e+00     1.904e+01  
+    1          14    1.988915e+01     6.460e+00     1.000e+00     1.080e+00     3.865e+03  
+    2          21    2.183446e+01     1.531e+00     1.000e+00     1.078e+00     1.208e+03  
+    3          28    2.740767e+01     5.358e-01     1.000e+00     9.531e-02     1.118e+03  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.737029e+01     2.060e+00     1.000e+00     0.000e+00     1.133e+02  
+    1          14    3.041287e+01     5.748e-01     1.000e+00     8.511e-01     6.505e+04  
+    2          21    2.865921e+01     5.472e-01     1.000e+00     8.314e-01     9.559e+04  
+    2          25    2.298518e+01     7.797e-01     4.900e-01     1.389e-01     1.564e+03  
+    3          32    3.003970e+01     5.225e-01     1.000e+00     9.389e-01     8.502e+03  
+    4          39    2.806967e+01     5.163e-01     1.000e+00     2.259e-02     1.179e+03  
+    5          89    2.828349e+01     5.381e-01     4.318e-09     8.405e-10     6.208e+06  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 9.219166e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          79    2.896950e+01     6.034e-01     1.259e-08     9.899e-10     3.968e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.339491e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.157624e+01     3.973e+00     1.000e+00     0.000e+00     1.458e+02  
+    1          14    1.850752e+01     2.545e+00     1.000e+00     1.059e+00     2.871e+05  
+    3          71    2.865921e+01     5.472e-01     1.798e-08     7.088e-10     9.559e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.655871e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.562426e+01     3.169e+00     1.000e+00     0.000e+00     1.410e+02  
+    1          14    2.264188e+01     7.185e-01     1.000e+00     1.030e+00     9.015e+04  
+    4          84    2.734733e+01     5.377e-01     2.116e-09     9.601e-10     7.014e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.089339e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.538174e+01     6.835e-01     1.000e+00     0.000e+00     6.727e+01  
+    1          14    3.087684e+01     5.307e-01     1.000e+00     9.388e-01     4.315e+04  
+    2          21    2.855534e+01     5.287e-01     1.000e+00     8.580e-01     7.271e+04  
+    5          87    2.806967e+01     5.163e-01     3.670e-08     9.262e-10     1.179e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 7.202561e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.627130e+01     1.702e+00     1.000e+00     0.000e+00     8.104e+01  
+    1          15    2.939778e+01     5.888e-01     7.000e-01     6.117e-01     3.865e+04  
+    2          22    2.837784e+01     5.159e-01     1.000e+00     5.917e-01     3.756e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.129301e+01     2.429e+00     1.000e+00     0.000e+00     1.184e+02  
+    1          14    2.521641e+01     5.237e-01     1.000e+00     1.002e+00     8.488e+04  
+    2          23    2.176087e+01     9.784e-01     4.900e-01     1.250e-01     1.295e+05  
+    3          32    2.509460e+01     5.392e-01     4.900e-01     3.754e-01     4.777e+04  
+    4          73    2.740767e+01     5.358e-01     1.070e-07     9.127e-10     1.118e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.875632e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.015873e+01     1.741e+00     1.000e+00     0.000e+00     1.110e+02  
+    2          23    2.586023e+01     5.433e-01     4.900e-01     4.044e-01     4.469e+04  
+    3          54    2.855534e+01     5.287e-01     7.731e-06     8.724e-10     7.271e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.286753e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          29    2.787087e+01     5.168e-01     1.000e+00     5.655e-03     3.750e+04  
+    1          14    2.744410e+01     5.378e-01     1.000e+00     8.796e-01     6.984e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.328771e+01     4.890e+00     1.000e+00     0.000e+00     4.359e+01  
+    1          15    2.680233e+01     5.773e-01     7.000e-01     8.789e-01     1.395e+04  
+    2          72    2.521641e+01     5.237e-01     1.037e-09     8.850e-10     8.488e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.155718e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.884362e+01     8.296e+00     1.000e+00     0.000e+00     1.089e+02  
+    4          88    2.509460e+01     5.392e-01     2.116e-09     1.040e-09     4.777e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.357217e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.112739e+01     7.860e+00     1.000e+00     0.000e+00     1.670e+02  
+    1          14    1.440524e+01     7.121e+00     1.000e+00     1.301e+00     1.127e+05  
+    2          21    2.062563e+01     1.303e+00     1.000e+00     1.007e+00     5.777e+04  
+    2          69    2.744410e+01     5.378e-01     3.023e-09     9.193e-10     6.984e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.089582e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          79    2.586023e+01     5.433e-01     2.116e-09     1.022e-09     4.469e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.714637e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.039777e+01     9.199e+00     1.000e+00     0.000e+00     1.226e+02  
+    1          14    2.982727e+01     2.185e+00     1.000e+00     9.666e-01     5.326e+04  
+    4          69    2.787087e+01     5.168e-01     6.367e-07     8.188e-10     3.750e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.036606e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.202554e+01     3.042e+00     1.000e+00     0.000e+00     9.234e+01  
+    1          14    2.417110e+01     6.657e-01     1.000e+00     9.137e-01     7.004e+04  
+    1          14    3.151040e+01     1.864e+00     1.000e+00     9.622e-01     4.922e+04  
+    2          21    2.910232e+01     5.734e-01     1.000e+00     2.083e-01     3.392e+04  
+    3          28    2.885376e+01     5.739e-01     1.000e+00     1.974e-01     2.684e+04  
+    4          35    2.759576e+01     5.287e-01     1.000e+00     1.106e-01     3.042e+04  
+    3          28    2.717985e+01     5.168e-01     1.000e+00     6.408e-01     9.195e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.197578e+01     1.245e+00     1.000e+00     0.000e+00     7.792e+01  
+    1          14    3.014098e+01     5.441e-01     1.000e+00     9.372e-01     4.704e+04  
+    2          21    2.826263e+01     5.376e-01     1.000e+00     8.112e-01     5.808e+04  
+    2          21    2.919829e+01     5.353e-01     1.000e+00     1.678e-01     4.588e+04  
+    3          28    2.865587e+01     5.538e-01     1.000e+00     9.819e-02     4.503e+04  
+    2          72    2.680233e+01     5.773e-01     1.481e-09     1.085e-09     1.395e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.180420e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.742012e+01     6.835e-01     1.000e+00     0.000e+00     7.935e+01  
+    1          14    3.080114e+01     5.280e-01     1.000e+00     9.287e-01     5.223e+04  
+    2          21    2.867588e+01     5.752e-01     1.000e+00     1.354e+00     8.685e+03  
+    4          85    2.717985e+01     5.168e-01     1.481e-09     1.120e-09     9.195e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.574840e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.906362e+01     3.238e+00     1.000e+00     0.000e+00     5.504e+01  
+    3          67    2.826263e+01     5.376e-01     7.490e-08     8.865e-10     5.808e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.317378e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          73    2.865587e+01     5.538e-01     1.070e-07     8.046e-10     4.503e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.020630e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.489307e+01     3.973e+00     1.000e+00     0.000e+00     1.573e+02  
+    2          21    2.861935e+01     5.287e-01     1.000e+00     8.323e-01     6.531e+04  
+    3          28    2.820229e+01     5.287e-01     1.000e+00     5.191e-03     6.531e+04  
+    3          79    2.867588e+01     5.752e-01     1.037e-09     7.612e-10     8.685e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.891073e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          87    2.759576e+01     5.287e-01     8.812e-09     9.966e-10     3.042e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.372986e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.769935e+01     3.169e+00     1.000e+00     0.000e+00     1.331e+02  
+    1          14    2.229289e+01     6.903e-01     1.000e+00     1.030e+00     1.163e+05  
+    1          15    2.854347e+01     5.813e-01     7.000e-01     6.227e-01     2.598e+04  
+    2          22    2.888639e+01     4.996e-01     1.000e+00     6.190e-01     2.244e+04  
+    3          29    2.846728e+01     5.007e-01     1.000e+00     5.237e-03     2.239e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.521009e+01     2.429e+00     1.000e+00     0.000e+00     1.231e+02  
+    1          14    2.533281e+01     5.378e-01     1.000e+00     8.944e-01     7.813e+04  
+    1          14    1.807600e+01     2.545e+00     1.000e+00     1.055e+00     1.248e+05  
+    2          22    2.323656e+01     6.695e-01     7.000e-01     2.073e-01     4.246e+04  
+    4          71    2.820229e+01     5.287e-01     2.184e-07     9.439e-10     6.531e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.286981e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.527466e+01     2.908e+00     1.000e+00     0.000e+00     9.322e+01  
+    1          14    2.466699e+01     6.978e-01     1.000e+00     9.360e-01     6.162e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.899779e+01     1.702e+00     1.000e+00     0.000e+00     8.975e+01  
+    1          14    2.991004e+01     5.038e-01     1.000e+00     8.939e-01     7.089e+04  
+    2          21    2.814575e+01     5.162e-01     1.000e+00     3.174e-01     8.564e+04  
+    3          28    2.792619e+01     5.168e-01     1.000e+00     2.277e-03     8.554e+04  
+    2          23    2.536453e+01     5.308e-01     4.900e-01     3.896e-01     4.350e+04  
+    4          63    2.846728e+01     5.007e-01     5.412e-06     8.144e-10     2.239e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.546169e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.898345e+01     4.339e+00     1.000e+00     0.000e+00     7.267e+01  
+    1          14    3.318745e+01     2.952e+00     1.000e+00     1.230e+00     4.823e+04  
+    2          70    2.533281e+01     5.378e-01     2.116e-09     1.143e-09     7.813e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.214012e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          79    2.323656e+01     6.695e-01     1.481e-09     9.688e-10     4.246e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.685154e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    2          23    2.702450e+01     6.672e-01     4.900e-01     6.716e-01     2.915e+04  
+    3          30    2.947788e+01     5.265e-01     1.000e+00     9.451e-01     2.199e+05  
+    4          37    2.988002e+01     5.287e-01     1.000e+00     6.130e-03     2.199e+05  
+    5          44    2.883471e+01     5.287e-01     1.000e+00     1.283e-02     2.199e+05  
+    4          64    2.792619e+01     5.168e-01     2.652e-06     7.455e-10     8.554e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.036609e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          79    2.536453e+01     5.308e-01     2.116e-09     1.007e-09     4.350e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.675196e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.496745e+01     4.912e+00     1.000e+00     0.000e+00     1.389e+02  
+    2          21    3.154703e+01     5.262e-01     1.000e+00     6.550e-01     2.485e+04  
+    3          28    2.843032e+01     5.004e-01     1.000e+00     6.338e-01     1.657e+05  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.671575e+01     4.070e+00     1.000e+00     0.000e+00     1.360e+02  
+    1          14    1.740363e+01     2.887e+00     1.000e+00     9.443e-01     9.781e+04  
+    2          22    2.270218e+01     7.033e-01     7.000e-01     1.025e-01     3.536e+04  
+    3          35    2.336405e+01     7.034e-01     1.176e-01     8.266e-02     3.212e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    7.006020e+01     9.613e+00     1.000e+00     0.000e+00     1.625e+02  
+    1          14    2.229070e+01     2.336e+00     1.000e+00     1.296e+00     1.373e+05  
+    2          21    2.417617e+01     5.472e-01     1.000e+00     9.022e-01     8.996e+04  
+    3          28    2.775537e+01     5.450e-01     1.000e+00     4.281e-02     8.809e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.063610e+01     5.575e+00     1.000e+00     0.000e+00     1.070e+02  
+    1          14    1.684719e+01     5.765e+00     1.000e+00     1.438e+00     3.001e+05  
+    2          23    1.902142e+01     2.939e+00     4.900e-01     1.295e-01     1.144e+05  
+    3          32    2.180977e+01     1.213e+00     4.900e-01     8.690e-02     5.515e+04  
+    1          14    1.174545e+01     8.364e+00     1.000e+00     1.379e+00     7.199e+05  
+    2          21    1.923067e+01     1.817e+00     1.000e+00     1.009e+00     7.114e+04  
+    3          29    2.396316e+01     5.381e-01     7.000e-01     3.601e-01     6.795e+04  
+    4          41    2.477285e+01     5.381e-01     1.681e-01     8.701e-02     5.533e+04  
+    4          68    2.843032e+01     5.004e-01     6.367e-07     7.526e-10     1.657e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.153298e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.071832e+01     3.238e+00     1.000e+00     0.000e+00     6.669e+01  
+    4          48    2.398103e+01     7.035e-01     1.176e-01     7.518e-02     2.925e+04  
+    5          59    2.504261e+01     7.036e-01     2.401e-01     7.474e-02     2.421e+04  
+    6          90    2.883471e+01     5.287e-01     7.490e-08     9.474e-10     2.199e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.817806e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.978943e+01     6.835e-01     1.000e+00     0.000e+00     8.692e+01  
+    1          14    3.011510e+01     5.237e-01     1.000e+00     9.034e-01     5.864e+04  
+    2          21    2.809956e+01     5.287e-01     1.000e+00     7.515e-01     8.404e+04  
+    4          39    2.767308e+01     5.718e-01     1.000e+00     5.911e-01     1.795e+04  
+    5          48    2.693016e+01     5.271e-01     1.000e+00     4.064e-01     7.826e+04  
+    6          55    2.785312e+01     5.925e-01     1.000e+00     4.340e-01     7.826e+04  
+    7          62    2.961657e+01     6.044e-01     1.000e+00     8.002e-01     3.223e+05  
+    8          69    2.890652e+01     6.048e-01     1.000e+00     7.990e-01     4.477e+05  
+    1          15    2.909784e+01     5.813e-01     7.000e-01     6.205e-01     3.288e+04  
+    2          22    2.867124e+01     4.996e-01     1.000e+00     5.288e-01     2.799e+04  
+    3          29    2.820937e+01     5.007e-01     1.000e+00     5.234e-03     2.794e+04  
+    6         114    2.504261e+01     7.036e-01     3.023e-09     1.093e-09     2.421e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.728929e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          80    2.775537e+01     5.450e-01     8.812e-09     7.510e-10     8.809e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.669959e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.837815e+01     6.383e-01     1.000e+00     0.000e+00     7.191e+01  
+    1          14    3.074476e+01     5.378e-01     1.000e+00     9.424e-01     4.254e+04  
+    3          28    2.792571e+01     5.287e-01     1.000e+00     2.077e-03     8.404e+04  
+    5          92    2.767308e+01     5.718e-01     6.169e-09     8.898e-10     1.795e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.025598e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.247866e+01     1.741e+00     1.000e+00     0.000e+00     1.001e+02  
+    9          93    2.890652e+01     6.048e-01     1.916e-04     7.416e-10     4.477e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.231258e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.649842e+01     3.973e+00     1.000e+00     0.000e+00     1.507e+02  
+    1          14    1.767283e+01     2.545e+00     1.000e+00     1.055e+00     1.902e+05  
+    4          63    2.820937e+01     5.007e-01     5.412e-06     8.208e-10     2.794e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.546169e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.762169e+01     1.490e+00     1.000e+00     0.000e+00     8.478e+01  
+    1          15    2.923460e+01     5.408e-01     7.000e-01     8.200e-01     4.418e+04  
+    4          71    2.792571e+01     5.287e-01     2.184e-07     7.721e-10     8.404e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.286981e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.266447e+01     7.988e+00     1.000e+00     0.000e+00     1.045e+02  
+    1          14    2.884509e+01     1.757e+00     1.000e+00     1.102e+00     3.433e+04  
+    2          24    2.889910e+01     1.171e+00     3.430e-01     5.745e-02     2.500e+04  
+    1          14    2.820013e+01     4.892e-01     1.000e+00     1.012e+00     7.694e+04  
+    2          21    2.714858e+01     5.143e-01     1.000e+00     1.268e-02     5.216e+04  
+    3          28    2.910061e+01     5.453e-01     1.000e+00     1.416e-01     4.349e+05  
+    2          23    2.110969e+01     9.784e-01     4.900e-01     1.456e-01     8.541e+04  
+    3          33    2.365834e+01     5.541e-01     3.430e-01     2.355e-01     4.649e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.614904e+01     1.260e+00     1.000e+00     0.000e+00     9.581e+01  
+    1          14    3.047505e+01     5.416e-01     1.000e+00     9.433e-01     5.434e+04  
+    2          21    2.866203e+01     5.451e-01     1.000e+00     8.706e-01     1.152e+05  
+    3          28    2.865139e+01     5.451e-01     1.000e+00     1.231e-04     1.152e+05  
+    4          35    2.858338e+01     5.451e-01     1.000e+00     8.210e-04     1.152e+05  
+    2          59    3.074476e+01     5.378e-01     1.070e-07     8.641e-10     4.254e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.378355e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.533107e+01     1.361e+00     1.000e+00     0.000e+00     6.520e+01  
+    1          14    2.940621e+01     5.191e-01     1.000e+00     1.196e+00     2.032e+04  
+    3          31    2.891554e+01     5.255e-01     1.000e+00     1.544e-01     6.144e+04  
+    4          38    2.782498e+01     5.287e-01     1.000e+00     1.166e-02     6.108e+04  
+    2          72    2.923460e+01     5.408e-01     1.481e-09     1.015e-09     4.418e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.630442e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          79    2.858338e+01     5.451e-01     1.529e-07     7.398e-10     1.152e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.324832e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    2          71    2.940621e+01     5.191e-01     1.481e-09     8.274e-10     2.032e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.814119e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          79    2.782498e+01     5.287e-01     4.457e-07     8.838e-10     6.108e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.618146e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          86    2.910061e+01     5.453e-01     1.037e-09     9.119e-10     4.349e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.132192e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.264154e+01     4.609e+00     1.000e+00     0.000e+00     1.152e+02  
+    1          14    3.003411e+01     7.187e-01     1.000e+00     1.027e+00     8.512e+04  
+    4          89    2.365834e+01     5.541e-01     2.116e-09     1.059e-09     4.649e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.394715e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.303983e+01     1.342e+00     1.000e+00     0.000e+00     9.801e+01  
+    1          14    2.856650e+01     6.318e-01     1.000e+00     9.748e-01     5.850e+04  
+    2          21    2.856258e+01     5.898e-01     1.000e+00     5.354e-01     8.256e+04  
+    3          29    2.914352e+01     6.240e-01     7.000e-01     5.243e-01     4.396e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.377041e+01     2.429e+00     1.000e+00     0.000e+00     7.912e+01  
+    1          14    3.167052e+01     5.395e-01     1.000e+00     8.952e-01     4.152e+04  
+    2          21    3.002661e+01     5.510e-01     1.000e+00     7.116e-01     7.181e+04  
+    3          28    2.987160e+01     5.511e-01     1.000e+00     2.079e-03     7.179e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.603644e+01     5.627e+00     1.000e+00     0.000e+00     1.172e+02  
+    1          14    1.130602e+01     1.315e+01     1.000e+00     1.559e+00     3.070e+04  
+    2          21    1.563686e+01     4.358e+00     1.000e+00     1.781e-01     3.042e+04  
+    3          28    2.472665e+01     5.451e-01     1.000e+00     1.626e-01     3.109e+04  
+    4          35    2.989409e+01     5.451e-01     1.000e+00     8.259e-01     6.951e+05  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.901272e+01     3.169e+00     1.000e+00     0.000e+00     1.438e+02  
+    1          14    2.327179e+01     6.882e-01     1.000e+00     1.032e+00     8.403e+04  
+    2          23    2.640540e+01     5.452e-01     4.900e-01     4.088e-01     4.133e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.117708e+01     1.260e+00     1.000e+00     0.000e+00     7.581e+01  
+    1          14    3.109617e+01     5.416e-01     1.000e+00     9.235e-01     4.202e+04  
+    2          21    2.921031e+01     5.451e-01     1.000e+00     8.164e-01     9.606e+04  
+    2          21    2.730235e+01     5.147e-01     1.000e+00     2.395e-02     1.097e+04  
+    3          74    2.730235e+01     5.147e-01     6.169e-09     8.720e-10     1.097e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.116878e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          38    2.930955e+01     6.036e-01     4.900e-01     1.576e-01     3.561e+04  
+    5          47    2.941280e+01     6.212e-01     4.900e-01     8.609e-02     3.110e+04  
+    6          59    2.932712e+01     6.179e-01     1.681e-01     1.169e-01     3.107e+04  
+    3          67    2.921031e+01     5.451e-01     7.490e-08     7.171e-10     9.606e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.324738e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.620913e+01     3.586e+00     1.000e+00     0.000e+00     9.966e+01  
+    7          66    2.770690e+01     5.979e-01     1.000e+00     5.748e-01     4.383e+04  
+    8         112    2.770690e+01     5.979e-01     7.490e-08     1.247e-09     4.383e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.454109e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          67    2.987160e+01     5.511e-01     9.095e-07     8.154e-10     7.179e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.269432e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.017128e+01     1.757e+01     1.000e+00     0.000e+00     8.893e+01  
+    5          85    2.989409e+01     5.451e-01     1.798e-08     9.852e-10     6.951e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 9.688372e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.943013e+01     1.260e+00     1.000e+00     0.000e+00     1.047e+02  
+    3          79    2.640540e+01     5.452e-01     2.116e-09     1.047e-09     4.133e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.720412e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.895010e+01     6.685e+00     1.000e+00     0.000e+00     1.541e+02  
+    1          14    1.195726e+01     1.275e+01     1.000e+00     1.296e+00     1.487e+04  
+    2          21    1.573662e+01     4.586e+00     1.000e+00     1.007e+00     5.351e+05  
+    1          14    2.801166e+01     5.211e-01     1.000e+00     9.541e-01     6.239e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.895898e+01     2.429e+00     1.000e+00     0.000e+00     9.919e+01  
+    1          14    3.110179e+01     5.395e-01     1.000e+00     9.276e-01     5.268e+04  
+    2          21    2.943986e+01     5.510e-01     1.000e+00     8.231e-01     9.449e+04  
+    1          14    3.379329e+01     5.566e+00     1.000e+00     1.328e+00     2.632e+04  
+    2          21    3.074430e+01     9.844e-01     1.000e+00     1.426e-01     2.206e+04  
+    3          28    2.994895e+01     5.490e-01     1.000e+00     3.633e-02     9.577e+04  
+    1          14    2.946165e+01     5.416e-01     1.000e+00     9.294e-01     5.981e+04  
+    3          34    1.656685e+01     3.952e+00     1.176e-01     1.184e-01     5.351e+05  
+    4          43    2.032374e+01     1.823e+00     4.900e-01     4.356e-01     5.351e+05  
+    3          28    2.924830e+01     5.511e-01     1.000e+00     2.246e-03     9.447e+04  
+    4          35    2.903306e+01     5.511e-01     1.000e+00     2.599e-03     9.447e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.660811e+01     2.429e+00     1.000e+00     0.000e+00     1.182e+02  
+    1          14    2.805585e+01     5.395e-01     1.000e+00     1.009e+00     7.129e+04  
+    4          35    2.985238e+01     5.511e-01     1.000e+00     1.637e-03     9.536e+04  
+    5          51    2.471042e+01     5.506e-01     7.000e-01     3.199e-01     5.351e+05  
+    6          65    2.497909e+01     5.507e-01     8.235e-02     1.153e-02     5.351e+05  
+    5          72    2.985238e+01     5.511e-01     1.856e-06     8.703e-10     9.536e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.136468e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.617804e+01     2.429e+00     1.000e+00     0.000e+00     9.145e+01  
+    2          64    2.946165e+01     5.416e-01     1.798e-08     9.527e-10     5.981e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.296881e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.326466e+01     4.120e+00     1.000e+00     0.000e+00     4.059e+01  
+    7          72    2.793452e+01     5.493e-01     1.000e+00     1.278e-01     4.157e+06  
+    8          79    2.885610e+01     5.982e-01     1.000e+00     4.469e-01     4.289e+07  
+    2          72    2.801166e+01     5.211e-01     1.037e-09     8.843e-10     6.239e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.453144e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.348196e+01     1.260e+00     1.000e+00     0.000e+00     8.809e+01  
+    1          14    3.108331e+01     5.416e-01     1.000e+00     9.401e-01     4.945e+04  
+    5          78    2.903306e+01     5.511e-01     2.184e-07     9.481e-10     9.447e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.269432e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.357658e+01     5.426e+00     1.000e+00     0.000e+00     3.863e+01  
+    1          14    3.168187e+01     5.395e-01     1.000e+00     9.145e-01     4.834e+04  
+    1          15    2.094762e+01     1.145e+00     7.000e-01     7.426e-01     1.077e+04  
+    2          22    2.732112e+01     5.417e-01     1.000e+00     3.255e-01     1.500e+04  
+    9          86    3.072173e+01     6.062e-01     1.000e+00     8.467e-01     1.989e+07  
+    2          21    2.945943e+01     5.451e-01     1.000e+00     8.635e-01     7.821e+04  
+    3          28    2.922357e+01     5.451e-01     1.000e+00     2.936e-03     7.821e+04  
+    1          15    2.016669e+01     1.795e+00     7.000e-01     6.401e-01     9.851e+03  
+    2          23    2.580113e+01     5.670e-01     7.000e-01     3.914e-01     8.087e+03  
+    2          72    2.805585e+01     5.395e-01     1.037e-09     8.507e-10     7.129e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.221302e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.324486e+01     3.834e+00     1.000e+00     0.000e+00     1.142e+02  
+    2          21    3.002710e+01     5.510e-01     1.000e+00     7.847e-01     7.823e+04  
+    3          28    2.968667e+01     5.511e-01     1.000e+00     4.186e-03     7.821e+04  
+    3          29    2.918441e+01     5.451e-01     1.000e+00     2.816e-02     1.161e+05  
+    3          38    2.604916e+01     5.661e-01     5.765e-02     2.621e-02     7.861e+03  
+    1          14    2.024374e+01     2.107e+00     1.000e+00     1.023e+00     1.642e+05  
+    2          21    2.655353e+01     5.507e-01     1.000e+00     1.030e+00     1.747e+04  
+   10         130    3.072173e+01     6.062e-01     1.529e-07     9.407e-10     1.989e+07  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 9.067793e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          65    2.605243e+01     5.661e-01     7.979e-04     3.462e-04     7.858e+03  
+    4          73    2.968667e+01     5.511e-01     1.070e-07     9.339e-10     7.821e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.269432e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          76    2.918441e+01     5.451e-01     5.243e-08     8.780e-10     1.161e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.323165e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.844565e+01     3.973e+00     1.000e+00     0.000e+00     1.595e+02  
+    1          14    1.868151e+01     2.545e+00     1.000e+00     1.057e+00     1.194e+05  
+    4          74    2.922357e+01     5.451e-01     7.490e-08     9.097e-10     7.821e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.324832e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.961990e+01     2.768e+01     1.000e+00     0.000e+00     1.124e+02  
+    1          14    3.386293e+01     9.722e+00     1.000e+00     1.325e+00     1.230e+05  
+    2          21    2.972646e+01     2.376e+00     1.000e+00     3.390e-01     1.711e+05  
+    3          28    2.985203e+01     5.399e-01     1.000e+00     8.732e-02     1.403e+05  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    7.163646e+01     3.973e+00     1.000e+00     0.000e+00     1.613e+02  
+    1          14    1.938099e+01     2.545e+00     1.000e+00     1.059e+00     1.129e+05  
+    2          22    2.415285e+01     6.557e-01     7.000e-01     1.761e-01     3.647e+04  
+    2          22    2.367009e+01     6.657e-01     7.000e-01     1.941e-01     3.860e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.819440e+01     2.292e+00     1.000e+00     0.000e+00     9.455e+01  
+    1          14    2.650630e+01     6.609e-01     1.000e+00     1.159e+00     3.504e+04  
+    5          98    2.605282e+01     5.661e-01     9.387e-05     3.617e-05     7.858e+03  
+    3          78    2.655353e+01     5.507e-01     1.481e-09     9.656e-10     1.747e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.436404e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          35    2.964317e+01     5.510e-01     1.000e+00     8.719e-03     5.262e+05  
+    2          21    3.059396e+01     6.584e-01     1.000e+00     9.919e-01     2.798e+04  
+    3          28    3.178861e+01     6.000e-01     1.000e+00     6.460e-01     4.349e+04  
+    4          35    3.095234e+01     5.451e-01     1.000e+00     3.386e-01     3.791e+04  
+    6         137    2.605285e+01     5.661e-01     1.104e-05     3.214e-06     7.858e+03  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.199588e+01     2.429e+00     1.000e+00     0.000e+00     1.300e+02  
+    1          14    2.615447e+01     5.395e-01     1.000e+00     1.017e+00     7.755e+04  
+    5          74    2.964317e+01     5.510e-01     9.095e-07     7.143e-10     5.262e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.991056e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          79    2.415285e+01     6.557e-01     1.481e-09     9.988e-10     3.647e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.650282e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.097221e+02     8.574e+00     1.000e+00     0.000e+00     1.674e+02  
+    1          14    1.348890e+01     1.048e+01     1.000e+00     1.332e+00     1.953e+05  
+    3          79    2.367009e+01     6.657e-01     1.481e-09     9.816e-10     3.860e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.675496e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.457675e+01     1.101e+01     1.000e+00     0.000e+00     1.628e+02  
+    1          14    1.444247e+01     1.048e+01     1.000e+00     1.105e+00     5.562e+04  
+    5          86    3.095234e+01     5.451e-01     1.259e-08     8.949e-10     3.791e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.378835e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.940934e+01     3.540e+00     1.000e+00     0.000e+00     1.210e+02  
+    1          14    2.883062e+01     5.336e-01     1.000e+00     1.012e+00     6.841e+04  
+    2          21    2.838221e+01     5.536e-01     1.000e+00     1.601e-02     3.795e+04  
+    3          28    2.986687e+01     5.562e-01     1.000e+00     1.384e-01     2.512e+05  
+    2          24    1.424573e+01     7.353e+00     3.430e-01     4.104e-02     1.953e+05  
+    3          31    1.997841e+01     1.924e+00     1.000e+00     1.072e-01     1.629e+07  
+    4          38    2.721484e+01     5.562e-01     1.000e+00     4.804e-01     9.284e+07  
+    2          24    1.532739e+01     7.097e+00     3.430e-01     3.466e-01     5.582e+04  
+    3          34    1.724395e+01     4.651e+00     3.430e-01     2.297e-01     5.271e+04  
+    4          41    2.373158e+01     6.478e-01     1.000e+00     4.458e-01     8.462e+04  
+    5          48    3.016347e+01     5.865e-01     1.000e+00     8.802e-01     3.850e+04  
+    6          56    3.032064e+01     6.240e-01     7.000e-01     1.473e-01     3.197e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.207203e+01     3.540e+00     1.000e+00     0.000e+00     1.460e+02  
+    1          14    2.401280e+01     6.565e-01     1.000e+00     1.034e+00     8.000e+04  
+    2          23    2.700896e+01     5.446e-01     4.900e-01     4.085e-01     3.848e+04  
+    7         191    2.605285e+01     5.661e-01     4.318e-09     9.504e-10     7.858e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.043162e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.236613e+01     2.429e+00     1.000e+00     0.000e+00     1.080e+02  
+    2          72    2.615447e+01     5.395e-01     1.037e-09     9.302e-10     7.755e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.220686e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.507655e+01     1.447e+01     1.000e+00     0.000e+00     1.316e+02  
+    1          14    3.293918e+01     4.249e+00     1.000e+00     7.781e-01     5.297e+04  
+    2          21    2.998739e+01     6.261e-01     1.000e+00     1.691e-01     6.628e+04  
+    5          95    2.721484e+01     5.562e-01     1.481e-09     7.502e-10     9.284e+07  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.486762e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    7          63    2.992400e+01     6.092e-01     1.000e+00     7.660e-01     3.154e+04  
+    8          70    2.997067e+01     6.187e-01     1.000e+00     3.736e-02     2.201e+04  
+    9          81    3.014293e+01     6.241e-01     2.401e-01     1.948e-01     1.953e+04  
+    1          14    2.945704e+01     5.395e-01     1.000e+00     1.005e+00     6.543e+04  
+    2          21    2.834488e+01     5.497e-01     1.000e+00     1.129e-02     1.361e+04  
+    3          28    2.971035e+01     5.752e-01     1.000e+00     4.150e-02     5.000e+04  
+    4          80    2.971035e+01     5.752e-01     8.812e-09     7.572e-10     5.000e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 3.975672e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          81    2.986687e+01     5.562e-01     6.169e-09     8.323e-10     2.512e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.571326e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.815824e+01     2.528e+00     1.000e+00     0.000e+00     6.490e+01  
+    1          14    3.126351e+01     9.374e-01     1.000e+00     8.110e-01     3.364e+04  
+    2          21    2.967635e+01     5.543e-01     1.000e+00     7.307e-01     3.246e+04  
+    3          28    2.958510e+01     5.562e-01     1.000e+00     3.615e-03     2.827e+04  
+   10         138    3.014293e+01     6.241e-01     1.481e-09     9.240e-10     1.953e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.666920e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          79    2.700896e+01     5.446e-01     2.116e-09     1.072e-09     3.848e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.538712e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.854486e+01     3.603e+00     1.000e+00     0.000e+00     1.207e+02  
+    1          14    3.125376e+01     6.066e-01     1.000e+00     6.362e-01     6.247e+04  
+    2          21    3.037050e+01     6.069e-01     1.000e+00     1.783e-02     3.523e+04  
+    3          68    2.834488e+01     5.497e-01     5.243e-08     1.078e-09     1.361e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.263566e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    1.862188e+01     2.381e+00     1.000e+00     0.000e+00     6.270e+01  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.153762e+01     3.540e+00     1.000e+00     0.000e+00     1.021e+02  
+    1          14    3.119081e+01     5.336e-01     1.000e+00     1.006e+00     5.852e+04  
+    2          21    2.915826e+01     5.556e-01     1.000e+00     2.203e-02     5.841e+03  
+    4          35    2.964060e+01     5.562e-01     1.000e+00     1.471e-02     2.364e+04  
+    5          85    2.964060e+01     5.562e-01     1.798e-08     9.188e-10     2.364e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.200264e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.866013e+01     3.540e+00     1.000e+00     0.000e+00     9.430e+01  
+    1          14    3.237723e+01     5.336e-01     1.000e+00     8.870e-01     4.732e+04  
+    2          21    3.055700e+01     5.557e-01     1.000e+00     6.630e-01     7.936e+04  
+    3          28    3.012539e+01     5.562e-01     1.000e+00     5.141e-03     7.669e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.492284e+01     3.540e+00     1.000e+00     0.000e+00     1.326e+02  
+    1          14    2.691752e+01     5.336e-01     1.000e+00     1.020e+00     7.374e+04  
+    3          28    2.945045e+01     5.641e-01     1.000e+00     1.253e-01     2.403e+04  
+    4          35    2.879557e+01     5.562e-01     1.000e+00     1.565e-01     2.403e+04  
+    1          15    2.673379e+01     6.111e-01     7.000e-01     5.300e-01     2.035e+04  
+    3          68    2.915826e+01     5.556e-01     5.243e-08     7.636e-10     5.841e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.569810e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.439920e+01     4.694e+00     1.000e+00     0.000e+00     1.039e+02  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.616494e+01     3.540e+00     1.000e+00     0.000e+00     8.194e+01  
+    1          14    3.234416e+01     5.336e-01     1.000e+00     8.753e-01     4.102e+04  
+    2          21    3.061504e+01     5.557e-01     1.000e+00     5.687e-01     6.974e+04  
+    3          28    3.029961e+01     5.562e-01     1.000e+00     4.094e-03     6.724e+04  
+    4          68    3.012539e+01     5.562e-01     6.367e-07     8.134e-10     7.669e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.571344e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.337197e+01     2.333e+01     1.000e+00     0.000e+00     1.153e+02  
+    2          72    2.691752e+01     5.336e-01     1.037e-09     9.229e-10     7.374e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.507538e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          86    2.879557e+01     5.562e-01     1.259e-08     8.683e-10     2.403e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.543491e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    2          73    2.673379e+01     6.111e-01     1.037e-09     7.352e-10     2.035e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.566684e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    1          14    3.167541e+01     7.412e-01     1.000e+00     9.721e-01     5.978e+04  
+    2          21    2.919873e+01     5.550e-01     1.000e+00     3.013e-02     6.599e+04  
+    1          14    3.916594e+01     7.704e+00     1.000e+00     1.324e+00     1.057e+05  
+    2          21    3.210948e+01     1.661e+00     1.000e+00     1.631e-01     3.517e+04  
+    3          28    3.104127e+01     5.505e-01     1.000e+00     6.034e-02     3.383e+04  
+    4          35    3.012433e+01     5.562e-01     1.000e+00     9.481e-03     5.480e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.872343e+01     8.410e-01     1.000e+00     0.000e+00     9.245e+01  
+    1          14    2.915270e+01     5.546e-01     1.000e+00     8.715e-01     3.398e+04  
+    2          21    3.078991e+01     5.753e-01     1.000e+00     2.871e-01     4.041e+04  
+    3          28    3.079417e+01     5.754e-01     1.000e+00     6.963e-04     3.991e+04  
+    4          42    3.079417e+01     5.754e-01     6.782e-03     8.933e-10     3.991e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.753743e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    7.451255e+01     4.601e+00     1.000e+00     0.000e+00     1.627e+02  
+    1          14    1.902356e+01     3.040e+00     1.000e+00     1.065e+00     1.294e+05  
+    2          21    2.576148e+01     5.594e-01     1.000e+00     9.235e-02     1.174e+05  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.505104e+01     3.540e+00     1.000e+00     0.000e+00     1.109e+02  
+    1          14    3.023782e+01     5.336e-01     1.000e+00     1.007e+00     6.330e+04  
+    2          21    2.884579e+01     5.550e-01     1.000e+00     1.783e-02     8.503e+03  
+    3          66    2.919873e+01     5.550e-01     1.070e-07     7.185e-10     6.599e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.182360e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          67    3.029961e+01     5.562e-01     9.095e-07     9.584e-10     6.724e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.571344e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    5          71    3.012433e+01     5.562e-01     2.652e-06     7.231e-10     5.480e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.384123e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.196466e+01     4.601e+00     1.000e+00     0.000e+00     1.233e+02  
+    1          14    2.906863e+01     7.167e-01     1.000e+00     1.015e+00     5.895e+04  
+    2          21    2.991345e+01     5.594e-01     1.000e+00     1.433e-01     4.557e+04  
+    3          28    2.987405e+01     5.605e-01     1.000e+00     1.591e-02     4.581e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    6.484183e+01     4.601e+00     1.000e+00     0.000e+00     1.479e+02  
+    1          14    2.406213e+01     8.402e-01     1.000e+00     1.038e+00     9.505e+04  
+    2          21    2.814841e+01     5.594e-01     1.000e+00     6.543e-02     7.881e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.516162e+01     9.093e-01     1.000e+00     0.000e+00     8.047e+01  
+    1          14    3.134684e+01     5.551e-01     1.000e+00     7.310e-01     4.401e+04  
+    2          68    3.134684e+01     5.551e-01     4.318e-09     7.053e-10     4.401e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.551324e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.758335e+01     4.601e+00     1.000e+00     0.000e+00     1.347e+02  
+    1          14    2.712680e+01     7.167e-01     1.000e+00     1.023e+00     7.329e+04  
+    2          21    2.927771e+01     5.594e-01     1.000e+00     1.037e-01     5.631e+04  
+    4          35    2.972332e+01     5.605e-01     1.000e+00     4.305e-02     3.590e+04  
+    5          42    2.893753e+01     5.605e-01     1.000e+00     8.056e-02     7.608e+04  
+    3          75    2.576148e+01     5.594e-01     4.318e-09     7.833e-10     1.174e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.215707e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    8.238731e+01     2.266e+01     1.000e+00     0.000e+00     1.645e+02  
+    1          14    3.148367e+01     7.400e+00     1.000e+00     9.771e-01     2.742e+05  
+    3          68    2.884579e+01     5.550e-01     5.243e-08     9.983e-10     8.503e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.568071e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.912837e+01     2.028e+00     1.000e+00     0.000e+00     8.668e+01  
+    1          14    3.107770e+01     6.421e-01     1.000e+00     9.087e-01     5.099e+04  
+    3          28    2.981443e+01     5.966e-01     1.000e+00     4.952e-01     4.214e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.750814e+01     4.601e+00     1.000e+00     0.000e+00     1.133e+02  
+    1          14    3.049752e+01     7.167e-01     1.000e+00     1.011e+00     4.899e+04  
+    2          21    2.997687e+01     5.594e-01     1.000e+00     3.264e-02     4.463e+04  
+    3          28    2.988792e+01     5.605e-01     1.000e+00     1.446e-02     3.570e+04  
+    6          80    2.893753e+01     5.605e-01     1.299e-06     8.396e-10     7.608e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.218167e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.946100e+01     1.265e+01     1.000e+00     0.000e+00     1.212e+02  
+    1          14    3.184373e+01     3.506e+00     1.000e+00     1.063e+00     4.164e+04  
+    2          21    2.739248e+01     1.559e+00     1.000e+00     8.788e-01     2.189e+05  
+    3          28    2.882662e+01     5.555e-01     1.000e+00     8.314e-02     4.981e+05  
+    4          35    2.909295e+01     5.605e-01     1.000e+00     1.091e-01     5.153e+05  
+    5          89    2.909295e+01     5.605e-01     4.318e-09     7.027e-10     5.153e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.472911e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    2          21    2.994553e+01     5.553e-01     1.000e+00     2.742e-01     5.146e+04  
+    3          28    2.985541e+01     5.562e-01     1.000e+00     1.403e-02     4.735e+04  
+    4          47    2.985541e+01     5.562e-01     1.140e-03     7.916e-10     4.735e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.742968e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          85    2.981443e+01     5.966e-01     1.481e-09     8.714e-10     4.214e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.296746e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          68    2.988792e+01     5.605e-01     6.367e-07     9.812e-10     3.570e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.218164e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.498386e+01     3.983e+00     1.000e+00     0.000e+00     1.073e+02  
+    3          73    2.927771e+01     5.594e-01     8.812e-09     8.229e-10     5.631e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.215707e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.257849e+01     6.365e+00     1.000e+00     0.000e+00     1.321e+02  
+    1          14    1.057235e+01     1.485e+01     1.000e+00     1.638e+00     1.398e+04  
+    2          21    1.604002e+01     4.697e+00     1.000e+00     1.350e+00     1.638e+04  
+    3          28    2.429262e+01     6.395e-01     1.000e+00     1.229e-01     9.301e+03  
+    2          21    3.057305e+01     5.434e-01     1.000e+00     1.870e-01     5.610e+04  
+    3          28    2.947430e+01     5.600e-01     1.000e+00     1.387e-01     5.466e+04  
+    4          78    2.947430e+01     5.600e-01     1.798e-08     9.801e-10     5.466e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 4.427457e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.094433e+01     4.601e+00     1.000e+00     0.000e+00     9.675e+01  
+    1          14    3.218485e+01     7.167e-01     1.000e+00     1.008e+00     3.633e+04  
+    2          21    3.095992e+01     5.594e-01     1.000e+00     2.769e-02     3.648e+04  
+    3          28    3.025353e+01     5.605e-01     1.000e+00     8.252e-03     3.306e+04  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    7.202245e+01     1.002e+01     1.000e+00     0.000e+00     1.481e+02  
+    1          14    2.176047e+01     3.256e+00     1.000e+00     1.308e+00     1.208e+05  
+    2          21    2.562660e+01     5.487e-01     1.000e+00     8.671e-01     5.823e+04  
+    3          28    2.902948e+01     5.604e-01     1.000e+00     8.441e-02     6.367e+04  
+    1          14    2.062856e+01     2.578e+00     1.000e+00     1.250e+00     1.678e+05  
+    2          22    2.547647e+01     5.501e-01     7.000e-01     2.999e-01     4.937e+04  
+    3          32    2.702151e+01     5.537e-01     3.430e-01     2.354e-01     3.368e+04  
+    4          41    2.492404e+01     5.710e-01     1.176e-01     9.976e-02     9.302e+03  
+    5          53    2.576491e+01     5.605e-01     1.681e-01     1.279e-01     9.303e+03  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    4.390437e+01     4.601e+00     1.000e+00     0.000e+00     1.045e+02  
+    1          14    3.149783e+01     7.167e-01     1.000e+00     1.008e+00     4.177e+04  
+    2          21    3.044874e+01     5.594e-01     1.000e+00     2.795e-02     4.027e+04  
+    3          28    2.980285e+01     5.605e-01     1.000e+00     7.232e-03     3.660e+04  
+    4          68    3.025353e+01     5.605e-01     6.367e-07     7.734e-10     3.306e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.218164e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          76    2.902948e+01     5.604e-01     3.670e-08     8.473e-10     6.367e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 5.594412e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    4          89    2.702151e+01     5.537e-01     1.481e-09     7.513e-10     3.368e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.390148e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    6          72    2.581528e+01     5.605e-01     1.384e-02     3.589e-03     9.303e+03  
+    7         126    2.581528e+01     5.605e-01     4.318e-09     9.533e-10     9.303e+03  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 8.805352e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    3.837395e+01     4.601e+00     1.000e+00     0.000e+00     8.437e+01  
+    1          14    3.270933e+01     7.167e-01     1.000e+00     8.840e-01     2.371e+04  
+    2          21    3.114561e+01     5.594e-01     1.000e+00     3.810e-01     5.465e+04  
+    3          28    3.035587e+01     5.605e-01     1.000e+00     1.026e-02     4.772e+04  
+    4          68    2.980285e+01     5.605e-01     6.367e-07     7.324e-10     3.660e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.218164e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    9.338545e+01     2.416e+01     1.000e+00     0.000e+00     1.198e+02  
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    2.785329e+01     3.463e+00     1.000e+00     0.000e+00     7.809e+01  
+    1          14    2.999073e+01     5.391e-01     1.000e+00     9.091e-01     3.780e+04  
+    2          21    2.945971e+01     5.580e-01     1.000e+00     1.593e-02     2.718e+04  
+    4          69    3.035587e+01     5.605e-01     4.457e-07     9.941e-10     4.772e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.218164e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    1          14    2.918642e+01     8.088e+00     1.000e+00     1.099e+00     1.671e+05  
+    2          21    2.885084e+01     1.792e+00     1.000e+00     5.227e-01     1.365e+05  
+    3          28    2.986410e+01     5.540e-01     1.000e+00     8.122e-02     1.168e+05  
+    4          35    2.974657e+01     5.604e-01     1.000e+00     5.781e-03     1.153e+05  
+    5          74    2.974657e+01     5.604e-01     9.095e-07     9.508e-10     1.153e+05  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 2.319652e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+    3          68    2.945971e+01     5.580e-01     5.243e-08     1.005e-09     2.718e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 1.611398e-01, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+ Iter  Func-count            Fval   Feasibility   Step Length       Norm of   First-order  
+                                                                       step    optimality
+    0           7    5.418353e+01     8.913e+00     1.000e+00     0.000e+00     1.020e+02  
+    1          14    3.103554e+01     2.082e+00     1.000e+00     1.116e+00     3.573e+04  
+    2          21    3.102666e+01     5.520e-01     1.000e+00     8.759e-02     3.316e+04  
+    3          28    3.048188e+01     5.604e-01     1.000e+00     7.588e-03     4.004e+04  
+    4          35    3.042587e+01     5.605e-01     1.000e+00     7.369e-04     3.524e+04  
+    5          77    3.042587e+01     5.605e-01     3.120e-07     7.029e-10     3.524e+04  
+
+Optimization stopped because the <a href = "matlab: helpview('optim','norm_curr_step_fminconip','CSHelpWindow');">relative changes in all elements of x</a> are
+less than <a href = "matlab: helpview('optim','tolx','CSHelpWindow');">options.StepTolerance</a> = 1.000000e-09, but the relative maximum constraint
+violation, 6.288167e-02, exceeds <a href = "matlab: helpview('optim','tol_con','CSHelpWindow');">options.ConstraintTolerance</a> = 1.000000e-06.
+
+Optimalizálás kész (7.1 s).
+[Warning: Egyetlen megoldás sem teljesíti az összes korlátot - a
+legkevésbé sértő megoldások kerülnek kiírásra (Megfelel = NEM).
+Lazítsd a tartományokat / bővítsd a rugólistát.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SpringDamper_Optimalization', 'C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Calculations\SpringDamper_Optimalization.m', 308)" style="font-weight:bold">SpringDamper_Optimalization</a> (<a href="matlab: opentoline('C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Calculations\SpringDamper_Optimalization.m',308,0)">line 308</a>)] 
+
+=========================================================================
+  LEGJOBB MEGOLDÁSOK (J = célfüggvény, kisebb a jobb)
+=========================================================================
+#   J       fok  rugF  rugR  stab (F-R)   | phi[°] TLTD   MN     | f_ride F/R | RC F/R [mm] | jack   geo%  lag°  | Megfelel | click F | click R
+1   26.2413 1    600   700   nincs-nincs  | 0.553  43.8   42.5   | 6.25/6.59 | 100.0/130.0 | 9.97   49.2  9.8   | NEM      | [3  4  1  1] | [3  3  1  1]
+2   27.4550 1    500   800   nincs-nincs  | 0.572  44.1   43.4   | 6.13/6.39 | 100.0/130.0 | 10.24  49.2  9.7   | NEM      | [3  4  1  2] | [3  3  1  1]
+3   27.0438 1    500   600   nincs-nincs  | 0.575  44.0   43.1   | 6.10/6.46 | 100.0/130.0 | 10.21  49.2  9.3   | NEM      | [3  4  1  2] | [3  4  1  2]
+4   27.4426 1    500   700   nincs-nincs  | 0.578  44.1   43.5   | 6.10/6.35 | 100.0/130.0 | 10.31  49.2  10.3  | NEM      | [3  4  1  2] | [3  3  1  1]
+5   28.4273 1    500   1200  nincs-nincs  | 0.576  44.0   43.1   | 6.10/6.46 | 100.0/130.0 | 10.21  49.2  10.2  | NEM      | [3  4  1  2] | [2  3  1  1]
+6   28.2078 1    500   1100  nincs-nincs  | 0.576  44.0   43.1   | 6.10/6.44 | 100.0/130.0 | 10.23  49.2  8.4   | NEM      | [3  4  1  2] | [3  3  1  1]
+7   27.3026 1    600   800   nincs-nincs  | 0.580  44.0   43.2   | 6.11/6.37 | 100.0/130.0 | 10.29  49.2  9.1   | NEM      | [3  4  1  1] | [3  3  1  1]
+8   27.1803 1    600   500   nincs-nincs  | 0.583  44.1   42.5   | 6.10/6.36 | 100.0/123.6 | 9.99   48.2  9.6   | NEM      | [3  4  1  1] | [3  4  1  3]
+9   28.0681 1    600   1100  nincs-nincs  | 0.580  43.9   42.9   | 6.10/6.44 | 100.0/130.0 | 10.23  49.2  7.8   | NEM      | [3  4  1  1] | [3  3  1  1]
+10  27.8703 1    600   1000  nincs-nincs  | 0.582  44.0   43.1   | 6.10/6.40 | 100.0/130.0 | 10.26  49.2  8.1   | NEM      | [3  4  1  1] | [3  3  1  1]
+
+J felbontás (melyik tag viszi a célfüggvényt):
+#   J        | ride     damper   jacking  geo      react    TLTD     froll    | f_roll[Hz]
+1   26.241   | 0.003    0.687    4.966    0.000    0.021    20.564   0.000    | 22.86   
+2   27.455   | 0.001    0.810    5.246    0.000    0.022    21.375   0.000    | 22.32   
+3   27.044   | 0.001    0.723    5.212    0.000    0.022    21.085   0.000    | 22.30   
+4   27.443   | 0.001    0.667    5.318    0.000    0.022    21.435   0.000    | 22.19   
+5   28.427   | 0.001    2.154    5.214    0.000    0.022    21.036   0.000    | 22.30   
+
+A legjobb megoldás roll center magasságai (optimalizált): első = 100.0 mm, hátsó = 130.0 mm  (alap: 123.0 / 127.0 mm)
+Dinamikus RC (120 km/h, DYN_HEIGHT = true): első = 106.2 mm, hátsó = 136.6 mm | CoG elmozdulás = +6.1 mm (aero berugózás: 4.1 / 3.7 mm)
+[Warning: A top-10 megoldás RC-értékeiből 9 a felső, 10 az alsó
+határra fut. Ellenőrizd a GEO_SHARE_MIN / JACK_MAX korlátokat és
+a W_JACK : W_GEO arányt, vagy tágítsd az RC tartományt.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SpringDamper_Optimalization', 'C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Calculations\SpringDamper_Optimalization.m', 369)" style="font-weight:bold">SpringDamper_Optimalization</a> (<a href="matlab: opentoline('C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Calculations\SpringDamper_Optimalization.m',369,0)">line 369</a>)] 
+Aktív korlátok a legjobb megoldásnál: TLTD_max, MN_min, aero_F, aero_R, MRmin_F, MRmin_R, jacking_max, fride_F_max
+A legjobb megoldás motion ratio függvényei (x = kerékút [mm], + = berugózás):
+  MR_F(x) = 0.6943 -0.01200*x
+  MR_R(x) = 0.6429 -0.01200*x
+  - (nincs stabilizátor ezen a tengelyen)
+  - (nincs stabilizátor ezen a tengelyen)
+
+Eredmények (Excel): Optimalizalo_Eredmenyek\Futas_20261013_022544_RCopt\Optimalis_beallitasok_20261013_022544.xlsx
+MR-fájlok (baszogep.m formátum, nevezd át Célgörbe_MotionRatios.xlsx-re) és strukturális adatlapok: Optimalizalo_Eredmenyek\Futas_20261013_022544_RCopt
+Összes futásidő: 7.5 s

@@ -46,19 +46,19 @@ function full_kinematic_optimalization_DAA
     %   - a GUI nem kéri be hozzá a célgörbét (az Excelből betöltött érték változatlan marad).
     % Példa: W.KPI = 0; W.Caster = 0; W.Ackermann = 0;  ->  kormányzásra csak
     % a Camber_Steer és Toe_Steer célgörbét kell megadni.
-    camber_heave_tol = 0.1;
-    toe_heave_tol = 0.1;
+    camber_heave_tol = 0.01;
+    toe_heave_tol = 0.01;
     rc_tol = 0.5;
-    antidive_tol = 2;
-    camber_steer_tol = 0.05;
-    toe_steer_tol = 0.1;
+    antidive_tol = 0.5;
+    camber_steer_tol = 0.01;
+    toe_steer_tol = 0.01;
     kpi_tol = 5;
     caster_tol = 5;
-    trail_tol = 1;
-    scrub_tol = 1;
+    trail_tol = 0.01;
+    scrub_tol = 0.01;
     ackerman_tol = 2;
-    camber_roll_tol = 0.05;
-    toe_roll_tol = 0.1;
+    camber_roll_tol = 0.01;
+    toe_roll_tol = 0.01;
 
     W.Camber = 1/camber_heave_tol^2; 
     W.Toe = 1/toe_heave_tol^2; 
@@ -304,11 +304,11 @@ function full_kinematic_optimalization_DAA
     dev_C2 = [-40 40; 0 0; -40 40];
     dev_C3 = [-40 40; 0 0; -40 40];
     dev_C4 = [-40 40; 0 0; -40 40];
-    dev_C5 = [0 0;   0  0;   0  0];
+    dev_C5 = [-40 40; 0 0; -40 40];
 
-    dev_K1 = [-40 40; -40 40; -40 40];
-    dev_K2 = [-40 40; -40 40; -40 40];
-    dev_K3 = [-40 40; -40 40; -40 40];
+    dev_K1 = [-60 60; -60 60; -60 60];
+    dev_K2 = [-60 60; -60 60; -60 60];
+    dev_K3 = [-60 60; -60 60; -60 60];
 
     dev_C_min = [dev_C1(:,1)'; dev_C2(:,1)'; dev_C3(:,1)'; dev_C4(:,1)'; dev_C5(:,1)'];
     dev_C_max = [dev_C1(:,2)'; dev_C2(:,2)'; dev_C3(:,2)'; dev_C4(:,2)'; dev_C5(:,2)'];
@@ -322,7 +322,7 @@ function full_kinematic_optimalization_DAA
     %% 4. OPTIMALIZÁLÁS
     disp('Optimalizálás indítása (24 paraméter: 5C + 3K)...');
     options = optimoptions('fmincon', 'Display', 'iter-detailed', ...
-        'Algorithm', 'interior-point', 'MaxFunctionEvaluations', 2000, ...
+        'Algorithm', 'interior-point', 'MaxFunctionEvaluations', 5000, ...
         'StepTolerance', 1e-10, 'OptimalityTolerance', 1e-4, ...
         'FiniteDifferenceStepSize', 1e-5, ...   % a belső fsolve/lsqnonlin zaja miatt nagyobb differenciálási lépés
         'OutputFcn', @stop_optimization_callback);

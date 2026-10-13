@@ -1,0 +1,220 @@
+Futás-mappa: Kezi_Eredmenyek\Futas_20261013_030418_RCfix_F100_R130
+RC mód: fix (első 100.0 mm, hátsó 130.0 mm)
+=========================================================================
+  KANYARODÁSI KASZTNIDŐLÉS ÉS ÁTTERHELŐDÉS LEFOLYÁS (a_lat = 5.00 G)
+=========================================================================
+Beállítás: főrugó első = 600 | hátsó = 700 lbs/in | stabilizátor: none-none (első: nincs | hátsó: nincs)
+Stabilizátor merevségek: K_ARB első/hátsó = 0 / 0 N/m | K_HEAVE első/hátsó = 0 / 0 N/m
+Jacking hatás: COG emelkedés = 9.65 mm | Dinamikus CoG (rugózott) = 322.3 mm | F_jack első/hátsó = 2043 / 3251 N
+Első RC: 100.0 mm | Hátsó RC: 130.0 mm | Roll Axis dőlés: -0.57 deg
+Dinamikus RC (160 km/h, 5.0g, DYN_HEIGHT = true): első = 102.0 mm | hátsó = 132.8 mm | CoG elmozdulás = +2.3 mm (aero berugózás: 7.7 / 6.9 mm)
+Kiszámított egyensúlyi dőlésszög (Steady-State Roll Angle): első = 0.582 deg | hátsó = 0.519 deg | dőlésgradiens = 0.116 deg/g
+Váz torziós merevség: 3500 Nm/deg | váz elcsavarodás: 0.0636 deg | váz torziós nyomaték (első->hátsó): 222.6 Nm
+Dőlőnyomaték tengelyenként (váz nélkül): első = 3058.2 Nm | hátsó = 3214.9 Nm
+Dőlőnyomaték tengelyenként (váz torzióval): első = 2835.6 Nm | hátsó = 3436.6 Nm
+Statikus heave merevség (tengely): Első = 436.0 N/mm | Hátsó = 593.2 N/mm
+Kiszámított statikus Rugózási Frekvenciák: Első = 6.25 Hz | Hátsó = 6.59 Hz
+Magic Number az egyensúlyi pontban: 42.36 % | tényleges nyomatékmegoszlás (váz torzióval): 45.21 %
+Total Load Transfer Distribution (TLTD) az egyensúlyi pontban: 43.73 % | geometriai (azonnali) átadás: 48.6 %
+Roll Frekvencia az egyensúlyi pontban: 22.27 Hz
+Ellenőrzés (ábra-rács vs. zárt alak): egyensúlyi dőlés 0.5820 vs. 0.5820 deg | MN 42.36 vs. 42.36 %
+=========================================================================
+
+=========================================================================
+  ROLL DINAMIKA, REAKTIVITÁS (szlalom: 45 km/h, 8.0 m bójatáv -> 0.781 Hz)
+=========================================================================
+Roll zeta: cél-xi alapján 2.419 | a beállított click-ekkel 2.405
+Fáziskésés szlalom frekvencián: cél-xi alapján 4.93 deg | a beállított click-ekkel 4.90 deg (amplitúdó: 0.990)
+Hasmagasság 120 km/h-nál: első = 30.6 mm | hátsó = 56.1 mm (aero berugózás: 4.4 / 3.9 mm, min. megengedett: 5.0 mm)
+Damper út a teljes kerékúton: első = 20.8 mm | hátsó = 19.3 mm (löket: 40 mm) | statikus damperhossz*: 389.5 / 390.2 mm
+Click-ek [LSR LSC HSR HSC]: első = [3  4  1  1] | hátsó = [3  3  1  1]
+  xi első  = [0.73 0.44 0.38 0.42] (cél [0.70 0.70 0.45 0.45])
+  xi hátsó = [0.66 0.90 0.34 0.38] (cél [0.70 0.70 0.45 0.45])
+  A_RMS többlet az optimumhoz képest (átlag): első = 0.9 % | hátsó = 2.2 %
+  Optimalizáló-logika szerint javasolt click: első = [3  4  1  1] | hátsó = [3  3  1  1]
+MR függvények (2. fokú illesztés a megadott görbékre; x = kerékút [mm], + = berugózás):
+  MR_F(x) = 0.6943 -0.00112*x   [2. fokú illesztés a megadott görbére, max. eltérés 0.0000]
+  MR_R(x) = 0.6429 -0.00112*x   [2. fokú illesztés a megadott görbére, max. eltérés 0.0000]
+  - (nincs stabilizátor ezen a tengelyen)
+  - (nincs stabilizátor ezen a tengelyen)
+=========================================================================
+  KORLÁT-ELLENŐRZÉS (célfüggvény J = 12.5529; kisebb a jobb)
+=========================================================================
+  SÉRTI: TLTD > max                 (skálázott sértés: 0.7457)
+  SÉRTI: MN < min                   (skálázott sértés: 0.2638)
+  SÉRTI: MR < min (első rugó)       (skálázott sértés: 0.0321)
+  SÉRTI: MR < min (hátsó rugó)      (skálázott sértés: 0.1056)
+  SÉRTI: jacking                    (skálázott sértés: 0.2057)
+Megfelel (az összes korlát teljesül): NEM  (legnagyobb skálázott sértés: 0.7457)
+=========================================================================
+
+Eredmények (Excel): Kezi_Eredmenyek\Futas_20261013_030418_RCfix_F100_R130\Optimalis_beallitasok_20261013_030418.xlsx
+MR-fájl (baszogep formátum, nevezd át Célgörbe_MotionRatios.xlsx-re) és strukturális adatlap: Kezi_Eredmenyek\Futas_20261013_030418_RCfix_F100_R130
+
+AERO (CLA = 6.40 m^2, első arány = 45 %): 120 km/h-nál leszorítóerő = 4267 N
+Hasmagasság: statikus első = 35.0 mm | hátsó = 60.0 mm  ->  120 km/h-nál első = 30.6 mm (-4.4) | hátsó = 56.1 mm (-3.9)
+=========================================================================
+  CSILLAPÍTÁS AZ EGYENSÚLYI DŐLÉSNÉL (phi_F = 0.582 deg)
+=========================================================================
+Beállított clickek [LSR LSC HSR HSC]: Első = [3  4  1  1] | Hátsó = [3  3  1  1]
+Ride frekvencia: Első = 6.25 Hz | Hátsó = 6.59 Hz | Roll frekvencia = 22.27 Hz
+Rezsim | xi Első (cél) | xi Hátsó (cél)
+LSR    |   0.73 (0.70)  |   0.66 (0.70)
+LSC    |   0.44 (0.70)  |   0.90 (0.70)
+HSR    |   0.38 (0.45)  |   0.34 (0.45)
+HSC    |   0.42 (0.45)  |   0.38 (0.45)
+Heave csillapítás LS: Első = 13059 | Hátsó = 22354 N*s/m   ||   HS: Első = 8912 | Hátsó = 10394 N*s/m
+Roll csillapítás LS: össz = 22664 Nm*s/rad (zeta = 2.406)   ||   HS: össz = 12356 Nm*s/rad (zeta = 1.312)
+=========================================================================
+
+Damper analízis a teljes kerékúton (A_RMS minden kerékút-pozícióra, click-re és rezsimre)...
+Kész (0.3 s).
+
+=========================================================================
+  DAMPER SETUP A KERÉKÚTON - jelmagyarázat
+  ^ = a cél xi-hez legközelebbi click | * = minimális A_RMS click | # = mindkettő
+  dA_RMS = az A_RMS többlete az adott pozícióhoz tartozó, elméletileg optimális xi-hez képest
+=========================================================================
+
+-------------------------------------------------------------------------------------------
+ ELSŐ TENGELY | x = -15 mm | MR = 0.711 | K_wheel = 207.8 N/mm | f_ride = 6.10 Hz | xi_opt = 0.41
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   9.32   1.81   0.71^  0.36*  0.21   0.11  | 3    4     | 3 -> xi 0.71 | +3.0 %
+ LSC    0.70 |  11.29   2.04   0.97   0.43#  0.18   0.17  | 4    4     | 4 -> xi 0.43 | +0.0 %
+ HSR    0.45 |   0.37#  0.26   0.27   0.22   0.10   0.11  | 1    1     | 1 -> xi 0.37 | +0.1 %
+ HSC    0.45 |   0.41#  0.35   0.30   0.19   0.11   0.12  | 1    1     | 1 -> xi 0.41 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   107.7   21.1    3.0    0.2    5.1   19.2
+ LSC         |   124.9   24.6    7.1    0.0    7.8    8.1
+ HSR         |     0.1    2.4    2.0    4.1   20.9   20.0
+ HSC         |     0.0    0.3    1.0    6.5   18.2   17.1
+
+-------------------------------------------------------------------------------------------
+ ELSŐ TENGELY | x = -10 mm | MR = 0.706 | K_wheel = 211.1 N/mm | f_ride = 6.15 Hz | xi_opt = 0.41
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   9.39   1.83   0.72^  0.36*  0.21   0.11  | 3    4     | 3 -> xi 0.72 | +3.1 %
+ LSC    0.70 |  11.38   2.05   0.98   0.44#  0.18   0.17  | 4    4     | 4 -> xi 0.44 | +0.0 %
+ HSR    0.45 |   0.38#  0.26   0.27   0.22   0.10   0.11  | 1    1     | 1 -> xi 0.38 | +0.1 %
+ HSC    0.45 |   0.41#  0.35   0.30   0.19   0.11   0.12  | 1    1     | 1 -> xi 0.41 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   108.9   21.5    3.1    0.2    4.9   18.9
+ LSC         |   126.2   25.0    7.3    0.0    7.6    7.9
+ HSR         |     0.1    2.3    1.9    3.9   20.6   19.7
+ HSC         |     0.0    0.2    0.9    6.4   17.9   16.8
+
+-------------------------------------------------------------------------------------------
+ ELSŐ TENGELY | x = +0 mm | MR = 0.694 | K_wheel = 218.0 N/mm | f_ride = 6.25 Hz | xi_opt = 0.41
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   9.54   1.86   0.73^  0.37*  0.21   0.11  | 3    4     | 3 -> xi 0.73 | +3.4 %
+ LSC    0.70 |  11.56   2.09   0.99   0.44#  0.18   0.18  | 4    4     | 4 -> xi 0.44 | +0.1 %
+ HSR    0.45 |   0.38#  0.26   0.27   0.23   0.11   0.11  | 1    1     | 1 -> xi 0.38 | +0.0 %
+ HSC    0.45 |   0.42#  0.36   0.31   0.19   0.12   0.12  | 1    1     | 1 -> xi 0.42 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   111.2   22.2    3.4    0.1    4.6   18.3
+ LSC         |   128.8   25.8    7.7    0.1    7.2    7.5
+ HSR         |     0.0    2.1    1.7    3.7   20.0   19.1
+ HSC         |     0.0    0.2    0.8    6.0   17.4   16.3
+
+-------------------------------------------------------------------------------------------
+ ELSŐ TENGELY | x = +10 mm | MR = 0.683 | K_wheel = 225.2 N/mm | f_ride = 6.35 Hz | xi_opt = 0.41
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   9.70   1.89   0.74^  0.37*  0.21   0.11  | 3    4     | 3 -> xi 0.74 | +3.7 %
+ LSC    0.70 |  11.75   2.12   1.01   0.45#  0.18   0.18  | 4    4     | 4 -> xi 0.45 | +0.1 %
+ HSR    0.45 |   0.39#  0.27   0.28   0.23   0.11   0.11  | 1    1     | 1 -> xi 0.39 | +0.0 %
+ HSC    0.45 |   0.43#  0.37   0.31   0.20   0.12   0.12  | 1    1     | 1 -> xi 0.43 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   113.6   22.9    3.7    0.1    4.3   17.8
+ LSC         |   131.5   26.6    8.1    0.1    6.9    7.2
+ HSR         |     0.0    1.9    1.5    3.4   19.4   18.5
+ HSC         |     0.0    0.1    0.7    5.7   16.8   15.8
+
+-------------------------------------------------------------------------------------------
+ ELSŐ TENGELY | x = +15 mm | MR = 0.677 | K_wheel = 228.9 N/mm | f_ride = 6.40 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   9.78   1.90   0.75^  0.38*  0.22   0.12  | 3    4     | 3 -> xi 0.75 | +3.8 %
+ LSC    0.70 |  11.85   2.14   1.02   0.45#  0.18   0.18  | 4    4     | 4 -> xi 0.45 | +0.1 %
+ HSR    0.45 |   0.39#  0.27   0.28   0.23   0.11   0.11  | 1    1     | 1 -> xi 0.39 | +0.0 %
+ HSC    0.45 |   0.43#  0.37   0.32   0.20   0.12   0.12  | 1    1     | 1 -> xi 0.43 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   114.8   23.3    3.8    0.1    4.2   17.5
+ LSC         |   132.8   27.0    8.3    0.1    6.7    7.0
+ HSR         |     0.0    1.8    1.5    3.3   19.1   18.3
+ HSC         |     0.0    0.1    0.6    5.6   16.6   15.5
+
+-------------------------------------------------------------------------------------------
+ HÁTSÓ TENGELY | x = -15 mm | MR = 0.660 | K_wheel = 281.7 N/mm | f_ride = 6.42 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   8.41   1.64   0.64^  0.32*  0.19   0.10  | 3    4     | 3 -> xi 0.64 | +2.3 %
+ LSC    0.70 |  10.19   1.84   0.88^  0.39*  0.16   0.16  | 3    4     | 3 -> xi 0.88 | +5.9 %
+ HSR    0.45 |   0.34#  0.23   0.24   0.20   0.09   0.10  | 1    1     | 1 -> xi 0.34 | +0.3 %
+ HSC    0.45 |   0.37#  0.32   0.27   0.17   0.10   0.11  | 1    1     | 1 -> xi 0.37 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |    99.7   18.5    2.3    0.4    6.2   21.6
+ LSC         |   115.9   21.8    5.9    0.0    9.2    9.5
+ HSR         |     0.3    3.1    2.7    5.0   23.5   22.5
+ HSC         |     0.0    0.5    1.4    7.8   20.6   19.4
+
+-------------------------------------------------------------------------------------------
+ HÁTSÓ TENGELY | x = -10 mm | MR = 0.654 | K_wheel = 286.5 N/mm | f_ride = 6.48 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   8.48   1.65   0.65^  0.33*  0.19   0.10  | 3    4     | 3 -> xi 0.65 | +2.3 %
+ LSC    0.70 |  10.28   1.85   0.88^  0.39*  0.16   0.16  | 3    4     | 3 -> xi 0.88 | +6.0 %
+ HSR    0.45 |   0.34#  0.23   0.24   0.20   0.09   0.10  | 1    1     | 1 -> xi 0.34 | +0.3 %
+ HSC    0.45 |   0.37#  0.32   0.28   0.17   0.10   0.11  | 1    1     | 1 -> xi 0.37 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   100.6   18.8    2.3    0.4    6.1   21.5
+ LSC         |   117.0   22.0    6.0    0.0    9.1    9.4
+ HSR         |     0.3    3.0    2.6    5.0   23.3   22.4
+ HSC         |     0.0    0.5    1.4    7.7   20.5   19.3
+
+-------------------------------------------------------------------------------------------
+ HÁTSÓ TENGELY | x = +0 mm | MR = 0.643 | K_wheel = 296.6 N/mm | f_ride = 6.59 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   8.63   1.68   0.66^  0.33*  0.19   0.10  | 3    4     | 3 -> xi 0.66 | +2.5 %
+ LSC    0.70 |  10.45   1.89   0.90^  0.40*  0.16   0.16  | 3    4     | 3 -> xi 0.90 | +6.2 %
+ HSR    0.45 |   0.34#  0.24   0.25   0.20   0.10   0.10  | 1    1     | 1 -> xi 0.34 | +0.2 %
+ HSC    0.45 |   0.38#  0.33   0.28   0.17   0.10   0.11  | 1    1     | 1 -> xi 0.38 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   102.5   19.3    2.5    0.4    5.9   21.3
+ LSC         |   119.2   22.6    6.2    0.0    8.9    9.3
+ HSR         |     0.2    2.9    2.5    4.8   23.1   22.2
+ HSC         |     0.0    0.4    1.3    7.5   20.3   19.1
+
+-------------------------------------------------------------------------------------------
+ HÁTSÓ TENGELY | x = +10 mm | MR = 0.632 | K_wheel = 307.2 N/mm | f_ride = 6.71 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   8.78   1.71   0.67^  0.34*  0.19   0.10  | 3    4     | 3 -> xi 0.67 | +2.6 %
+ LSC    0.70 |  10.64   1.92   0.91^  0.41*  0.17   0.16  | 3    4     | 3 -> xi 0.91 | +6.4 %
+ HSR    0.45 |   0.35#  0.24   0.25   0.21   0.10   0.10  | 1    1     | 1 -> xi 0.35 | +0.2 %
+ HSC    0.45 |   0.39#  0.33   0.29   0.18   0.11   0.11  | 1    1     | 1 -> xi 0.39 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   104.4   19.7    2.6    0.3    5.8   21.1
+ LSC         |   121.3   23.1    6.4    0.0    8.8    9.1
+ HSR         |     0.2    2.8    2.4    4.7   23.0   22.0
+ HSC         |     0.0    0.4    1.2    7.4   20.1   18.9
+
+-------------------------------------------------------------------------------------------
+ HÁTSÓ TENGELY | x = +15 mm | MR = 0.626 | K_wheel = 312.7 N/mm | f_ride = 6.77 Hz | xi_opt = 0.40
+-------------------------------------------------------------------------------------------
+ Rez. xi_cél | xi a click-eken (1..6)                     | cél  A_RMS | Beállított: click -> xi | dA_RMS
+ LSR    0.70 |   8.86   1.72   0.68^  0.34*  0.20   0.10  | 3    4     | 3 -> xi 0.68 | +2.7 %
+ LSC    0.70 |  10.73   1.94   0.92^  0.41*  0.17   0.16  | 3    4     | 3 -> xi 0.92 | +6.5 %
+ HSR    0.45 |   0.35#  0.24   0.25   0.21   0.10   0.10  | 1    1     | 1 -> xi 0.35 | +0.2 %
+ HSC    0.45 |   0.39#  0.33   0.29   0.18   0.11   0.11  | 1    1     | 1 -> xi 0.39 | +0.0 %
+ dA_RMS [%] a click-eken:
+ LSR         |   105.4   20.0    2.7    0.3    5.7   21.1
+ LSC         |   122.4   23.4    6.5    0.0    8.7    9.0
+ HSR         |     0.2    2.8    2.3    4.6   22.9   21.9
+ HSC         |     0.0    0.4    1.2    7.3   20.0   18.9
+
+Roll csillapítás a beállított damper clickekből: c_roll = 22653.2 Nms/rad | zeta_roll = 2.405
+Összes futásidő: 66.2 s

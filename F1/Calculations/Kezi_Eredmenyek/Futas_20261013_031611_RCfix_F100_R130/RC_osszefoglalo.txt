@@ -1,0 +1,6 @@
+ROLL CENTER ÖSSZEFOGLALÓ - futás: 20261013_031611
+RC mód: fix (kézi)
+RC (h_RC_F / h_RC_R): első 100.0 mm, hátsó 130.0 mm
+
+Rang  RC_F [mm]  RC_R [mm]  Jacking [mm]  Jack alap-RC    Geo átadás %  Késés [°] 
+1     100.0      130.0      9.69          9.69            48.6          3.77      

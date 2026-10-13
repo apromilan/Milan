@@ -1,0 +1,38 @@
+STRUKTURÁLIS ÁTADÁSI ADATLAP - 1. rang (futás: 20261013_030418)
+========================================================================
+Roll center (statikus): első = 100.0 mm, hátsó = 130.0 mm  [fix]
+Főrugók: első 600 lbs/in, hátsó 700 lbs/in
+Dőlésgradiens: 0.116 deg/g | jacking: 9.65 mm | geometriai terhelésátadás: 48.6 %
+
+--- Első tengely ---
+  Stabilizátor típus: nincs
+  MR_stab(x) [kerékút / droplink-út; x: kerékút mm]: -
+  MR_stab statikus (x=0): -
+  MR_stab min (teljes kerékút): -
+  MR_stab max (teljes kerékút): -
+  CÉL K_droplink (modell-definíció) [N/mm]: -
+  Droplinkenkénti ekvivalens merevség [N/mm]: -
+  Egy droplinken mérve, a másik vég rögzítve [N/mm]: -
+  Stab. hozzájárulása a tengely roll-merevségéhez (x=0) [Nm/deg]: 0
+  Rugók roll-merevsége a tengelyen (x=0) [Nm/deg]: 4870
+  Tengely össz. roll-merevség (x=0) [Nm/deg]: 4870
+  Stab. heave-merevsége a kerekeknél (x=0) [N/mm]: 0
+  Rugók heave-merevsége a kerekeknél (x=0) [N/mm]: 436
+  Megjegyzés (mérési konvenció, a modell képletéből levezetve): nincs stabilizátor ezen a tengelyen
+
+--- Hátsó tengely ---
+  Stabilizátor típus: nincs
+  MR_stab(x) [kerékút / droplink-út; x: kerékút mm]: -
+  MR_stab statikus (x=0): -
+  MR_stab min (teljes kerékút): -
+  MR_stab max (teljes kerékút): -
+  CÉL K_droplink (modell-definíció) [N/mm]: -
+  Droplinkenkénti ekvivalens merevség [N/mm]: -
+  Egy droplinken mérve, a másik vég rögzítve [N/mm]: -
+  Stab. hozzájárulása a tengely roll-merevségéhez (x=0) [Nm/deg]: 0
+  Rugók roll-merevsége a tengelyen (x=0) [Nm/deg]: 6626
+  Tengely össz. roll-merevség (x=0) [Nm/deg]: 6626
+  Stab. heave-merevsége a kerekeknél (x=0) [N/mm]: 0
+  Rugók heave-merevsége a kerekeknél (x=0) [N/mm]: 593.2
+  Megjegyzés (mérési konvenció, a modell képletéből levezetve): nincs stabilizátor ezen a tengelyen
+

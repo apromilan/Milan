@@ -10,224 +10,224 @@ function base_program_front_left()
     % 1. Pontok definiálása (struct tömb) 
     % ======================================
 
-    % Minden pontnak van neve, pozíciója (1x3 vektor), és hogy fix-e
-    % 
-    points = struct('name', {}, 'pos', {}, 'fixed', {});
-    % 
-    % Felső lengőkar elülső lengőrúdjának vázoldala
-    points(1).name  = 'Front left upper arm fore';
-    points(1).pos   = [148.07, 224, 360];   
-    points(1).fixed = true;
-
-    % Felső lengőkar hátulsó lengőrúdjának vázoldala
-    points(2).name  = 'Front left upper arm aft';
-    points(2).pos   = [-151.596, 224, 325]; 
-    points(2).fixed = true;
-
-    % Felső lengőkar csonkállvány oldala
-    points(3).name  = 'Front left upper arm upright';
-    points(3).pos   = [-15, 555, 275];  
-    points(3).fixed = false;
-
-    % Alsó lengőkar elülső lengőrúdjának vázoldala
-    points(4).name  = 'Front left lower arm fore';
-    points(4).pos   = [160, 226, 156];   
-    points(4).fixed = true;
-
-    % Alsó lengőkar hátulsó lengőrúdjának vázoldala
-    points(5).name  = 'Front left lower arm aft';
-    points(5).pos   = [-122.598, 226, 186.806]; 
-    points(5).fixed = true;
-
-    % Alsó lengőkar csonkállvány oldala
-    points(6).name  = 'Front left lower arm upright';
-    points(6).pos   = [ 0, 586.76, 105];   
-    points(6).fixed = false;
-
-    % Kormányösszekötő fogasléc oldala
-    points(7).name = 'Front left tie rod rack';
-    points(7).pos = [65, 244, 164];
-    points(7).fixed = false;
-
-    % Kormányösszekötő csonkállvány oldala
-    points(8).name = 'Front left tie rod upright';
-    points(8).pos = [76, 564, 150];
-    % points(8).pos = [76, 564, 102.1]; % ezzel ugyanaz jön ki a síkos metszéses megoldással mint az optkinban (közel 0 bump steer)
-    points(8).fixed = false;
-
-    % Pushrod rocker oldala
-    points(9).name = 'Front left pushrod rocker';
-    points(9).pos = [-48.025, 153.151, 582.198];
-    points(9).fixed = false;
-
-    % Pushrod csonkállvány oldala
-    points(10).name = 'Front left pushrod upright';
-    points(10).pos = [-20.475, 482.786, 305];
-    points(10).fixed = false;
-
-    % Rocker tengely vázoldali pontja
-    points(11).name  = 'Front left rocker pivot lower';
-    points(11).pos   = [-84.470, 155.712, 545.260];  
-    points(11).fixed = true;
-
-    % Rocker tengely center
-    points(12).name  = 'Front left rocker pivot center';
-    points(12).pos   = [-86.84, 169.822, 563.784];  
-    points(12).fixed = true;
-
-    % Damper rocker oldala
-    points(13).name = 'Front left damper rocker';
-    points(13).pos = [-78.900, 110.016, 611.104];
-    points(13).fixed = false;
-
-    % Damper váz oldal
-    points(14).name = 'Front left damper chassis';
-    points(14).pos = [-253.279, 82.017, 610.122];
-    points(14).fixed = true;
-
-    % Kerék középpont
-    points(15).name  = 'Front left wheel center';
-    points(15).pos = [0, 610, 193];  
-    points(15).fixed = false;
-
-    % Stabilizátor Rocker oldala
-    points(16).name = 'Front left ARB rocker';
-    points(16).pos = [-69.613, 126.436, 599.785];
-    points(16).fixed = false;
-
-    % Stabilizátor kés oldala
-    points(17).name = 'Front left ARB blade';
-    points(17).pos = [72.237, 126.440, 614.444];
-    points(17).fixed = false;
-
-    % Stabilizátor kés torziós rúd oldala
-    points(18).name = 'Front left blade torsion bar';
-    points(18).pos = [75.097, 126.436, 585.090];
-    points(18).fixed = true;
-    % 
-  
-    % %% 1. Pontok definiálása – Excelből olvasás + hardcode a többihez
-    % 
-    % input_excel_file = 'DAA_Points.xlsx';   % <-- ide írd a fájlnevedet
-    % 
-    % if exist(input_excel_file, 'file') ~= 2
-    %     error('A fájl nem található: %s\nKérlek tedd a munkakönyvtárba az Excel-t a fenti formátumban!', input_excel_file);
-    % end
-    % 
-    % disp(['Pontok betöltése az Excelből: ', input_excel_file]);
-    % T_in = readtable(input_excel_file);
-    % 
-    % % Segédfüggvény a név alapú kereséshez
-    % function pos = get_pt(T, name)
-    %     idx = find(strcmpi(T.Name, name), 1);
-    %     if isempty(idx)
-    %         error('Hiányzó pont az Excelben: %s', name);
-    %     end
-    %     pos = [T.X(idx), T.Y(idx), T.Z(idx)];
-    % end
-    % 
-    % % === Excelből beolvasott pontok ===
-    % upper_fore_chassis   = get_pt(T_in, 'Upper Fore Chassis');
-    % upper_aft_chassis    = get_pt(T_in, 'Upper Aft Chassis');
-    % lower_fore_chassis   = get_pt(T_in, 'Lower Fore Chassis');
-    % lower_aft_chassis    = get_pt(T_in, 'Lower Aft Chassis');
-    % tie_rod_rack         = get_pt(T_in, 'Tie Rod Rack');
-    % upper_upright        = get_pt(T_in, 'Upper Upright');
-    % lower_upright        = get_pt(T_in, 'Lower Upright');
-    % tie_rod_upright      = get_pt(T_in, 'Tie Rod Upright');
-    % wheel_center         = get_pt(T_in, 'Wheel Center');
-    % 
-    % % === Struct tömb feltöltése ===
+    % % Minden pontnak van neve, pozíciója (1x3 vektor), és hogy fix-e
+    % % 
     % points = struct('name', {}, 'pos', {}, 'fixed', {});
-    % 
-    % % 1 – Felső lengőkar elülső (váz)
+    % % 
+    % % Felső lengőkar elülső lengőrúdjának vázoldala
     % points(1).name  = 'Front left upper arm fore';
-    % points(1).pos   = upper_fore_chassis;
+    % points(1).pos   = [148.07, 224, 360];   
     % points(1).fixed = true;
     % 
-    % % 2 – Felső lengőkar hátulsó (váz)
+    % % Felső lengőkar hátulsó lengőrúdjának vázoldala
     % points(2).name  = 'Front left upper arm aft';
-    % points(2).pos   = upper_aft_chassis;
+    % points(2).pos   = [-151.596, 224, 325]; 
     % points(2).fixed = true;
     % 
-    % % 3 – Felső lengőkar csonkállvány
+    % % Felső lengőkar csonkállvány oldala
     % points(3).name  = 'Front left upper arm upright';
-    % points(3).pos   = upper_upright;
+    % points(3).pos   = [-15, 555, 275];  
     % points(3).fixed = false;
     % 
-    % % 4 – Alsó lengőkar elülső (váz)
+    % % Alsó lengőkar elülső lengőrúdjának vázoldala
     % points(4).name  = 'Front left lower arm fore';
-    % points(4).pos   = lower_fore_chassis;
+    % points(4).pos   = [160, 226, 156];   
     % points(4).fixed = true;
     % 
-    % % 5 – Alsó lengőkar hátulsó (váz)
+    % % Alsó lengőkar hátulsó lengőrúdjának vázoldala
     % points(5).name  = 'Front left lower arm aft';
-    % points(5).pos   = lower_aft_chassis;
+    % points(5).pos   = [-122.598, 226, 186.806]; 
     % points(5).fixed = true;
     % 
-    % % 6 – Alsó lengőkar csonkállvány
+    % % Alsó lengőkar csonkállvány oldala
     % points(6).name  = 'Front left lower arm upright';
-    % points(6).pos   = lower_upright;
+    % points(6).pos   = [ 0, 586.76, 105];   
     % points(6).fixed = false;
     % 
-    % % 7 – Kormányösszekötő fogasléc oldala
-    % points(7).name  = 'Front left tie rod rack';
-    % points(7).pos   = tie_rod_rack;
+    % % Kormányösszekötő fogasléc oldala
+    % points(7).name = 'Front left tie rod rack';
+    % points(7).pos = [65, 244, 164];
     % points(7).fixed = false;
     % 
-    % % 8 – Kormányösszekötő csonkállvány oldala
-    % points(8).name  = 'Front left tie rod upright';
-    % points(8).pos   = tie_rod_upright;
+    % % Kormányösszekötő csonkállvány oldala
+    % points(8).name = 'Front left tie rod upright';
+    % points(8).pos = [76, 564, 150];
+    % % points(8).pos = [76, 564, 102.1]; % ezzel ugyanaz jön ki a síkos metszéses megoldással mint az optkinban (közel 0 bump steer)
     % points(8).fixed = false;
     % 
-    % % 9 – Pushrod rocker oldala (hardcode – nincs az Excelben)
-    % points(9).name  = 'Front left pushrod rocker';
-    % points(9).pos   = [-48.025, 153.151, 582.198];
+    % % Pushrod rocker oldala
+    % points(9).name = 'Front left pushrod rocker';
+    % points(9).pos = [-48.025, 153.151, 582.198];
     % points(9).fixed = false;
     % 
-    % % 10 – Pushrod csonkállvány oldala (hardcode)
+    % % Pushrod csonkállvány oldala
     % points(10).name = 'Front left pushrod upright';
-    % points(10).pos  = [-20.475, 482.786, 305];
+    % points(10).pos = [-20.475, 482.786, 305];
     % points(10).fixed = false;
     % 
-    % % 11 – Rocker tengely vázoldali pontja (hardcode)
+    % % Rocker tengely vázoldali pontja
     % points(11).name  = 'Front left rocker pivot lower';
-    % points(11).pos   = [-84.470, 155.712, 545.260];
+    % points(11).pos   = [-84.470, 155.712, 545.260];  
     % points(11).fixed = true;
     % 
-    % % 12 – Rocker tengely center (hardcode)
+    % % Rocker tengely center
     % points(12).name  = 'Front left rocker pivot center';
-    % points(12).pos   = [-86.84, 169.822, 563.784];
+    % points(12).pos   = [-86.84, 169.822, 563.784];  
     % points(12).fixed = true;
     % 
-    % % 13 – Damper rocker oldala (hardcode)
+    % % Damper rocker oldala
     % points(13).name = 'Front left damper rocker';
-    % points(13).pos  = [-78.900, 110.016, 611.104];
+    % points(13).pos = [-78.900, 110.016, 611.104];
     % points(13).fixed = false;
     % 
-    % % 14 – Damper váz oldal (hardcode)
+    % % Damper váz oldal
     % points(14).name = 'Front left damper chassis';
-    % points(14).pos  = [-253.279, 82.017, 610.122];
+    % points(14).pos = [-253.279, 82.017, 610.122];
     % points(14).fixed = true;
     % 
-    % % 15 – Kerék középpont
+    % % Kerék középpont
     % points(15).name  = 'Front left wheel center';
-    % points(15).pos   = wheel_center;
+    % points(15).pos = [0, 610, 193];  
     % points(15).fixed = false;
     % 
-    % % 16 – Stabilizátor Rocker oldala (hardcode)
+    % % Stabilizátor Rocker oldala
     % points(16).name = 'Front left ARB rocker';
-    % points(16).pos  = [-69.613, 126.436, 599.785];
+    % points(16).pos = [-69.613, 126.436, 599.785];
     % points(16).fixed = false;
     % 
-    % % 17 – Stabilizátor kés oldala (hardcode)
+    % % Stabilizátor kés oldala
     % points(17).name = 'Front left ARB blade';
-    % points(17).pos  = [72.237, 126.440, 614.444];
+    % points(17).pos = [72.237, 126.440, 614.444];
     % points(17).fixed = false;
     % 
-    % % 18 – Stabilizátor kés torziós rúd oldala (hardcode)
+    % % Stabilizátor kés torziós rúd oldala
     % points(18).name = 'Front left blade torsion bar';
-    % points(18).pos  = [75.097, 126.436, 585.090];
+    % points(18).pos = [75.097, 126.436, 585.090];
+    % points(18).fixed = true;
+    % % 
+  
+    %% 1. Pontok definiálása – Excelből olvasás + hardcode a többihez
+
+    input_excel_file = 'DAA_Points.xlsx';   % <-- ide írd a fájlnevedet
+
+    if exist(input_excel_file, 'file') ~= 2
+        error('A fájl nem található: %s\nKérlek tedd a munkakönyvtárba az Excel-t a fenti formátumban!', input_excel_file);
+    end
+
+    disp(['Pontok betöltése az Excelből: ', input_excel_file]);
+    T_in = readtable(input_excel_file);
+
+    % Segédfüggvény a név alapú kereséshez
+    function pos = get_pt(T, name)
+        idx = find(strcmpi(T.Name, name), 1);
+        if isempty(idx)
+            error('Hiányzó pont az Excelben: %s', name);
+        end
+        pos = [T.X(idx), T.Y(idx), T.Z(idx)];
+    end
+
+    % === Excelből beolvasott pontok ===
+    upper_fore_chassis   = get_pt(T_in, 'Upper Fore Chassis');
+    upper_aft_chassis    = get_pt(T_in, 'Upper Aft Chassis');
+    lower_fore_chassis   = get_pt(T_in, 'Lower Fore Chassis');
+    lower_aft_chassis    = get_pt(T_in, 'Lower Aft Chassis');
+    tie_rod_rack         = get_pt(T_in, 'Tie Rod Rack');
+    upper_upright        = get_pt(T_in, 'Upper Upright');
+    lower_upright        = get_pt(T_in, 'Lower Upright');
+    tie_rod_upright      = get_pt(T_in, 'Tie Rod Upright');
+    wheel_center         = get_pt(T_in, 'Wheel Center');
+
+    % === Struct tömb feltöltése ===
+    points = struct('name', {}, 'pos', {}, 'fixed', {});
+
+    % 1 – Felső lengőkar elülső (váz)
+    points(1).name  = 'Front left upper arm fore';
+    points(1).pos   = upper_fore_chassis;
+    points(1).fixed = true;
+
+    % 2 – Felső lengőkar hátulsó (váz)
+    points(2).name  = 'Front left upper arm aft';
+    points(2).pos   = upper_aft_chassis;
+    points(2).fixed = true;
+
+    % 3 – Felső lengőkar csonkállvány
+    points(3).name  = 'Front left upper arm upright';
+    points(3).pos   = upper_upright;
+    points(3).fixed = false;
+
+    % 4 – Alsó lengőkar elülső (váz)
+    points(4).name  = 'Front left lower arm fore';
+    points(4).pos   = lower_fore_chassis;
+    points(4).fixed = true;
+
+    % 5 – Alsó lengőkar hátulsó (váz)
+    points(5).name  = 'Front left lower arm aft';
+    points(5).pos   = lower_aft_chassis;
+    points(5).fixed = true;
+
+    % 6 – Alsó lengőkar csonkállvány
+    points(6).name  = 'Front left lower arm upright';
+    points(6).pos   = lower_upright;
+    points(6).fixed = false;
+
+    % 7 – Kormányösszekötő fogasléc oldala
+    points(7).name  = 'Front left tie rod rack';
+    points(7).pos   = tie_rod_rack;
+    points(7).fixed = false;
+
+    % 8 – Kormányösszekötő csonkállvány oldala
+    points(8).name  = 'Front left tie rod upright';
+    points(8).pos   = tie_rod_upright;
+    points(8).fixed = false;
+
+    % 9 – Pushrod rocker oldala (hardcode – nincs az Excelben)
+    points(9).name  = 'Front left pushrod rocker';
+    points(9).pos   = [-48.025, 153.151, 582.198];
+    points(9).fixed = false;
+
+    % 10 – Pushrod csonkállvány oldala (hardcode)
+    points(10).name = 'Front left pushrod upright';
+    points(10).pos  = [-20.475, 482.786, 305];
+    points(10).fixed = false;
+
+    % 11 – Rocker tengely vázoldali pontja (hardcode)
+    points(11).name  = 'Front left rocker pivot lower';
+    points(11).pos   = [-84.470, 155.712, 545.260];
+    points(11).fixed = true;
+
+    % 12 – Rocker tengely center (hardcode)
+    points(12).name  = 'Front left rocker pivot center';
+    points(12).pos   = [-86.84, 169.822, 563.784];
+    points(12).fixed = true;
+
+    % 13 – Damper rocker oldala (hardcode)
+    points(13).name = 'Front left damper rocker';
+    points(13).pos  = [-78.900, 110.016, 611.104];
+    points(13).fixed = false;
+
+    % 14 – Damper váz oldal (hardcode)
+    points(14).name = 'Front left damper chassis';
+    points(14).pos  = [-253.279, 82.017, 610.122];
+    points(14).fixed = true;
+
+    % 15 – Kerék középpont
+    points(15).name  = 'Front left wheel center';
+    points(15).pos   = wheel_center;
+    points(15).fixed = false;
+
+    % 16 – Stabilizátor Rocker oldala (hardcode)
+    points(16).name = 'Front left ARB rocker';
+    points(16).pos  = [-69.613, 126.436, 599.785];
+    points(16).fixed = false;
+
+    % 17 – Stabilizátor kés oldala (hardcode)
+    points(17).name = 'Front left ARB blade';
+    points(17).pos  = [72.237, 126.440, 614.444];
+    points(17).fixed = false;
+
+    % 18 – Stabilizátor kés torziós rúd oldala (hardcode)
+    points(18).name = 'Front left blade torsion bar';
+    points(18).pos  = [75.097, 126.436, 585.090];
     % points(18).fixed = true;
 
 

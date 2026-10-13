@@ -37,12 +37,12 @@ disp('========================================================');
 %  =========================================================================
 
 % ---- 0.1 KÉZZEL ITERÁLT BEÁLLÍTÁS -----------------------------------------
-K_spring_F  = 200;          % [lbs/in] Első főrugó
-K_spring_R  = 225;          % [lbs/in] Hátsó főrugó
+K_spring_F  = 900;          % [lbs/in] Első főrugó
+K_spring_R  = 1000;          % [lbs/in] Hátsó főrugó
 
 % Stabilizátor setup: 'első-hátsó' sorrendben, tengelyenként 'none' | 'roll' | 'heave'
 % (pl. 'roll-roll', 'roll-heave', 'heave-roll', 'heave-heave', 'none-roll', 'none-none')
-STAB_SETUP  = 'roll-roll';
+STAB_SETUP  = 'none-none';
 
 % K_ARB_F     = 68615.71205;            % [N/m] Első ARB össz, droplinkre vett merevsége (roll típusnál használt)
 % K_ARB_R     = 84522.71887;            % [N/m] Hátsó ARB össz, droplinkre vett merevsége
@@ -53,41 +53,41 @@ K_ARB_R     = 0;            % [N/m] Hátsó ARB össz, droplinkre vett merevség
 K_HEAVE_F   = 0;            % [N/m] Első heave stab. össz, droplinkre vett merevsége (heave típusnál használt)
 K_HEAVE_R   = 0;            % [N/m] Hátsó heave stab. össz, droplinkre vett merevsége
 
-h_RC_F      = 0.077;        % [m] Első RC magasság (statikus)
-h_RC_R      = 0.1128;        % [m] Hátsó RC magasság (statikus)
+h_RC_F      = 0.100;        % [m] Első RC magasság (statikus)
+h_RC_R      = 0.130;        % [m] Hátsó RC magasság (statikus)
 
-CLICK_F     = [4 4 3 3];    % Első damper click [LSR LSC HSR HSC], egész szám 1..6
-CLICK_R     = [4 4 3 3];    % Hátsó damper click [LSR LSC HSR HSC]
+CLICK_F     = [3 3 1 1];    % Első damper click [LSR LSC HSR HSC], egész szám 1..6
+CLICK_R     = [3 3 1 1];    % Hátsó damper click [LSR LSC HSR HSC]
 
 % ---- 0.2 MOTION RATIO GÖRBÉK (Excel / GUI) - változatlan működés ---------
 USE_GUI_FOR_CURVES = true;                      % true: GUI szerkesztő mind a 4 görbére (Excel az alap); false: csak az Excel
-eval_pts_mm  = -30:1:30;                        % [mm] Kerékút értékelési tartomány
+eval_pts_mm  = -15:1:15;                        % [mm] Kerékút értékelési tartomány
 % target_excel = 'Célgörbe_MotionRatios.xlsx';    % CSAK BETÖLTÉSRE használt alapfájl
 % target_excel = 'Célgörbe_MotionRatios_girbegurba.xlsx';    % CSAK BETÖLTÉSRE használt alapfájl
-target_excel = 'Célgörbe_MotionRatios_LIN.xlsx';    % CSAK BETÖLTÉSRE használt alapfájl
+target_excel = 'Célgörbe_MotionRatios.xlsx';    % CSAK BETÖLTÉSRE használt alapfájl
 save_dir     = 'MR_Mentesek';                   % ide kerülnek az új, időbélyeges mentések (módosított görbék)
 
 % ---- 0.3 JÁRMŰ, GEOMETRIA, TÖMEGEK ----------------------------------------
 valtoszam  = 175.128;      % [N/m / lbs/in] Átváltószám
 g          = 9.81;         % [m/s^2] Gravitációs gyorsulás
-m_total    = 254.0;        % [kg] Teljes tömeg (autó + pilóta)
-distrF     = 0.50;         % [-] Első tengelyre eső tömegarány
-m_SM       = 212.67;       % [kg] Rugózott tömeg
-m_NSM_F    = 41.8 / 4;     % [kg] Első sarki rugózatlan tömeg
-m_NSM_R    = 41.8 / 4;     % [kg] Hátsó sarki rugózatlan tömeg
+m_total    = 725.82;        % [kg] Teljes tömeg (autó + pilóta)
+distrF     = 0.45;         % [-] Első tengelyre eső tömegarány
+m_SM       = 628.82;       % [kg] Rugózott tömeg
+m_NSM_F    = 94.9 / 4;     % [kg] Első sarki rugózatlan tömeg
+m_NSM_R    = 94.9 / 4;     % [kg] Hátsó sarki rugózatlan tömeg
 
-L          = 1.54;         % [m] Tengelytáv
-T_F        = 1.22;         % [m] Első nyomtáv   (az optimalizálóban: 1.20)
-T_R        = 1.20;         % [m] Hátsó nyomtáv
+L          = 3;         % [m] Tengelytáv
+T_F        = 1.6;         % [m] Első nyomtáv   (az optimalizálóban: 1.20)
+T_R        = 1.6;         % [m] Hátsó nyomtáv
 
-h_CG_SM    = 0.290;        % [m] Rugózott tömeg CoG magassága
-h_CG_total = 0.273;        % [m] Teljes autó CoG magassága
-h_CG_NSM   = 0.044;        % [m] Rugózatlan tömeg CoG magassága
+h_CG_SM    = 0.32;        % [m] Rugózott tömeg CoG magassága
+h_CG_total = 0.3;        % [m] Teljes autó CoG magassága
+h_CG_NSM   = 0.36;        % [m] Rugózatlan tömeg CoG magassága
 
-theta_x_CG    = 2.55;      % [kg*m^2] Roll inercia a CoG körül
+theta_x_CG    = 7.65;      % [kg*m^2] Roll inercia a CoG körül
 K_chassis_deg = 3500;      % [Nm/deg] Váz torziós merevség (merev vázhoz írj Inf-et)
-K_Tire        = 588 * valtoszam;   % [N/m] Gumiabroncs függőleges merevség (~103,000 N/m)
-a_lat_g       = 2;         % [G] Cél oldalgyorsulás
+K_Tire        = 1700 * valtoszam;   % [N/m] Gumiabroncs függőleges merevség (~103,000 N/m)
+a_lat_g       = 5;         % [G] Cél oldalgyorsulás
 
 % Az ARB roll-merevségének átszámítása:
 % true : K_ARB/MR^2 * T^2/4 (mint az optimalizálóban és eddig ebben a fájlban)
@@ -96,34 +96,34 @@ ARB_ROLL_T2_4 = true;
 
 % ---- 0.4 AERODINAMIKA ÉS HASMAGASSÁG --------------------------------------
 rho_air      = 1.2;      % [kg/m^3] Levegő sűrűsége
-CLA          = 5.0;      % [m^2]    Leszorítóerő-tényező (C_L * A)   (az optimalizálóban: 5.5)
-aero_distr_F = 0.50;     % [-]      Aero eloszlás: az első tengelyre eső arány
-v_aero_kmh   = 0:1:120;  % [km/h]   Vizsgált sebességtartomány (a végpontja a hasmagasság-vizsgálat felső sebessége)
-h_static_F_mm = 34;      % [mm] Első statikus hasmagasság
-h_static_R_mm = 34;      % [mm] Hátsó statikus hasmagasság
+CLA          = 6.4;      % [m^2]    Leszorítóerő-tényező (C_L * A)   (az optimalizálóban: 5.5)
+aero_distr_F = 0.45;     % [-]      Aero eloszlás: az első tengelyre eső arány
+v_aero_kmh   = 0:1:360;  % [km/h]   Vizsgált sebességtartomány (a végpontja a hasmagasság-vizsgálat felső sebessége)
+h_static_F_mm = 35;      % [mm] Első statikus hasmagasság
+h_static_R_mm = 35;      % [mm] Hátsó statikus hasmagasság
 
 % ---- 0.4b DINAMIKUS MAGASSÁGOK: A ROLL CENTER A CoG-GAL EGYÜTT MOZOG ---------------
 % A kasztni függőleges elmozdulása (jacking felfelé, aero lesüllyedés lefelé) a CoG-t ÉS a roll centert is viszi.
 DYN_HEIGHT   = true;     % true: dinamikus CoG + RC (aero lesüllyedés + jacking); false: a korábbi modell (RC fix, a CoG csak jackinggel emelkedik)
 k_RC_F       = 1.05;      % [-] az első RC a kasztni függőleges mozgásának hányadát követi (1 = 1:1, 0 = fix RC)  !!! ÁLLÍTSD BE a kinematikából (dRC/dheave)
 k_RC_R       = 1.05;      % [-] ugyanez hátul                                                                      !!! ÁLLÍTSD BE
-v_corner_kmh = 45;       % [km/h] kanyarsebesség: ezen a sebességen számolt aero lesüllyedés kerül a dinamikus CoG-ba / RC-be  !!! ÁLLÍTSD BE
+v_corner_kmh = 160;       % [km/h] kanyarsebesség: ezen a sebességen számolt aero lesüllyedés kerül a dinamikus CoG-ba / RC-be  !!! ÁLLÍTSD BE
 
 % ---- 0.5 DAMPER ADATOK ------------------------------------------------------
 % Damper mátrix [N s/m] (damper oldalon): sorok LSR, LSC, HSR, HSC; oszlopok click 1..6
 C_damper_matrix = [
-    51081.6, 9940.1, 3916, 1962.9, 1129.1, 601.9;    % Low Speed Rebound (LSR)
+    51081.6, 9940.1, 5316, 1962.9, 1129.1, 601.9;    % Low Speed Rebound (LSR)
     61889.8, 11165.6, 5319.1, 2375.7, 960.1, 944.1;  % Low Speed Compression (LSC)
-    2040.3, 1402.4, 1457.8, 1212.2, 569.6, 386.4;    % High Speed Rebound (HSR)
-    2253.6, 1929.4, 1659.3, 1029.9, 621.4, 445.1     % High Speed Compression (HSC)
+    2040.3, 1402.4, 1457.8, 1212.2, 569.6, 586.4;    % High Speed Rebound (HSR)
+    2253.6, 1929.4, 1659.3, 1029.9, 621.4, 645.1     % High Speed Compression (HSC)
 ];
 
 % ---- 0.6 CÉLOK ÉS HATÁROK (a "Megfelel" ellenőrzéshez és a J célfüggvényhez; az optimalizálóból átvéve) ----
 O = struct();
-O.PHI_RANGE_DEG = [0.50 0.8];    % [deg]  !!! ÁLLÍTSD BE - egyensúlyi dőlésszög (első tengely)
-O.TLTD_RANGE    = [40 50];       % [%]    !!! ÁLLÍTSD BE - TLTD (első arány)
-O.MN_RANGE      = [40 70];       % [%]    !!! ÁLLÍTSD BE - Magic Number (K_roll_F / K_roll_tot)
-O.F_RIDE_TARGET = [3.8 4.5];     % [Hz] [első hátsó] statikus ride frekvencia cél  !!! ÁLLÍTSD BE
+O.PHI_RANGE_DEG = [0.50 1];    % [deg]  !!! ÁLLÍTSD BE - egyensúlyi dőlésszög (első tengely)
+O.TLTD_RANGE    = [35 40];       % [%]    !!! ÁLLÍTSD BE - TLTD (első arány)
+O.MN_RANGE      = [45 55];       % [%]    !!! ÁLLÍTSD BE - Magic Number (K_roll_F / K_roll_tot)
+O.F_RIDE_TARGET = [6.17 6.55];     % [Hz] [első hátsó] statikus ride frekvencia cél  !!! ÁLLÍTSD BE
 
 % Cél damping ratio statikusan (x = 0); sorok: LSR LSC HSR HSC | oszlopok: első, hátsó  !!! ÁLLÍTSD BE
 % (az optimalizálóban: 0.75 0.75 0.40 0.40 mindkét tengelyen)
@@ -135,10 +135,10 @@ O.XI_TARGET = [0.70 0.70;
 O.H_MIN_MM = 5;                  % [mm] minimális hasmagasság a teljes sebességtartományban
 O.AERO_WITHIN_TRAVEL = true;     % true: az aero berugózás se haladja meg a berugózási tartományt
 
-O.TRAVEL_TOTAL_MM  = 56;         % [mm] kerék összmozgás
-O.TRAVEL_BUMP_MM   = 30;         % [mm] berugózás (a maradék = kirugózás)
-O.DAMPER_STROKE_MM = 50;         % [mm] damper löket
-O.DAMPER_LMAX_MM   = 200;        % [mm] damper hossza teljesen kihúzva
+O.TRAVEL_TOTAL_MM  = 30;         % [mm] kerék összmozgás
+O.TRAVEL_BUMP_MM   = 15;         % [mm] berugózás (a maradék = kirugózás)
+O.DAMPER_STROKE_MM = 40;         % [mm] damper löket
+O.DAMPER_LMAX_MM   = 400;        % [mm] damper hossza teljesen kihúzva
 
 O.MR_MIN = 0.70;                 % MR a teljes kerékúton ebben a sávban maradjon
 O.MR_MAX = 1.60;
@@ -294,16 +294,16 @@ if USE_GUI_FOR_CURVES
     disp('Grafikus célgörbe szerkesztő indítása mind a 4 Motion Ratio-ra...');
     
     [MR_F_func, eval_y_1] = defineTargetCurveGUI('1. Első Főrugó Motion Ratio (MR_F)', ...
-        -30, 30, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_1, y_init_1, eval_pts_mm);
+        -15, 15, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_1, y_init_1, eval_pts_mm);
         
     [MR_R_func, eval_y_2] = defineTargetCurveGUI('2. Hátsó Főrugó Motion Ratio (MR_R)', ...
-        -30, 30, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_2, y_init_2, eval_pts_mm);
+        -15, 15, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_2, y_init_2, eval_pts_mm);
         
     [MR_ARB_F_func, eval_y_3] = defineTargetCurveGUI('3. Első stabilizátor Motion Ratio (MR_ARB_F, roll/heave)', ...
-        -30, 30, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_3, y_init_3, eval_pts_mm);
+        -15, 15, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_3, y_init_3, eval_pts_mm);
         
     [MR_ARB_R_func, eval_y_4] = defineTargetCurveGUI('4. Hátsó stabilizátor Motion Ratio (MR_ARB_R, roll/heave)', ...
-        -30, 30, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_4, y_init_4, eval_pts_mm);
+        -15, 15, 'Kerékút (Z) [mm]', 'Motion Ratio [-]', x_init_4, y_init_4, eval_pts_mm);
 else
     MR_F_func     = @(x) interp1(x_init_1, y_init_1, x*1000, 'pchip', 'extrap');
     MR_R_func     = @(x) interp1(x_init_2, y_init_2, x*1000, 'pchip', 'extrap');
