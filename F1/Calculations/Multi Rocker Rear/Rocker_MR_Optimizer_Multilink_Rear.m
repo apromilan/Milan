@@ -22,7 +22,8 @@ function Rocker_MR_Optimizer_Multilink
 
     plane_choice = questdlg('Szeretnéd tartani az eredeti Rocker sík dőlését (Center-Damper-Pushrod), vagy a program válassza ki szabadon?', ...
         'Rocker Sík Kényszer', 'Saját sík tartása (Kényszer)', 'Program választja', 'Program választja');
-    ENFORCE_ROCKER_PLANE = strcmp(plane_choice, 'Saját sík tartása (Kényszer)');
+    % ENFORCE_ROCKER_PLANE = strcmp(plane_choice, 'Saját sík tartása (Kényszer)');
+    ENFORCE_ROCKER_PLANE = false;
     
     %% 3. PONTRENDSZER BETÖLTÉSE (Multilink + Rocker)
     [pts0, fixed_mask] = load_all_points();
@@ -66,7 +67,7 @@ function Rocker_MR_Optimizer_Multilink
 
     % <- a saját F1 autó adatai (tömeg, rugó, gumi): ezeket a szabályzat nem rögzíti
     Vehicle.sm_mass     = 208;
-    Vehicle.Trackwidth  = 1200;
+    Vehicle.Trackwidth  = 1600;
     Vehicle.K_spring    = 225 * 175.127; % N/m
     Vehicle.K_tire      = 588 * 175.127; % N/m
     Vehicle.Inertia_RC  = 14.9;
@@ -108,8 +109,8 @@ function Rocker_MR_Optimizer_Multilink
 
 
     %% 2. CÉLGÖRBÉK BEÁLLÍTÁSA (CSAK MR)
-    Target.dz = -30:1:30;
-    eval_pts  = -30:1:30;
+    Target.dz = -15:1:15;
+    eval_pts  = -15:1:15;
 
     target_excel = 'Célgörbe_Rocker_MR0.xlsx';
     loaded_data = {};
@@ -162,23 +163,30 @@ function Rocker_MR_Optimizer_Multilink
         disp('Célgörbe változatlan.');
     end
 
-    %% 4. BOUNDARY (±30 mm)
-    % 11 = Pushrod Rocker, 14 = Rocker Center, 15 = Damper Rocker
-    opt_idx = [11, 14, 15];
-
+    %% 4. OPTIMALIZÁLANDÓ PONTOK VÁLASZTÁSA
+    rocker_ids   = [11 12 13 14 15 16];
+    rocker_names = {'Rod Rocker','Rod Upright','Rocker Axis','Rocker Center','Damper Rocker','Damper Chassis'};
+    [sel, ok] = listdlg('PromptString', 'Mely pontokat iterálhassa a solver? (a többi fix)', ...
+        'ListString', rocker_names, 'InitialValue', [1 4 5], ...
+        'SelectionMode', 'multiple', 'ListSize', [320 140]);
+    if ~ok || isempty(sel), sel = [1 4 5]; end
+    opt_idx = rocker_ids(sel);
+    
     x0 = [];
-    for i = opt_idx
-        x0 = [x0, pts0(i).pos]; 
-    end
+    for i = opt_idx, x0 = [x0, pts0(i).pos]; end
+    dev = 30;                       % ide per-pont értéket is írhatsz
+    lb = x0 - dev;  ub = x0 + dev;
 
-    dev = 30;
-    lb = x0 - dev;
-    ub = x0 + dev;
+    x_ref = x0;
+    opts_p = optimoptions('fmincon','Display','off','Algorithm','sqp');
+    x0 = fmincon(@(x) sum((x - x_ref).^2), x_ref, [],[],[],[], lb, ub, ...
+        @(x) geo_only_nonlcon(x, pts0, opt_idx, TARGET_AXIS_DIST), opts_p);
+    fprintf('Indulópont elmozdulás a feasible geometriához: %.2f mm\n', norm(x0 - x_ref));
 
     %% 5. OPTIMALIZÁLÁS
     disp('Optimalizálás indítása...');
     options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp', ...
-        'MaxFunctionEvaluations', 500, 'StepTolerance', 1e-6, ...
+        'MaxFunctionEvaluations', 5000, 'StepTolerance', 1e-20, ...
         'OutputFcn', @stop_optimization_callback);
 
     obj_fun = @(x) calc_mr_cost(x, pts0, fixed_mask, opt_idx, Target, Vehicle);
@@ -186,6 +194,12 @@ function Rocker_MR_Optimizer_Multilink
         Collision, ENFORCE_ROCKER_PLANE, TARGET_AXIS_DIST, TARGET_MAX_AREA, F1);
 
     tic;
+    % d0  = pts0(12).pos - pts0(11).pos;
+    % Aeq = [zeros(3,3), -eye(3), eye(3), zeros(3,3)];   % p12 - p11 = d0
+    % beq = d0(:);
+
+    % [x_opt, fval] = fmincon(obj_fun, x0, [], [], Aeq, beq, lb, ub, nonlcon_fun, options);
+
     [x_opt, fval] = fmincon(obj_fun, x0, [], [], [], [], lb, ub, nonlcon_fun, options);
     toc;
 
@@ -279,7 +293,7 @@ function [points, fixed_mask] = load_all_points()
 
     % Multilink Excel override
     ml_file = '';
-    d = dir('Optim_Multilink*.xlsx');
+    d = dir('Multi_Points_Rear*.xlsx');
     if ~isempty(d)
         [~, idx] = sort([d.datenum], 'descend');
         ml_file = d(idx(1)).name;
@@ -335,6 +349,7 @@ function [points, fixed_mask] = load_all_points()
     
     points(12).fixed = true;
     points(13).fixed = true;
+    points(14).fixed = true;
     points(16).fixed = true;
 
     fixed_mask = [points.fixed];
@@ -643,7 +658,7 @@ function curve_out = defineTargetCurveGUI(name, x_min, x_max, x_label, y_label, 
     update_plot_and_list();
     uiwait(fig);
 
-    z_eval = linspace(x_min, x_max, 61)';
+    z_eval = linspace(x_min, x_max, 31)';
     if isempty(x_pts)
         x_sorted = [x_min; x_max]; y_sorted = [1; 1];
     else
@@ -741,24 +756,28 @@ function [c, ceq] = rocker_collision_and_plane_nonlcon(x, pts0, opt_idx, ...
         k = k + 3;
     end
 
-    % Axis – Center távolság
-    if ~isempty(TargetAxisDist)
-        current_dist = norm(pts(14).pos - pts(13).pos);
-        ceq(end+1) = current_dist - TargetAxisDist;
-    end
+    % % Axis – Center távolság
+    % if ~isempty(TargetAxisDist) && any(ismember(opt_idx, [13 14]))
+    %     current_dist = norm(pts(14).pos - pts(13).pos);
+    %     ceq(end+1) = current_dist - TargetAxisDist;
+    % end
+    % 
+    % % Sík kényszer
+    % if EnforcePlane && any(ismember(opt_idx, [11 14 15]))
+    %     p_c_orig = pts0(14).pos;
+    %     p_d_orig = pts0(15).pos;
+    %     p_p_orig = pts0(11).pos;
+    %     n_orig = cross(p_d_orig - p_c_orig, p_p_orig - p_c_orig);
+    %     n_orig = n_orig / (norm(n_orig) + 1e-15);
+    % 
+    %     p_c_new = pts(14).pos;
+    %     ceq(end+1) = dot(pts(15).pos - p_c_new, n_orig);
+    %     ceq(end+1) = dot(pts(11).pos - p_c_new, n_orig);
+    % end
 
-    % Sík kényszer
-    if EnforcePlane
-        p_c_orig = pts0(14).pos;
-        p_d_orig = pts0(15).pos;
-        p_p_orig = pts0(11).pos;
-        n_orig = cross(p_d_orig - p_c_orig, p_p_orig - p_c_orig);
-        n_orig = n_orig / (norm(n_orig) + 1e-15);
-
-        p_c_new = pts(14).pos;
-        ceq(end+1) = dot(pts(15).pos - p_c_new, n_orig);
-        ceq(end+1) = dot(pts(11).pos - p_c_new, n_orig);
-    end
+    [c_g, ceq_g] = rocker_geometry_constraints(pts, opt_idx, TargetAxisDist);
+    ceq = [ceq, ceq_g];
+    c   = [c(:); c_g(:)];
     
     % Max felület
     if ~isempty(TargetMaxArea)
@@ -820,6 +839,31 @@ function [c, ceq] = rocker_collision_and_plane_nonlcon(x, pts0, opt_idx, ...
         need_rim = (Collision.rod_diameter_pushrod / 2) + Collision.min_clearance;
         c(end+1, 1) = need_rim - d_rim;
     end
+end
+
+function [c, ceq] = geo_only_nonlcon(x, pts0, opt_idx, TargetAxisDist)
+pts = pts0; k = 1;
+for i = 1:length(opt_idx), pts(opt_idx(i)).pos = x(k:k+2); k = k + 3; end
+[c, ceq] = rocker_geometry_constraints(pts, opt_idx, TargetAxisDist);
+end
+
+function [c_g, ceq_g] = rocker_geometry_constraints(pts, opt_idx, TargetAxisDist)
+A  = pts(13).pos;  C  = pts(14).pos;       % Axis, Center
+PR = pts(11).pos;  DR = pts(15).pos;       % rod rocker, damper rocker
+PU = pts(12).pos;  DC = pts(16).pos;       % rod upright, damper chassis
+c_g = [];  ceq_g = [];
+
+if ismember(14, opt_idx) || ismember(13, opt_idx)
+    n = (C - A) / (norm(C - A) + 1e-12);   % tengely irány = sík normális
+    ceq_g = [dot(n, C  - DC), ...          % Center a síkban
+        dot(n, PR - DC), ...          % rod rocker pont a síkban
+        dot(n, DR - DC), ...          % damper rocker pont a síkban
+        dot(n, PU - DC)];             % rod upright pont a síkban
+end
+
+if ~isempty(TargetAxisDist) && (ismember(13, opt_idx) || ismember(14, opt_idx))
+    ceq_g(end+1) = norm(C - A) - TargetAxisDist;
+end
 end
 
 %% ========================================================================

@@ -71,7 +71,7 @@ function Rocker_MR_Optimizer
 
     % <- a saját F1 autó adatai (tömeg, rugó, gumi): ezeket a szabályzat nem rögzíti
     Vehicle.sm_mass     = 208;
-    Vehicle.Trackwidth  = 1200;
+    Vehicle.Trackwidth  = 1600;
     Vehicle.K_spring    = 225 * 175.127; % N/m
     Vehicle.K_tire      = 588 * 175.127; % N/m
     Vehicle.Inertia_RC  = 14.9;
@@ -122,8 +122,8 @@ function Rocker_MR_Optimizer
     end
 
     %% 2. CÉLGÖRBÉK BEÁLLÍTÁSA (CSAK MR)
-    Target.dz = -30:1:30;
-    eval_pts  = -30:1:30;
+    Target.dz = -15:1:15;
+    eval_pts  = -15:1:15;
 
     target_excel = 'Célgörbe_Rocker_MR0.xlsx';
     loaded_data = {};
@@ -135,7 +135,7 @@ function Rocker_MR_Optimizer
     if USE_GUI_FOR_CURVES
         disp('Grafikus célgörbe szerkesztése...');
         [x_init, y_init] = get_excel_pts(loaded_data, 3, eval_pts); % A 3. sorban tároljuk az MR-t
-        Target.MR = defineTargetCurveGUI('Motion Ratio Célgörbe', -30, 30, ...
+        Target.MR = defineTargetCurveGUI('Motion Ratio Célgörbe', -15, 15, ...
             'Rugóút (Z) [mm]', 'Motion Ratio [-]', x_init, y_init);
     else
         % Default lapos MR görbe, ha nincs GUI
@@ -182,14 +182,14 @@ function Rocker_MR_Optimizer
     %  9 = Pushrod rocker
     % 12 = Rocker Center
     % 13 = Damper rocker
-    opt_idx = [9, 12, 13];
+    opt_idx = [9, 13];
 
     x0 = [];
     for i = opt_idx
         x0 = [x0, pts0(i).pos]; 
     end
 
-    dev = 30;
+    dev = 50;
     lb = x0 - dev;
     ub = x0 + dev;
 
@@ -204,6 +204,12 @@ function Rocker_MR_Optimizer
         Collision, ENFORCE_ROCKER_PLANE, TARGET_AXIS_DIST, TARGET_MAX_AREA, F1);
 
     tic;
+
+    % d0  = pts0(12).pos - pts0(11).pos;
+    % Aeq = [zeros(3,3), -eye(3), eye(3), zeros(3,3)];   % p12 - p11 = d0
+    % beq = d0(:);
+
+    % [x_opt, fval] = fmincon(obj_fun, x0, [], [], Aeq, beq, lb, ub, nonlcon_fun, options);
     [x_opt, fval] = fmincon(obj_fun, x0, [], [], [], [], lb, ub, nonlcon_fun, options);
     toc;
 
@@ -354,10 +360,17 @@ function [points, fixed_mask] = load_all_points()
         T_def = cell2table(init_raw, 'VariableNames', {'Name','X','Y','Z'});
         writetable(T_def, rocker_file);
     end
-    
+
+    % A = points(4).pos; B = points(6).pos; C = points(5).pos;
+    % s = 0.85;
+    % n = cross(B - A, C - A);  n = n / norm(n);   % alsó kar síkjának normálisa
+    % off = 12;                                     % [mm], < 25
+    % points(10).pos = A + s*(B - A) + off*n;
+    % 
     % Fixálások
     points(10).fixed = true;  % Pushrod Upright fixálva
     points(11).fixed = true;  % Rocker Axis fixálva
+    points(12).fixed = true;
     points(14).fixed = true;  % Damper Chassis fixálva
 
     fixed_mask = [points.fixed];
@@ -529,9 +542,9 @@ function res = heave_residuals(x_free, pts_base, L, free_idx, z15_target, y7_tar
     res(8)  = norm(pts(7).pos - pts(8).pos) - L.L78;
     % Pushrod
     res(9)  = norm(pts(9).pos - pts(10).pos) - L.L910;
-    res(10) = norm(pts(3).pos - pts(10).pos) - L.L310;
-    res(11) = norm(pts(1).pos - pts(10).pos) - L.L110;
-    res(12) = norm(pts(2).pos - pts(10).pos) - L.L210;
+    res(10) = norm(pts(6).pos - pts(10).pos) - L.L610;
+    res(11) = norm(pts(4).pos - pts(10).pos) - L.L410;
+    res(12) = norm(pts(5).pos - pts(10).pos) - L.L510;
     % Rocker merevség (pushrod-rocker ↔ pivots + damper-rocker ↔ pivots)
     res(13) = norm(pts(9).pos - pts(11).pos) - L.L911;
     res(14) = norm(pts(9).pos - pts(12).pos) - L.L912;
@@ -563,9 +576,9 @@ function L = compute_lengths(pts)
     L.L83   = norm(pts(8).pos - pts(3).pos);
     L.L78   = norm(pts(7).pos - pts(8).pos);
     L.L910  = norm(pts(9).pos - pts(10).pos);
-    L.L310  = norm(pts(3).pos - pts(10).pos);
-    L.L110  = norm(pts(1).pos - pts(10).pos);
-    L.L210  = norm(pts(2).pos - pts(10).pos);
+    L.L610  = norm(pts(6).pos - pts(10).pos);
+    L.L410  = norm(pts(4).pos - pts(10).pos);
+    L.L510  = norm(pts(5).pos - pts(10).pos);
     L.L911  = norm(pts(9).pos - pts(11).pos);
     L.L912  = norm(pts(9).pos - pts(12).pos);
     L.L1113 = norm(pts(11).pos - pts(13).pos);
@@ -661,7 +674,7 @@ function curve_out = defineTargetCurveGUI(name, x_min, x_max, x_label, y_label, 
     update_plot_and_list();
     uiwait(fig);
 
-    z_eval = linspace(x_min, x_max, 61)';
+    z_eval = linspace(x_min, x_max, 31)';
     if isempty(x_pts)
         x_sorted = [x_min; x_max]; y_sorted = [1; 1];
     else
@@ -760,11 +773,11 @@ function [c, ceq] = rocker_collision_and_plane_nonlcon(x, pts0, opt_idx, ...
         k = k + 3;
     end
 
-    % --- 0. Távolság Kényszer (Rocker Axis és Center között) ---
-    if ~isempty(TargetAxisDist)
-        current_dist = norm(pts(12).pos - pts(11).pos);
-        ceq(end+1) = current_dist - TargetAxisDist;
-    end
+    % % --- 0. Távolság Kényszer (Rocker Axis és Center között) ---
+    % if ~isempty(TargetAxisDist)
+    %     current_dist = norm(pts(12).pos - pts(11).pos);
+    %     ceq(end+1) = current_dist - TargetAxisDist;
+    % end
 
     % --- 1. SÍK KÉNYSZER (Párhuzamos eltolással) ---
     if EnforcePlane
@@ -820,7 +833,7 @@ function [c, ceq] = rocker_collision_and_plane_nonlcon(x, pts0, opt_idx, ...
         'FunctionTolerance', 1e-6, 'Algorithm', 'levenberg-marquardt');
 
     % 7 ponton szimuláljuk végig a mozgást (-30, -20, -10, 0, 10, 20, 30 mm)
-    dz_col_vec = linspace(-30, 30, 7);
+    dz_col_vec = linspace(-15, 15, 7);
     rim_axis = Collision.wheel_axis0(:)';     % F1: Legality Setup camber (FS: [0 1 0])
 
     % F1 C10.3.6c: pushrod keresztmetszet-dőlés a rugóút mentén (Legality Setup = design)
@@ -962,7 +975,7 @@ function F1 = f1_rules_2026(axle)
     F1.ZWgradWindow      = 10;            % ... ennyi [mm] rugóúton
     F1.IncidenceHeaveMax = 5;             % C10.3.6c [deg] rugóút
     F1.IncidenceSteerMax = 1;             % C10.3.6c [deg] kormányzás
-    F1.CheckDz    = -30:5:30;             % [mm] az F1 heave-ellenőrzés pózai (a 10 mm-es ablakhoz 5 mm-es lépés kell)
+    F1.CheckDz    = -15:5:15;             % [mm] az F1 heave-ellenőrzés pózai (a 10 mm-es ablakhoz 5 mm-es lépés kell)
     F1.NoMountBox = [];                   % C10.3.10 (hátul): PU tiltott doboz [xmin xmax; ymin ymax; zmin zmax], [] = ki
 
     % --- csak első tengely ---
@@ -976,7 +989,7 @@ function F1 = f1_rules_2026(axle)
     F1.SteerCheckRack = 30;               % [mm] C10.3.6c kormányzási tartomány (±rack)
 
     % --- pushrod (rocker optimalizálók) ---
-    F1.PushrodOnMember       = false;     % true: a pushrod egy másik tagra (lengőkarra) köt -> C10.3.4 d-f
+    F1.PushrodOnMember       = true;     % true: a pushrod egy másik tagra (lengőkarra) köt -> C10.3.4 d-f
     F1.PushrodExcYWmax       = 50;        % C10.3.4d [mm]
     F1.PushrodExcLineDist    = 25;        % C10.3.4e [mm]
     F1.CheckPushrodIncidence = true;      % C10.3.6c a pushrodra (kör keresztmetszetnél állítsd false-ra)
@@ -1134,8 +1147,8 @@ end
 function [A, B, d] = f1_pushrod_member_DAA(pts)
 % A Pushrod Upright (10) a felső lengőkar szárára köt: a közelebbi szár (1-3 vagy 2-3) adja
 % a C10.3.4 e/f-hez a "tagot, amire köt".
-    d1 = f1_point_line_dist(pts(10).pos, pts(1).pos, pts(3).pos);
-    d2 = f1_point_line_dist(pts(10).pos, pts(2).pos, pts(3).pos);
-    if d1 <= d2, A = pts(1).pos; d = d1; else, A = pts(2).pos; d = d2; end
-    B = pts(3).pos;
+    d1 = f1_point_line_dist(pts(10).pos, pts(4).pos, pts(6).pos);
+    d2 = f1_point_line_dist(pts(10).pos, pts(5).pos, pts(6).pos);
+    if d1 <= d2, A = pts(4).pos; d = d1; else, A = pts(5).pos; d = d2; end
+    B = pts(6).pos;
 end

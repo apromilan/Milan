@@ -1,0 +1,46 @@
+﻿MASS PROPERTIES OF THE PART 1055_TRYK_GASFJEDRE_B
+
+VOLUME =  2.8736032e+03  MM^3
+SURFACE AREA =  2.2128181e+03  MM^2
+DENSITY =  7.8500000e-09 TONNE / MM^3
+MASS =  2.2557785e-05 TONNE 
+CENTER OF GRAVITY with respect to _1055_TRYK_GASFJEDRE_B coordinate frame:
+X   Y   Z     1.2990079e+02  0.0000000e+00  0.0000000e+00  MM
+
+INERTIA with respect to _1055_TRYK_GASFJEDRE_B coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  1.7305461e-04  2.6796491e-08  0.0000000e+00
+Iyx Iyy Iyz  2.6796491e-08  3.9902375e-01  4.0183238e-09
+Izx Izy Izz  0.0000000e+00  4.0183238e-09  3.9911090e-01
+
+INERTIA at CENTER OF GRAVITY with respect to _1055_TRYK_GASFJEDRE_B coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  1.7305461e-04  9.5937422e-09  0.0000000e+00
+Iyx Iyy Iyz  9.5937422e-09  1.8378800e-02  4.0183238e-09
+Izx Izy Izz  0.0000000e+00  4.0183238e-09  1.8465947e-02
+
+PRINCIPAL MOMENTS OF INERTIA:  (TONNE * MM^2)
+I1  I2  I3   1.7305461e-04  1.8378800e-02  1.8465947e-02
+
+ROTATION MATRIX from _1055_TRYK_GASFJEDRE_B orientation to PRINCIPAL AXES:
+       1.00000        0.00000        0.00000
+       0.00000        1.00000        0.00005
+       0.00000       -0.00005        1.00000
+
+ROTATION ANGLES from _1055_TRYK_GASFJEDRE_B orientation to PRINCIPAL AXES (degrees):
+angles about x  y  z   0.000          0.000          0.000 
+
+RADII OF GYRATION with respect to PRINCIPAL AXES:
+R1  R2  R3 2.7697678e+00  2.8543705e+01  2.8611298e+01  MM
+
+---------------------------------------------
+
+MASS PROPERTIES OF BODIES OF THE PART
+(in part units and the _1055_TRYK_GASFJEDRE_B coordinate frame)
+
+   DENSITY             MASS          C.G.:  X        Y         Z
+
+                          Body 1            MATERIAL:                  S235JR_NA_CA_STR_HR
+         7.85000e-09  2.25578e-05  1.29901e+02  0.00000e+00  0.00000e+00

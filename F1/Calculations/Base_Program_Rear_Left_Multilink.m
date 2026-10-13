@@ -263,6 +263,10 @@ function base_program_rear_left_multi
     
     % Positions history a vizualizációhoz
     positions_history = zeros(length(points), 3, num_z, num_r);
+
+    % Virtuális kormányzási tengely (a kormányzás pillanatnyi csavartengelye): pont + egységvektor
+    SteerAxisP_mat = zeros(num_z, num_r, 3);
+    SteerAxisU_mat = zeros(num_z, num_r, 3);
     
     %% 3. MULTILINK KINEMATIKAI SZOLVER (done_3.m számolása)
     options = optimoptions('lsqnonlin', 'Display', 'off', 'MaxIterations', 10000, 'FunctionTolerance', 1e-200);
@@ -361,6 +365,8 @@ function base_program_rear_left_multi
     
             % ===== SCRUB RADIUS ÉS MECH TRAIL =====
             P_isa = WC_new' + cross(omega, v_WC) / (omega_norm^2);
+            SteerAxisP_mat(iz, ir, :) = P_isa;     % a tengely egy pontja [mm]
+            SteerAxisU_mat(iz, ir, :) = U_vec;     % egységvektor (Z felé mutat)
             v_CP_pure = cross(omega, cp - P_isa);
             
             delta = deg2rad(Toe_mat(iz, ir));
@@ -672,6 +678,23 @@ function base_program_rear_left_multi
     ir_min     = 1;                        % Minimum kormányszög (-20 mm rack)
     ir_zero    = find(rack_range == 0, 1);   % 0 kormányszög (0 mm rack)
     ir_max     = length(rack_range);          % Maximum kormányszög (+20 mm rack)
+
+    % --- Virtuális kormányzási tengely – statikus helyzet 3D pontjai ---
+    [sta_b0, sta_t0, sta_p0, sta_u0] = steer_axis_ends(iz_zero, ir_zero);
+    sta_g0 = NaN(1,3); sta_w0 = NaN(1,3);
+    if abs(sta_u0(3)) > 1e-6
+        sta_g0 = sta_p0 + ((0 - sta_p0(3)) / sta_u0(3)) * sta_u0;              % metszés a talajjal (Z = 0)
+        sta_w0 = sta_p0 + ((WC_init(3) - sta_p0(3)) / sta_u0(3)) * sta_u0;     % metszés a kerékközéppont magasságában
+    end
+    fprintf('\n===== VIRTUÁLIS KORMÁNYZÁSI TENGELY – statikus helyzet (Z = 0 mm, rack = 0 mm) =====\n');
+    fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Tengely pontja (WC-hez legközelebbi)', sta_p0(1), sta_p0(2), sta_p0(3));
+    fprintf('%-40s : [ %.5f, %.5f, %.5f ]\n', 'Irányvektor (egység)', sta_u0(1), sta_u0(2), sta_u0(3));
+    fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Alsó pont (talaj, Z = 0)', sta_g0(1), sta_g0(2), sta_g0(3));
+    fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Pont a kerékközéppont magasságában', sta_w0(1), sta_w0(2), sta_w0(3));
+    fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Rajzolt tengely alsó vége', sta_b0(1), sta_b0(2), sta_b0(3));
+    fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Rajzolt tengely felső vége', sta_t0(1), sta_t0(2), sta_t0(3));
+    fprintf('%-40s : %.4f ° | Caster: %.4f °\n', 'KPI', KPI_mat(iz_zero, ir_zero), Caster_mat(iz_zero, ir_zero));
+    fprintf('------------------------------------\n');
     
     matrices = {'KPI_mat', KPI_mat; ...
         'Caster_mat', Caster_mat; ...
@@ -1022,23 +1045,6 @@ function base_program_rear_left_multi
 
     update_diagram(initial_wheel_step, initial_steer_step);
     
-    % FIG_AXIS: Interaktív Suspension Kinematics & Instant Axis
-    s_idx = ir_zero; 
-    fig_axis = figure('Name', 'Suspension Kinematics & Instant Axis', 'Position', [100, 100, 1200, 800]);
-    ax_sc = axes(fig_axis, 'Position', [0.1, 0.2, 0.8, 0.7]);
-    
-    slider_sc = uicontrol('Style', 'slider', ...
-        'Min', 1, 'Max', num_wheel_steps, 'Value', iz_zero, ...
-        'SliderStep', [1/(num_wheel_steps-1) 5/(num_wheel_steps-1)], ...
-        'Position', [150, 50, 900, 20]);
-    
-    txt_label = uicontrol('Style', 'text', ...
-        'Position', [500, 20, 250, 20], ...
-        'String', sprintf('Wheel Travel: %.1f mm', wheel_travel_range(iz_zero)), ...
-        'FontSize', 12, 'FontWeight', 'bold');
-    
-    addlistener(slider_sc, 'ContinuousValueChange', @(src, event) update_plot2(round(src.Value)));
-    update_plot2(iz_zero);
     
     %% 7. NÉZET ÉS FRISSÍTŐ FÜGGVÉNYEK (Nested Functions)
         function update_plot(wheel_step, steer_step)
@@ -1307,6 +1313,20 @@ function base_program_rear_left_multi
             drawnow;
         end
     
+        function [sta_b, sta_t, sta_p, sta_u] = steer_axis_ends(w_i, s_i)
+            % Virtuális kormányzási tengely: pont, irány és a rajzolt szakasz két vége
+            % (alul a talaj Z = 0, felül a gumi tetejének magassága; majdnem vízszintes tengelynél ±400 mm)
+            sta_p = squeeze(SteerAxisP_mat(w_i, s_i, :))';
+            sta_u = squeeze(SteerAxisU_mat(w_i, s_i, :))';
+            if abs(sta_u(3)) > 0.2
+                sta_b = sta_p + ((0 - sta_p(3)) / sta_u(3)) * sta_u;
+                sta_t = sta_p + ((WC_init(3) + Tyre.R_outer - sta_p(3)) / sta_u(3)) * sta_u;
+            else
+                sta_b = sta_p - 400 * sta_u;
+                sta_t = sta_p + 400 * sta_u;
+            end
+        end
+
         function update_axes(ax, h_points, h_texts, h_lines, wheel_step, steer_step, label_offset, Collision)
             cla(ax);
             hold(ax, 'on');
@@ -1376,86 +1396,15 @@ function base_program_rear_left_multi
             % =========================================================================
             draw_tire(ax, WC_pos, unit_normal, [], []);
 
-        end
+            % Virtuális kormányzási tengely (szaggatott)
+            [sta_b, sta_t] = steer_axis_ends(wheel_step, steer_step);
+            hold(ax, 'on');                      % a draw_tire hold off-ra állít, enélkül a plot3 letörölné az ábrát
+            if all(isfinite([sta_b sta_t]))
+                plot3(ax, [sta_b(1) sta_t(1)], [sta_b(2) sta_t(2)], [sta_b(3) sta_t(3)], ...
+                    '--', 'Color', [1 0.45 0], 'LineWidth', 2.2);
+                plot3(ax, sta_b(1), sta_b(2), sta_b(3), 's', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', [1 0.45 0], 'MarkerSize', 6);
+            end
 
-        function update_plot2(w_idx)
-            cla(ax_sc); hold(ax_sc, 'on'); grid(ax_sc, 'on');
-            
-            txt_label.String = sprintf('Wheel Travel: %.1f mm', wheel_travel_range(w_idx));
-            
-            p = zeros(length(points), 3);
-            for i = 1:length(points)
-                p(i, :) = squeeze(positions_history(i, :, w_idx, s_idx));
-            end
-            
-            % Multilink lengőkarok (Link 1..5)
-            plot3(ax_sc, [p(1,1), p(2,1)], [p(1,2), p(2,2)], [p(1,3), p(2,3)], 'k-', 'LineWidth', 2);
-            plot3(ax_sc, [p(3,1), p(4,1)], [p(3,2), p(4,2)], [p(3,3), p(4,3)], 'k-', 'LineWidth', 2);
-            plot3(ax_sc, [p(5,1), p(6,1)], [p(5,2), p(6,2)], [p(5,3), p(6,3)], 'k-', 'LineWidth', 2);
-            plot3(ax_sc, [p(7,1), p(8,1)], [p(7,2), p(8,2)], [p(7,3), p(8,3)], 'k-', 'LineWidth', 2);
-            plot3(ax_sc, [p(9,1), p(10,1)], [p(9,2), p(10,2)], [p(9,3), p(10,3)], 'r-', 'LineWidth', 2);
-            
-            % Csonkállvány összekötő keret
-            plot3(ax_sc, [p(2,1), p(4,1), p(6,1), p(8,1), p(10,1), p(2,1)], ...
-                         [p(2,2), p(4,2), p(6,2), p(8,2), p(10,2), p(2,2)], ...
-                         [p(2,3), p(4,3), p(6,3), p(8,3), p(10,3), p(2,3)], 'b-', 'LineWidth', 2);
-
-            % Pushrod (rocker – upright)
-            plot3(ax_sc, [p(12,1), p(13,1)], [p(12,2), p(13,2)], [p(12,3), p(13,3)], 'g-', 'LineWidth', 2.5);
-            % Damper
-            plot3(ax_sc, [p(16,1), p(17,1)], [p(16,2), p(17,2)], [p(16,3), p(17,3)], 'm-', 'LineWidth', 2);
-            % Rocker tengely
-            plot3(ax_sc, [p(14,1), p(15,1)], [p(14,2), p(15,2)], [p(14,3), p(15,3)], 'Color', [0.5 0.5 0.5], 'LineWidth', 2);
-                  
-            scatter3(ax_sc, p(:,1), p(:,2), p(:,3), 40, 'k', 'filled');
-    
-            pos_center = p(11, :);
-            R_mat = squeeze(R_history(w_idx, s_idx, :, :));
-            unit_normal = R_mat * Collision.wheel_axis0(:);
-            draw_tire(ax_sc, pos_center, unit_normal, TireRadius);
-    
-            % Contact Patch
-            cp = [contact_patch_x_history(w_idx, s_idx), ...
-                  contact_patch_y_history(w_idx, s_idx), ...
-                  contact_patch_z_history(w_idx, s_idx)];
-            plot3(ax_sc, cp(1), cp(2), cp(3), 'p', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'y', 'MarkerSize', 12);
-            
-            % Front & Side IC-k
-            fic = squeeze(front_ic_history(w_idx, s_idx, :))';
-            sic = squeeze(side_ic_history(w_idx, s_idx, :))';
-            
-            if norm(fic) < 1e5
-                plot3(ax_sc, fic(1), fic(2), fic(3), 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
-                text(ax_sc, fic(1)+20, fic(2)+20, fic(3)+20, 'Front IC', 'Color', 'r', 'FontSize', 10);
-                plot3(ax_sc, [cp(1), fic(1)], [cp(2), fic(2)], [cp(3), fic(3)], 'r--', 'LineWidth', 1);
-            end
-            
-            if norm(sic) < 1e5
-                plot3(ax_sc, sic(1), sic(2), sic(3), 'bo', 'MarkerFaceColor', 'b', 'MarkerSize', 8);
-                text(ax_sc, sic(1)+20, sic(2)+20, sic(3)+20, 'Side IC', 'Color', 'b', 'FontSize', 10);
-                plot3(ax_sc, [cp(1), sic(1)], [cp(2), sic(2)], [cp(3), sic(3)], 'b--', 'LineWidth', 1);
-            end
-            
-            % Instant Axis
-            ia_p = squeeze(instant_axis_point_history(w_idx, s_idx, :))';
-            ia_d = squeeze(instant_axis_dir_history(w_idx, s_idx, :))';
-            
-            if norm(ia_d) > 1e-6 && norm(ia_p) < 1e5
-                L_axis = 1500;
-                p_start = ia_p - L_axis * ia_d;
-                p_end = ia_p + L_axis * ia_d;
-                plot3(ax_sc, [p_start(1), p_end(1)], [p_start(2), p_end(2)], [p_start(3), p_end(3)], 'm-.', 'LineWidth', 2);
-            end
-            
-            axis(ax_sc, 'equal');
-            view(ax_sc, [-35, 20]);
-            xlabel(ax_sc, 'X (mm)'); ylabel(ax_sc, 'Y (mm)'); zlabel(ax_sc, 'Z (mm)');
-            
-            xlim(ax_sc, WC_init(1) + [-1000, 1000]);   % a kerékhez (hátsó tengely X) igazítva
-            ylim(ax_sc, [-200, 1500]);
-            zlim(ax_sc, [-100, 1000]);
-            
-            drawnow;
         end
     
     %% 8. SEGÉDFÜGGVÉNYEK
@@ -1711,6 +1660,7 @@ function d = col_seg_cyl(p0, p1, c_center, c_axis, radius, height)
         d = min(d, norm([max(a, 0), max(b, 0)]) + min(max(a, b), 0));
     end
 end
+
 
 %% =====================================================================
 %% F1 2026 – ÖSSZESÍTŐ SEGÉDFÜGGVÉNYEK (csak a számoló programokban)

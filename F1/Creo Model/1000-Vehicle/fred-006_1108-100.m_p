@@ -1,0 +1,62 @@
+﻿MASS PROPERTIES OF THE ASSEMBLY FRED-006_1108-100
+
+VOLUME =  3.8225430e+05  MM^3
+SURFACE AREA =  2.2122997e+05  MM^2
+AVERAGE DENSITY =  4.0134600e-09 TONNE / MM^3
+MASS =  1.5341623e-03 TONNE 
+CENTER OF GRAVITY with respect to _FRED-006_1108-100 coordinate frame:
+X   Y   Z     6.4386616e+02  1.5929343e+02  0.0000000e+00  MM
+
+INERTIA with respect to _FRED-006_1108-100 coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  4.1811578e+01 -1.5733910e+02 -1.0347906e-05
+Iyx Iyy Iyz -1.5733910e+02  6.3798618e+02  0.0000000e+00
+Izx Izy Izz -1.0347906e-05  0.0000000e+00  6.7694113e+02
+
+INERTIA at CENTER OF GRAVITY with respect to _FRED-006_1108-100 coordinate frame:  (TONNE * MM^2)
+
+INERTIA TENSOR:
+Ixx Ixy Ixz  2.8831325e+00  1.0194608e-02  0.0000000e+00
+Iyx Iyy Iyz  1.0194608e-02  1.9782670e+00  0.0000000e+00
+Izx Izy Izz  0.0000000e+00  0.0000000e+00  2.0047688e+00
+
+PRINCIPAL MOMENTS OF INERTIA:  (TONNE * MM^2)
+I1  I2  I3   1.9781521e+00  2.0047688e+00  2.8832473e+00
+
+ROTATION MATRIX from _FRED-006_1108-100 orientation to PRINCIPAL AXES:
+      -0.01126        0.00000        0.99994
+       0.99994       -0.00001        0.01126
+       0.00001        1.00000        0.00000
+
+ROTATION ANGLES from _FRED-006_1108-100 orientation to PRINCIPAL AXES (degrees):
+angles about x  y  z -89.998         89.355        180.000 
+
+RADII OF GYRATION with respect to PRINCIPAL AXES:
+R1  R2  R3 3.5908246e+01  3.6149017e+01  4.3351616e+01  MM
+
+---------------------------------------------
+
+MASS PROPERTIES OF COMPONENTS OF THE ASSEMBLY
+(in assembly units and the _FRED-006_1108-100 coordinate frame)
+
+   DENSITY             MASS          C.G.:  X        Y         Z
+
+               FRED-006_1108-011            MATERIAL:                              UNKNOWN
+         7.85344e-09  5.51054e-04  6.45819e+02  1.59000e+02  0.00000e+00
+               FRED-006_1108-106            MATERIAL:                         ALMG4-5MN0-7
+         2.66000e-09  4.77152e-04  6.44436e+02  1.59000e+02  0.00000e+00
+                           61815            MATERIAL:                              UNKNOWN
+         7.85000e-09  1.14168e-04  6.75500e+02  1.59000e+02  0.00000e+00
+                      61816-2RS1            MATERIAL:                              UNKNOWN
+         7.01602e-09  1.23559e-04  6.22850e+02  1.59000e+02  0.00000e+00
+         XGYURU_NBR70_1012_X_353            MATERIAL:                               RUBBER
+         1.20000e-09  4.35462e-06  6.18690e+02  1.59000e+02  0.00000e+00
+               FRED-006_1108-040            MATERIAL:                              UNKNOWN
+         7.85971e-09  6.15926e-06  6.16231e+02  2.21000e+02  0.00000e+00
+               FRED-006_1108-110            MATERIAL:                                ALMG3
+         2.67000e-09  2.01043e-05  6.86601e+02  1.59000e+02  0.00000e+00
+               FRED-006_1108-111            MATERIAL:                                     
+         7.85000e-09  1.55017e-06  6.49114e+02  2.03062e+02  0.00000e+00
+             FRED-006_1108-108_2            MATERIAL:                                ALMG3
+         2.67000e-09  2.36061e-04  6.31369e+02  1.59000e+02  0.00000e+00
