@@ -341,9 +341,25 @@ function base_program_front_left()
     % points(18).pos  = [75.097, 126.436, 585.090];
     % points(18).fixed = true;
 
-    % --- ÜTKÖZÉS ÉS VIZUALIZÁCIÓ PARAMÉTEREI ---
+    %% 1a. F1 2026 SZABÁLYZAT (Section C10) – ugyanazok a beállítások, mint az optimalizálóban
+    % Az alapértékek szabálypontonként a f1_rules_2026() függvényben vannak (a fájl végén).
+    F1 = f1_rules_2026('front');       % 'front' | 'rear'  (ez az első DAA)
+    F1.RefPlaneZ       = 45;           % [mm] az F1 Z=0 referenciasík magassága a talaj felett (Legality Setup)
+    F1.Rim.InnerRadius = 215;          % [mm] a felni belső (hordó) sugara – CAD / RV-F-RIM-MIN
+    F1.SteerCheckRack  = 30;           % [mm] C10.3.6c kormányzási tartomány (±rack)
+    F1.MaxRackTravel   = Inf;          % [mm] ha véges: a +23°/-21° lockhoz szükséges rack-út korlátja
+    F1.TyreWidth       = 280;          % [mm] 2026 első gumi szélessége – CSAK a rajzhoz (ellenőrizd a Pirelli adatlapon)
+    % F1.Drum.Enable = true; F1.Drum.Radius = ...; F1.Drum.YW = [..., ...];   % C10.3.4c / C3.14.2
+    % F1.Enable = false;               % F1 kényszerek ki (eredeti FS működés)
+
+    % --- ÜTKÖZÉS ÉS VIZUALIZÁCIÓ PARAMÉTEREI (= optimalizáló) ---
     Collision.rod_diameter = [20, 20, 20, 20, 12, 16]; % UCA fore, UCA aft, LCA fore, LCA aft, Tie rod, Pushrod
-    Collision.min_clearance = 3;
+    Collision.rod_names    = {'UCA fore', 'UCA aft', 'LCA fore', 'LCA aft', 'Tie rod', 'Pushrod'};
+    Collision.skip_pairs   = [1 2; 3 4];               % A-kar szárai: szándékosan közös gömbcsukló
+    Collision.rod_diameter_upper = Collision.rod_diameter(1);   % az F1 C10.3.7 ellenőrzéshez (optimalizáló nevei)
+    Collision.rod_diameter_lower = Collision.rod_diameter(3);
+    Collision.rod_diameter_tie   = Collision.rod_diameter(5);
+    Collision.min_clearance = 5;                        % [mm] ugyanaz, mint az optimalizálóban
 
     % Motor (Henger, mm)
     % Collision.motor_center = [0, 546.6, 193]; % A henger középpontja
@@ -355,11 +371,49 @@ function base_program_front_left()
     Collision.motor_length = 160.2;          % A henger teljes hossza
     Collision.motor_y_offset = -63.4;        % Eltolás a kerékközépponttól a tengely mentén (546.6 - 610)
 
-    % Felni paraméterei[cite: 1]
+    % Felni paraméterei (FS)
     Collision.rim_inner_radius = 119;
     Collision.rim_outer_radius = 124.5;
     Collision.rim_width        = 195;
     Collision.rim_y_offset     = 0;
+
+    % --- F1 2026: felni a C10.7.2 szerint, nincs agymotor (felülírja a fenti FS értékeket) ---
+    if F1.Enable
+        Collision.use_motor        = false;
+        Collision.rim_inner_radius = F1.Rim.InnerRadius;
+        Collision.rim_outer_radius = F1.Rim.OuterRadius;    % Ø496 perem
+        Collision.rim_width        = F1.Rim.Width;          % 334 (első)
+        Collision.rim_y_offset     = F1.Rim.CenterOffset;
+        Collision.wheel_axis0      = f1_wheel_axes(F1);     % Legality Setup camber (-3° elöl)
+    else
+        Collision.use_motor   = true;
+        Collision.wheel_axis0 = [0; 1; 0];
+    end
+
+    % Gumi / felni rajz méretei
+    if F1.Enable
+        Tyre.R_outer  = F1.TyreRadius;       % Ø705
+        Tyre.R_rim    = F1.Rim.BeadRadius;   % Ø462.5 (18")
+        Tyre.width    = F1.TyreWidth;
+        Tyre.rim_half = F1.Rim.Width / 2;
+    else
+        Tyre.R_outer  = 386 / 2;
+        Tyre.R_rim    = 254 / 2;
+        Tyre.width    = 191;
+        Tyre.rim_half = 0.7 * 254 / 2;
+    end
+
+    % --- F1 2026 megfelelőség a beolvasott (kézzel szerkesztett) Excel geometrián ---
+    f1_check_wheel_static(wheel_center, F1, F1.Axle);      % C10.1c, C10.10.1, gumiméret
+    f1_check_outboard_point(points(10).pos, wheel_center, F1, 'Pushrod upright', F1.PushrodOnMember);
+    fprintf(['[Méretek] Felni: perem Ø%.1f, ülék Ø%.1f, belső r = %.1f, szélesség %.1f mm | ' ...
+             'Gumi: Ø%.1f x %.1f mm | WC Y = %.1f mm (nyomtáv ~ %.1f mm)\n'], ...
+        2*Collision.rim_outer_radius, 2*Tyre.R_rim, Collision.rim_inner_radius, Collision.rim_width, ...
+        2*Tyre.R_outer, Tyre.width, wheel_center(2), 2*abs(wheel_center(2)));
+    C_f1  = [upper_fore_chassis; upper_aft_chassis; lower_fore_chassis; lower_aft_chassis; tie_rod_rack];
+    Kb_f1 = [upper_upright; lower_upright; tie_rod_upright];
+    [~, ~, f1_names, f1_vals] = f1_nonlcon_DAA([C_f1(:); Kb_f1(:)], wheel_center, F1, Collision);
+    f1_report(f1_names, f1_vals, ['Excel geometria (', input_excel_file, ')']);
 
     % Távolságok
     dist_1_3 = norm(points(1).pos - points(3).pos);
@@ -387,7 +441,11 @@ function base_program_front_left()
     dist_16_17 = norm(points(16).pos - points(17).pos);
     dist_16_9 = norm(points(16).pos-points(9).pos);
     dist_17_18 = norm(points(17).pos - points(18).pos);
-    wheel_radius = 193;
+    if F1.Enable
+        wheel_radius = F1.TyreRadius;    % F1 2026 első gumi Ø705
+    else
+        wheel_radius = 193;              % FS
+    end
     
     % Rúd alak kirajzolása a vonalak iránya alapján
     function h = draw_rod(ax, p1, p2, radius, color, alpha)
@@ -414,11 +472,10 @@ function base_program_front_left()
     end
 
     function h = draw_tire(ax, pos_center, unit_normal, ~, ~)
-        rim_diameter_mm = 254;         
-        tire_diameter_mm = 386;           
-        tire_width_mm = 191;         
-        R_outer = tire_diameter_mm / 2;     
-        R_rim = rim_diameter_mm / 2;           
+        % Méretek a Tyre struktúrából (F1 2026: gumi Ø705, 18" felni, felniszélesség C10.7.2)
+        R_outer = Tyre.R_outer;     
+        R_rim = Tyre.R_rim;           
+        tire_width_mm = Tyre.width;         
         sidewall_thickness = (R_outer - R_rim);  
         section_radius = sidewall_thickness * 0.8;   
         n_theta = 120;   
@@ -428,8 +485,7 @@ function base_program_front_left()
         X = r_profile .* cos(theta);
         Y = r_profile .* sin(theta);
         Z = (tire_width_mm / 2) * sin(phi);   
-        rim_width_factor = 0.6;   
-        rim_height = R_rim * 0.7;  
+        rim_height = Tyre.rim_half;  
         % Z_rim = linspace(-tire_width_mm/2 * rim_width_factor, tire_width_mm/2 * rim_width_factor, 12);
         z_rim = linspace(-rim_height, rim_height, 10);
         [theta_rim, z_rim] = meshgrid(linspace(0, 2*pi, 80), z_rim);
@@ -438,7 +494,7 @@ function base_program_front_left()
         Z_rim = z_rim;   
 
         from = [0; 0; 1];
-        to = unit_normal(:);
+        to = unit_normal(:) / norm(unit_normal);
         if norm(to - from) < 1e-6
             R_align = eye(3);  % már jó a normál
         else
@@ -599,8 +655,8 @@ function base_program_front_left()
     % 1. Precompute: előre kiszámoljuk az összes lehetséges pozíciót, hogy a slider mozgatásakor azonnal frissüljön, ne kelljen újraszámolni
     % ========================================================================================================
     
-    wheel_travel_range = -30 : 2 : 30; % Kerék függőleges mozgásának lépésköze. -29 mm = 197 mm-es damper hossz, 33 mm = 145 mm-es damper hossz
-    steering_range = -30 : 5 : 30; % Kormányzás lépésköze. Rack elmozdulása, nem a kormánykeréken mért szög. 
+    wheel_travel_range = -15 : 5 : 15; % Kerék függőleges mozgásának lépésköze. -29 mm = 197 mm-es damper hossz, 33 mm = 145 mm-es damper hossz
+    steering_range = -30 : 30 : 30; % Kormányzás lépésköze. Rack elmozdulása, nem a kormánykeréken mért szög. 
     % steering_range = zeros(1,3); % Kormányzás lépésköze. Rack elmozdulása, nem a kormánykeréken mért szög. 
     num_wheel_steps = length(wheel_travel_range);
     num_steer_steps = length(steering_range);
@@ -937,9 +993,9 @@ function base_program_front_left()
     % Phi_F = a talaj és a (Contact Patch -> Side IC) egyenes szöge (side view)
     % h_CG,SM a vázzal süllyed = statikus érték - aktuális wheel travel (heave)
     % ============================================================
-    W_wheelbase_mm          = 1540;   % <-- TENGELytáv [mm]  (cseréld a valósra)
-    front_brake_percent     = 64;     % <-- % front brake bias (0..100)
-    h_CG_SM_static_mm       = 290;    % <-- rugózott tömeg CG magassága statikus állapotban [mm]
+    W_wheelbase_mm          = 3000;   % <-- TENGELytáv [mm]  (optimalizáló: Vehicle.Wheelbase)
+    front_brake_percent     = 54;     % <-- % front brake bias (0..100)
+    h_CG_SM_static_mm       = 320;    % <-- rugózott tömeg CG magassága statikus állapotban [mm] (optimalizáló: Vehicle.h_CG_SM_static)
     % (hátsó anti-squat-hoz: drive_percent és a Phi előjelének/irányának megfordítása)
 
     % A kerék pontjainak transzformációja statikus állapotban
@@ -2126,7 +2182,11 @@ function base_program_front_left()
 
             % ======================= Ride Height =======================
             % Bár itt kevésbé releváns, de mindegy. Itt majd a jacking lesz érdekes + ha lesz valami fizikája a guminak a kaszni kiemelést tekintve
-            static_ride_height = 34;
+            if F1.Enable
+                static_ride_height = F1.RefPlaneZ;   % F1: a Z=0 referenciasík magassága a talaj felett (Legality Setup)
+            else
+                static_ride_height = 34;             % FS
+            end
             ride_height_history(wheel_step, steer_step) = static_ride_height - wheel_travel_range(wheel_step);
 
         end
@@ -2155,6 +2215,71 @@ function base_program_front_left()
     save('front_left_instant_axis_dir_history.mat', 'instant_axis_dir_history');
     save('front_left_instant_axis_point_history.mat', 'instant_axis_point_history');
 
+    % =========================================================================
+    % 2b. ÜTKÖZÉS-VIZSGÁLAT A TELJES SWEEPEN (rúd–rúd, rúd–felni, rúd–motor)
+    % =========================================================================
+    collision_map = false(num_wheel_steps, num_steer_steps);
+    collision_txt = cell(num_wheel_steps, num_steer_steps);
+    for steer_step = 1:num_steer_steps
+        for wheel_step = 1:num_wheel_steps
+            [hit_s, rs_s] = pose_collision(wheel_step, steer_step);
+            collision_map(wheel_step, steer_step) = any(hit_s);
+            collision_txt{wheel_step, steer_step} = col_pose_string(hit_s, rs_s, Collision);
+        end
+    end
+    fprintf('\n===== ÜTKÖZÉS-VIZSGÁLAT a teljes sweepen (%d póz, min. clearance %.1f mm) =====\n', ...
+        numel(collision_map), Collision.min_clearance);
+    if ~any(collision_map(:))
+        disp('  Nincs ütközés egyik pózban sem.');
+    else
+        [iz_c, ir_c] = find(collision_map);
+        for k_c = 1:min(numel(iz_c), 30)
+            fprintf('  Z = %6.1f mm, rack = %6.1f mm : %s\n', wheel_travel_range(iz_c(k_c)), steering_range(ir_c(k_c)), ...
+                collision_txt{iz_c(k_c), ir_c(k_c)});
+        end
+        if numel(iz_c) > 30, fprintf('  ... további %d ütköző póz\n', numel(iz_c) - 30); end
+    end
+
+    % --- F1 + ütközés összesítő (a 3D ábra fejlécéhez és a konzolra) ---
+    [~, f1_failed]       = f1_rules_status(f1_names, f1_vals);
+    [~, f1_wheel_failed] = f1_static_wheel_status(wheel_center, F1);
+    f1_failed = [f1_failed, f1_wheel_failed];
+    if ~f1_outboard_ok(points(10).pos, wheel_center, F1, F1.PushrodOnMember)
+        f1_failed{end+1} = 'C10.3.4 (pushrod upright)';
+    end
+    n_col = nnz(collision_map);
+    n_tot = numel(collision_map);
+    track_mm = 2 * abs(half_track_history(zero_wheel_step, zero_steer_step));
+    if F1.Enable
+        n0_s = f1_wheel_axes(F1);
+        O_s  = f1_wcs_origin(wheel_center, n0_s, F1);
+        dim_str = sprintf(['Felni: perem Ø%.0f, belső r %.0f, szél. %.1f mm | Gumi: Ø%.0f x %.0f mm | ' ...
+            'Nyomtáv: %.0f mm (WCS |Y| = %.1f, max %g; Z_F1 = %.1f, %g..%g)'], ...
+            2*F1.Rim.OuterRadius, F1.Rim.InnerRadius, F1.Rim.Width, 2*F1.TyreRadius, F1.TyreWidth, ...
+            track_mm, abs(O_s(2)), F1.WCS_Ymax, O_s(3) - F1.RefPlaneZ, F1.WCS_Zrange(1), F1.WCS_Zrange(2));
+    else
+        dim_str = sprintf('FS mód | Felni: r %.0f..%.0f, szél. %.0f mm | Nyomtáv: %.0f mm', ...
+            Collision.rim_inner_radius, Collision.rim_outer_radius, Collision.rim_width, track_mm);
+    end
+    if isempty(f1_failed) && n_col == 0
+        if F1.Enable
+            f1_str = sprintf('F1 2026 C10: SZABÁLYOS  |  teljes sweep: nincs ütközés (0/%d póz)', n_tot);
+        else
+            f1_str = sprintf('F1 ellenőrzés KI  |  teljes sweep: nincs ütközés (0/%d póz)', n_tot);
+        end
+        f1_bg = [0.6 0.9 0.6];
+    else
+        f1_parts = {};
+        if ~isempty(f1_failed), f1_parts{end+1} = ['F1 SÉRÜL: ', strjoin(unique(f1_failed, 'stable'), ', ')]; end
+        if n_col > 0, f1_parts{end+1} = sprintf('ÜTKÖZÉS %d/%d pózban', n_col, n_tot); end
+        f1_str = strjoin(f1_parts, '  |  ');
+        f1_bg = [1 0.55 0.55];
+    end
+    fprintf('\n>>> %s\n>>> %s\n\n', f1_str, dim_str);
+
+    % Tengelyhatárok a teljes sweep + az F1 kerék alapján
+    vis_lims = calc_vis_limits(positions_history, wheel_center, Tyre.R_outer);
+
 
     % =========================================================================
     % 3. Interaktív figure + slider
@@ -2169,9 +2294,9 @@ function base_program_front_left()
     hold(ax1, 'on');
     grid(ax1, 'on');
     axis(ax1, 'equal');
-    xlim(ax1, [-500 500]);
-    ylim(ax1, [0 800]);
-    zlim(ax1, [-50 700]);
+    xlim(ax1, vis_lims(1,:));
+    ylim(ax1, vis_lims(2,:));
+    zlim(ax1, vis_lims(3,:));
     xlabel(ax1, 'X [mm]');
     ylabel(ax1, 'Y [mm]');
     zlabel(ax1, 'Z [mm]');
@@ -2187,9 +2312,9 @@ function base_program_front_left()
     hold(ax2, 'on');
     grid(ax2, 'on');
     axis(ax2, 'equal');
-    xlim(ax2, [-500 500]);
-    ylim(ax2, [0 800]);
-    zlim(ax2, [-50 700]);
+    xlim(ax2, vis_lims(1,:));
+    ylim(ax2, vis_lims(2,:));
+    zlim(ax2, vis_lims(3,:));
     xlabel(ax2, 'X [mm]');
     ylabel(ax2, 'Y [mm]');
     zlabel(ax2, 'Z [mm]');
@@ -2205,9 +2330,9 @@ function base_program_front_left()
     hold(ax3, 'on');
     grid(ax3, 'on');
     axis(ax3, 'equal');
-    xlim(ax3, [-500 500]);
-    ylim(ax3, [0 800]);
-    zlim(ax3, [-50 700]);
+    xlim(ax3, vis_lims(1,:));
+    ylim(ax3, vis_lims(2,:));
+    zlim(ax3, vis_lims(3,:));
     xlabel(ax3, 'X [mm]');
     ylabel(ax3, 'Y [mm]');
     zlabel(ax3, 'Z [mm]');
@@ -2223,9 +2348,9 @@ function base_program_front_left()
     hold(ax4, 'on');
     grid(ax4, 'on');
     axis(ax4, 'equal');
-    xlim(ax4, [-500 500]);
-    ylim(ax4, [0 800]);
-    zlim(ax4, [-50 700]);
+    xlim(ax4, vis_lims(1,:));
+    ylim(ax4, vis_lims(2,:));
+    zlim(ax4, vis_lims(3,:));
     xlabel(ax4, 'X [mm]');
     ylabel(ax4, 'Y [mm]');
     zlabel(ax4, 'Z [mm]');
@@ -2242,8 +2367,8 @@ function base_program_front_left()
     lighting(ax1, 'gouraud');
     material(ax1, 'dull');
 
-    % Padló a fő axeshez
-    [X, Y] = meshgrid(linspace(-450, 450, 40), linspace(-150, 750, 40));
+    % Padló a fő axeshez (a kerék alatt, a teljes sweep méretéhez igazítva)
+    [X, Y] = meshgrid(linspace(vis_lims(1,1), vis_lims(1,2), 40), linspace(vis_lims(2,1), vis_lims(2,2), 40));
     Z = -0 * ones(size(X));
     h_floor1 = surf(ax1, X, Y, Z, 'FaceColor', [0.92 0.94 0.98], 'EdgeColor', 'none', 'FaceAlpha', 0.45, 'FaceLighting', 'gouraud');
     set(h_floor1, 'HandleVisibility', 'off');
@@ -2257,6 +2382,15 @@ function base_program_front_left()
     h_floor4 = surf(ax4, X, Y, Z, 'FaceColor', [0.92 0.94 0.98], 'EdgeColor', 'none', 'FaceAlpha', 0.45, 'FaceLighting', 'gouraud');
     set(h_floor4, 'HandleVisibility', 'off');
     uistack(h_floor4, 'bottom');
+
+    % Állapotsávok: bal = aktuális póz ütközése, jobb = F1 szabályosság + méretek
+    h_status_pose = uicontrol('Parent', fig, 'Style', 'text', 'Units', 'normalized', ...
+        'Position', [0.005 0.962 0.49 0.036], 'FontSize', 10, 'FontWeight', 'bold', ...
+        'HorizontalAlignment', 'left', 'String', '');
+    h_status_f1 = uicontrol('Parent', fig, 'Style', 'text', 'Units', 'normalized', ...
+        'Position', [0.505 0.962 0.49 0.036], 'FontSize', 9, 'FontWeight', 'bold', ...
+        'HorizontalAlignment', 'left', 'String', sprintf('%s\n%s', f1_str, dim_str), 'BackgroundColor', f1_bg);
+    h_status_pose2 = gobjects(1);   % a fig2-n lévő párja (később jön létre)
 
     % Handle-ek a pontokhoz, szövegekhez és vonalakhoz
     h_points1 = gobjects(length(points), 1);
@@ -2296,7 +2430,7 @@ function base_program_front_left()
     hold(ax_toe,'on'); 
     grid on; 
     box on;
-    title(ax_toe,'Toe angle');
+    title(ax_toe,'Toe angle  (piros x = ütköző póz)');
     xlabel(ax_toe,'Wheel travel [mm]');
     ylabel(ax_toe,'Toe angle [°]');
     set(ax_toe,'FontSize',11);
@@ -2330,6 +2464,7 @@ function base_program_front_left()
 
     % Görbék 
     h_toe_curve = plot(ax_toe, wheel_travel_range, zeros(size(wheel_travel_range)), 'Color', [0.6 0.6 0.6], 'LineWidth', 2, 'HandleVisibility', 'off');
+    h_toe_collision = plot(ax_toe, NaN, NaN, 'rx', 'MarkerSize', 12, 'LineWidth', 2, 'HandleVisibility', 'off');
     h_camber_curve = plot(ax_camber, wheel_travel_range, zeros(size(wheel_travel_range)), 'Color', [0.6 0.6 0.6], 'LineWidth', 2, 'HandleVisibility', 'off');
     h_contact_patch_x_curve = plot(ax_contact_patch, wheel_travel_range, zeros(size(wheel_travel_range)), 'Color', [0.6 0.6 0.6], 'LineWidth', 2, 'HandleVisibility', 'off');
     h_contact_patch_y_curve = plot(ax_contact_patch, wheel_travel_range, zeros(size(wheel_travel_range)), 'Color', [0.6 0.6 0.6], 'LineWidth', 2, 'HandleVisibility', 'off');
@@ -2353,6 +2488,8 @@ function base_program_front_left()
     % Aktuális érték kiírása
     travel_text2 = uicontrol('Parent',fig2, 'Style','text','Units','normalized', 'Position',[0.41 0.9 0.08 0.05], 'String',sprintf('Wheel Travel:\n%6.1f mm',wheel_travel_range(initial_wheel_step)), 'FontSize',12, 'FontWeight','bold','HorizontalAlignment','center');
     steer_text2 = uicontrol('Parent',fig2, 'Style','text','Units','normalized', 'Position',[0.50 0.9 0.10 0.05], 'String',sprintf('Rack Displacement:\n%6.1f mm', steering_range(initial_steer_step)), 'FontSize',12, 'FontWeight','bold','HorizontalAlignment','center');
+    h_status_pose2 = uicontrol('Parent',fig2, 'Style','text','Units','normalized', 'Position',[0.36 0.955 0.28 0.04], 'String','', 'FontSize',9, 'FontWeight','bold','HorizontalAlignment','center');
+    update_status(initial_wheel_step, initial_steer_step, false);
 
     fig3 = figure('Name', 'Mechanical Trail, Caster, Scrub & KPI', 'NumberTitle', 'off', 'Position', [300 100 1600 900], 'WindowState', 'maximized');
 
@@ -2592,6 +2729,7 @@ function base_program_front_left()
             update_axes(ax2, h_points2, h_texts2, h_lines2, wheel_step, steer_step, [30 30 0], Collision); 
             update_axes(ax3, h_points3, h_texts3, h_lines3, wheel_step, steer_step, [30 0 30], Collision);
             update_axes(ax4, h_points4, h_texts4, h_lines4, wheel_step, steer_step, [0 30 30], Collision);
+            update_status(wheel_step, steer_step, true);
 
             % ======================= Dinamikus kiírás a pontok koordinátáiról =======================
             space = '    ';
@@ -2602,10 +2740,10 @@ function base_program_front_left()
                 fprintf('%-32s%s : [%.3f, %.3f, %.3f]\n', points(i).name, space, pos(1), pos(2), pos(3));
             end
             pos_center = squeeze(positions_history(15, :, wheel_step, steer_step));
-            pos_upper = pos_center + [0, 0, 193];
-            pos_lower = pos_center + [0, 0, -193];
-            pos_left = pos_center + [-193, 0, 0];
-            pos_right = pos_center + [193, 0, 0];
+            pos_upper = pos_center + [0, 0, wheel_radius];
+            pos_lower = pos_center + [0, 0, -wheel_radius];
+            pos_left = pos_center + [-wheel_radius, 0, 0];
+            pos_right = pos_center + [wheel_radius, 0, 0];
             camber_rel = camber_history(wheel_step, steer_step) - camber_history(zero_wheel_step, zero_steer_step);
             toe_rel    = toe_history(wheel_step, steer_step)    - toe_history(zero_wheel_step, zero_steer_step);
             fprintf('%-40s : [ %.3f, %.3f, %.3f ]\n', 'Wheel upper', pos_upper(1), pos_upper(2), pos_upper(3));
@@ -2626,119 +2764,49 @@ function base_program_front_left()
             fprintf('------------------------------------\n');
         end
 
-        % function update_axes(ax, h_points, h_texts, h_lines, wheel_step, steer_step, label_offset)
-        %     cla(ax);
-        %     hold(ax, 'on');
-        % 
-        %     % Padló újra létrehozása
-        %     [X, Y] = meshgrid(linspace(-450, 450, 40), linspace(-150, 750, 40));
-        %     Z = -0 * ones(size(X));
-        %     h_floor = surf(ax, X, Y, Z, 'FaceColor', [0.92 0.94 0.98], 'EdgeColor', 'none', 'FaceAlpha', 0.45, 'FaceLighting', 'gouraud');
-        %     set(h_floor, 'HandleVisibility', 'off');
-        %     uistack(h_floor, 'bottom');    
-        % 
-        %     % Fények újra létrehozása
-        %     light('Parent', ax, 'Position', [1 1 1], 'Style', 'infinite');
-        %     light('Parent', ax, 'Position', [-1 -1 1], 'Style', 'infinite');
-        % 
-        %     for i = 1:length(points)
-        %         pos = squeeze(positions_history(i, :, wheel_step, steer_step));
-        % 
-        %         if ishandle(h_points(i))
-        %             set(h_points(i), 'XData', pos(1), 'YData', pos(2), 'ZData', pos(3));
-        %         else
-        %             h_points(i) = plot3(ax, pos(1), pos(2), pos(3), 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 5);
-        %         end
-        % 
-        %         % % === Ez itt a pontok elnevezésének plotja, csak már olyan sok a pont hogy kurva ronda ===
-        %         % label_pos = pos + label_offset;
-        %         % if ishandle(h_texts(i))
-        %         %     set(h_texts(i), 'Position', label_pos);
-        %         % else
-        %         %     h_texts(i) = text(ax, label_pos(1), label_pos(2), label_pos(3), points(i).name, 'FontSize', 8, 'Color', 'white', 'FontWeight', 'bold');
-        %         % end
-        %     end
-        % 
-        %     % ===== Ez akkor kell ha rudakat akarunk a rudaknak =====
-        %     for p = 1:size(line_pairs,1)
-        %         idx1 = line_pairs{p,1}(1);
-        %         idx2 = line_pairs{p,1}(2);
-        %         pos1 = squeeze(positions_history(idx1, :, wheel_step, steer_step));
-        %         pos2 = squeeze(positions_history(idx2, :, wheel_step, steer_step));
-        % 
-        %         col = line_pairs{p,2};
-        %         lw = line_pairs{p,3};         
-        % 
-        %         % Sugár beállítása 
-        %         radius = 3;          
-        % 
-        %         if ishandle(h_lines(p))
-        %             delete(h_lines(p));          
-        %         end
-        % 
-        %         h_lines(p) = draw_rod(ax, pos1, pos2, radius, col, 1);
-        %     end
-        %     % % Kerék átmérők kirajzolása
-        %     % pos_top = squeeze(top_history(wheel_step, steer_step,:));
-        %     % pos_bottom = squeeze(bottom_history(wheel_step, steer_step,:));
-        %     % pos_front = squeeze(front_history(wheel_step, steer_step,:));
-        %     % pos_rear = squeeze(rear_history(wheel_step, steer_step,:));
-        %     % 
-        %     % plot3(ax, [pos_top(1) pos_bottom(1)], [pos_top(2) pos_bottom(2)], [pos_top(3) pos_bottom(3)], 'Color', [0.2 0.2 0.8], 'LineWidth', 2);
-        %     % plot3(ax, [pos_front(1) pos_rear(1)], [pos_front(2) pos_rear(2)], [pos_front(3) pos_rear(3)], 'Color', [0.2 0.8 0.2], 'LineWidth', 2);
-        %     % 
-        %     % % Pontok hozzáadása a kereszthez
-        %     % plot3(ax, pos_top(1), pos_top(2), pos_top(3), 'o', 'Color', [0.2 0.2 0.8], 'MarkerFaceColor', [0.2 0.2 0.8], 'MarkerSize', 8);
-        %     % plot3(ax, pos_bottom(1), pos_bottom(2), pos_bottom(3), 'o', 'Color', [0.2 0.2 0.8], 'MarkerFaceColor', [0.2 0.2 0.8], 'MarkerSize', 8);
-        %     % plot3(ax, pos_front(1), pos_front(2), pos_front(3), 'o', 'Color', [0.2 0.8 0.2], 'MarkerFaceColor', [0.2 0.8 0.2], 'MarkerSize', 8);
-        %     % plot3(ax, pos_rear(1), pos_rear(2), pos_rear(3), 'o', 'Color', [0.2 0.8 0.2], 'MarkerFaceColor', [0.2 0.8 0.2], 'MarkerSize', 8);
-        %     % 
-        %     % % Kerék középpont körüli kör kirajzolása a pontokon keresztül
-        %     % pos_center = squeeze(positions_history(15, :, wheel_step, steer_step));
-        %     % V_vert = pos_top - pos_bottom;
-        %     % V_horiz = pos_front - pos_rear;
-        %     % n = cross(V_vert, V_horiz);
-        %     % if norm(n) > 1e-6
-        %     %     unit_n = n / norm(n);
-        %     %     u1 = V_horiz / norm(V_horiz);
-        %     %     u2 = cross(unit_n, u1);
-        %     %     r = norm(V_horiz) / 2;
-        %     %     theta = linspace(0, 2*pi, 100);
-        %     %     X = pos_center(1) + r * (cos(theta) * u1(1) + sin(theta) * u2(1));
-        %     %     Y = pos_center(2) + r * (cos(theta) * u1(2) + sin(theta) * u2(2));
-        %     %     Z = pos_center(3) + r * (cos(theta) * u1(3) + sin(theta) * u2(3));
-        %     %     plot3(ax, X, Y, Z, 'k-', 'LineWidth', 3);
-        %     % end
-        % 
-        %     % % Rendes kerék rajzolása
-        %     pos_center = squeeze(positions_history(15, :, wheel_step, steer_step));
-        %     % Current normal számítás ismételve ahhoz, hogy mozogjon a vizualizációban
-        %     upright_current_pos = zeros(3, length(upright_indices));
-        %     for ii = 1:length(upright_indices)
-        %         upright_current_pos(:,ii) = squeeze(positions_history(upright_indices(ii), :, wheel_step, steer_step))';
-        %     end
-        %     mean_static = mean(upright_static_pos, 2);
-        %     mean_current = mean(upright_current_pos, 2);
-        %     S_c = upright_static_pos - mean_static;
-        %     C_c = upright_current_pos - mean_current;
-        %     H = S_c * C_c';
-        %     [U, ~, V] = svd(H);
-        %     R = V * U';
-        %     if det(R) < 0
-        %         R = V * diag([1, 1, -1]) * U';
-        %     end
-        %     current_normal = R * initial_normal;
-        %     unit_normal = current_normal / norm(current_normal);
-        %     tire_width = 191;  
-        %     draw_tire(ax, pos_center, unit_normal);
-        % end
+        % Ütközés-vizsgálat egy pózban (ugyanaz a logika, mint az optimalizáló nonlcon-jában)
+        function [hit, reasons, dd, C_pts, K_pts, WC_pos, unit_normal] = pose_collision(wheel_step, steer_step)
+            pp = positions_history(:, :, wheel_step, steer_step);
+            C_pts  = pp([1 2 4 5 7 9], :);      % UCA fore/aft, LCA fore/aft, tie rod rack, pushrod rocker
+            K_pts  = pp([3 3 6 6 8 10], :);     % felső/alsó gömbcsukló, tie rod upright, pushrod upright
+            WC_pos = pp(15, :);
+            Rw = squeeze(R_history(wheel_step, steer_step, :, :));
+            unit_normal = Rw * Collision.wheel_axis0(:);
+            unit_normal = unit_normal / norm(unit_normal);
+            [hit, reasons, dd] = col_check_pose(C_pts, K_pts, WC_pos, unit_normal, Collision);
+        end
+
+        % Állapotsáv + konzol diagnosztika az aktuális pózra
+        function update_status(wheel_step, steer_step, verbose)
+            [hit, reasons, dd] = pose_collision(wheel_step, steer_step);
+            rod_nm = col_rod_names(Collision, numel(hit));
+            if verbose
+                for ii_s = 1:numel(hit)
+                    if hit(ii_s), mark_str = '  <-- PIROS'; else, mark_str = ''; end
+                    fprintf('%-18s szabad távolság: rúd %7.1f | motor %7.1f | felni %7.1f mm (min. %.1f)%s\n', ...
+                        rod_nm{ii_s}, dd.rod(ii_s), dd.motor(ii_s), dd.rim(ii_s), Collision.min_clearance, mark_str);
+                end
+            end
+            if any(hit)
+                st = sprintf('ÜTKÖZÉS (Z = %.1f mm, rack = %.1f mm): %s', wheel_travel_range(wheel_step), ...
+                    steering_range(steer_step), col_pose_string(hit, reasons, Collision));
+                bg = [1 0.55 0.55];
+                if verbose, fprintf('  → PIROS: %s\n', col_pose_string(hit, reasons, Collision)); end
+            else
+                st = sprintf('Nincs ütközés (Z = %.1f mm, rack = %.1f mm) – minden rúd kék', ...
+                    wheel_travel_range(wheel_step), steering_range(steer_step));
+                bg = [0.6 0.9 0.6];
+            end
+            set(h_status_pose, 'String', st, 'BackgroundColor', bg);
+            if isgraphics(h_status_pose2), set(h_status_pose2, 'String', st, 'BackgroundColor', bg); end
+        end
 
         function update_axes(ax, h_points, h_texts, h_lines, wheel_step, steer_step, label_offset, Collision)
             cla(ax);
             hold(ax, 'on');
 
-            % Padló újra létrehozása
-            [X, Y] = meshgrid(linspace(-450, 450, 40), linspace(-150, 750, 40));
+            % Padló újra létrehozása (a kerék alatt, a teljes sweep méretéhez igazítva)
+            [X, Y] = meshgrid(linspace(vis_lims(1,1), vis_lims(1,2), 40), linspace(vis_lims(2,1), vis_lims(2,2), 40));
             Z = -0 * ones(size(X));
             h_floor = surf(ax, X, Y, Z, 'FaceColor', [0.92 0.94 0.98], 'EdgeColor', 'none', 'FaceAlpha', 0.45, 'FaceLighting', 'gouraud');
             set(h_floor, 'HandleVisibility', 'off');
@@ -2762,360 +2830,26 @@ function base_program_front_left()
             end
 
             % =========================================================================
-            % 2. ÜTKÖZÉSVIZSGÁLAT ÉS STATIKUS TESTEK (Motor, Felni, Fő 5 rúd + Pushrod)
+            % 2. ÜTKÖZÉSVIZSGÁLAT ÉS TESTEK (Felni F1 C10.7.2 szerint; motor csak FS módban)
+            %    Rúd: kék = szabad, PIROS = rúd–rúd / rúd–felni / rúd–motor ütközés
             % =========================================================================
-            C_pts = [p(1,:); p(2,:); p(4,:); p(5,:); p(7,:); p(9,:)];  
-            K_pts = [p(3,:); p(3,:); p(6,:); p(6,:); p(8,:); p(10,:)]; 
-            WC_pos = p(15,:); 
+            [hit, ~, ~, C_pts, K_pts, WC_pos, unit_normal] = pose_collision(wheel_step, steer_step);
+            un_row = unit_normal(:)';
 
-            % Felni normálvektorának (forgásának) kiszámítása (mint a guminál)
-            upright_current_pos = zeros(3, length(upright_indices));
-            for ii = 1:length(upright_indices)
-                upright_current_pos(:,ii) = squeeze(positions_history(upright_indices(ii), :, wheel_step, steer_step))';
+            if Collision.use_motor
+                motor_c = WC_pos + Collision.motor_y_offset * un_row;
+                draw_cylinder_custom(ax, motor_c, un_row, Collision.motor_radius, Collision.motor_length, [0.4 0.4 0.4], 0.6);
             end
-            mean_static = mean(upright_static_pos, 2);
-            mean_current = mean(upright_current_pos, 2);
-            H_mat = (upright_static_pos - mean_static) * (upright_current_pos - mean_current)';
-            [U_svd, ~, V_svd] = svd(H_mat);
-            R_mat = V_svd * U_svd';
-            if det(R_mat) < 0
-                R_mat = V_svd * diag([1, 1, -1]) * U_svd';
-            end
-            unit_normal = (R_mat * initial_normal) / norm(R_mat * initial_normal);
+            rim_center = WC_pos + Collision.rim_y_offset * un_row;
+            draw_cylinder_custom(ax, rim_center, un_row, Collision.rim_inner_radius, Collision.rim_width, [0.7 0.7 0.7], 0.4);
 
-            % Motor és Felni paraméterek
-            % motor_c = Collision.motor_center;
-            % motor_a = Collision.motor_axis;
-            % motor_r = Collision.motor_radius;
-            % motor_l = Collision.motor_length;
-
-            motor_a = unit_normal(:); % A motor tengelye mindig megegyezik a felni (kerék) tengelyével
-            motor_c = WC_pos(:) + (Collision.motor_y_offset * motor_a); % Pozíció kiszámítása a kerékközéppontból
-            motor_r = Collision.motor_radius;
-            motor_l = Collision.motor_length;
-
-            rim_axis = unit_normal;
-            rim_center = WC_pos + (Collision.rim_y_offset * rim_axis(:)');
-
-            % Testek megrajzolása (Motor: szürke, Felni: ezüst)
-            draw_cylinder_custom(ax, motor_c, motor_a, motor_r, motor_l, [0.4 0.4 0.4], 0.6); 
-            draw_cylinder_custom(ax, rim_center, rim_axis, Collision.rim_inner_radius, Collision.rim_width, [0.7 0.7 0.7], 0.4); 
-            % 
-            % % % Fő 5 rúd rajzolása és ütközése
-            % % radii = Collision.rod_diameter / 2;
-            % % for i = 1:5
-            % %     collision_detected = false;
-            % %     rod_color = [0.2 0.6 1.0]; % Alap kék szín
-            % % 
-            % %     % A. Rúd-Rúd ellenőrzés
-            % %     % for j = i+1:5
-            % %     %     d = segment_segment_distance(C_pts(i,:)', K_pts(i,:)', C_pts(j,:)', K_pts(j,:)');
-            % %     %     if d < (radii(i) + radii(j) + Collision.min_clearance)
-            % %     %         collision_detected = true;
-            % %     %         if isequal(ax, ax1) % Csak az ax1 (3D) frissítésekor írjon a konzolba
-            % %     %             fprintf('ÜTKÖZÉS (Rúd-Rúd): Link %d és Link %d között (Rugóút: %.1f mm)\n', i, j, wheel_travel_range(wheel_step));
-            % %     %         end
-            % %     %     end
-            % %     % end
-            % %     for j = i+1:5
-            % %         % KIVÉTEL A DOUBLE A-ARM MIATT:
-            % %         % Az 1-es és 2-es rúd (UCA), valamint a 3-as és 4-es rúd (LCA) 
-            % %         % szándékosan egy pontban találkoznak a csonkállványnál.
-            % %         % Ha később Multilinket használsz, ezt az 'if' feltételt törölheted vagy átírhatod!
-            % %         if (i == 1 && j == 2) || (i == 3 && j == 4)
-            % %             continue; % Átugorjuk ezt a párosítást, nem vizsgáljuk
-            % %         end
-            % % 
-            % %         d = segment_segment_distance(C_pts(i,:)', K_pts(i,:)', C_pts(j,:)', K_pts(j,:)');
-            % %         if d < (radii(i) + radii(j) + Collision.min_clearance)
-            % %             collision_detected = true;
-            % %             if isequal(ax, ax1) % Csak az ax1 (3D) frissítésekor írjon a konzolba
-            % %                 fprintf('ÜTKÖZÉS (Rúd-Rúd): Link %d és Link %d között (Rugóút: %.1f mm)\n', i, j, wheel_travel_range(wheel_step));
-            % %             end
-            % %         end
-            % %     end
-            % % 
-            % %     % B. Rúd-Motor ellenőrzés
-            % %     d_motor = segment_finite_cylinder_distance(C_pts(i,:)', K_pts(i,:)', motor_c, motor_a, motor_r, motor_l);
-            % %     if d_motor < (radii(i) + Collision.min_clearance)
-            % %         collision_detected = true;
-            % %         if isequal(ax, ax1)
-            % %             fprintf('ÜTKÖZÉS (Rúd-Motor): Link %d beleér a motorba! (Rugóút: %.1f mm)\n', i, wheel_travel_range(wheel_step));
-            % %         end
-            % %     end
-            % % 
-            % %     % C. Rúd-Felni ellenőrzés
-            % %     d_rim = segment_finite_cylinder_distance(C_pts(i,:)', K_pts(i,:)', rim_center, rim_axis, Collision.rim_inner_radius, Collision.rim_width);
-            % %     if d_rim < (radii(i) + Collision.min_clearance)
-            % %         collision_detected = true;
-            % %         if isequal(ax, ax1)
-            % %             fprintf('ÜTKÖZÉS (Rúd-Felni): Link %d beleér a felnibe! (Rugóút: %.1f mm)\n', i, wheel_travel_range(wheel_step));
-            % %         end
-            % %     end
-            % % 
-            % %     if collision_detected
-            % %         rod_color = [1.0 0.0 0.0]; 
-            % %     end
-            % % 
-            % %     % Vastagsággal rendelkező 3D henger rajzolása
-            % %     draw_rod(ax, C_pts(i,:), K_pts(i,:), radii(i), rod_color, 1.0);
-            % 
-            % Fő 5 rúd rajzolása és ütközése
             radii = Collision.rod_diameter(:)' / 2;   % biztosan 1×N sorvektor
-            num_rods = size(C_pts, 1);
-            % 
-            % if numel(radii) ~= num_rods
-            %     error('rod_diameter hossza (%d) nem egyezik a rudak számával (%d)!', ...
-            %         numel(radii), num_rods);
-            % end
-            % 
-            % for i = 1:num_rods
-            %     collision_detected = false;
-            %     rod_color = [0.2 0.6 1.0];
-            % 
-            %     % A. Rúd-Rúd ellenőrzés
-            %     for j = i+1:num_rods
-            %         if (i == 1 && j == 2) || (i == 3 && j == 4)
-            %             continue;
-            %         end
-            %         d = segment_segment_distance(C_pts(i,:)', K_pts(i,:)', C_pts(j,:)', K_pts(j,:)');
-            %         if d < (radii(i) + radii(j) + Collision.min_clearance)
-            %             collision_detected = true;
-            %             if isequal(ax, ax1)
-            %                 fprintf('ÜTKÖZÉS (Rúd-Rúd): Link %d és Link %d között (Rugóút: %.1f mm)\n', ...
-            %                     i, j, wheel_travel_range(wheel_step));
-            %             end
-            %         end
-            %     end
-            % 
-            %     % B. Rúd-Motor
-            %     d_motor = segment_finite_cylinder_distance(C_pts(i,:)', K_pts(i,:)', ...
-            %         motor_c, motor_a, motor_r, motor_l);
-            %     if d_motor < (radii(i) + Collision.min_clearance)
-            %         collision_detected = true;
-            %         if isequal(ax, ax1)
-            %             fprintf('ÜTKÖZÉS (Rúd-Motor): Link %d beleér a motorba! (Rugóút: %.1f mm)\n', ...
-            %                 i, wheel_travel_range(wheel_step));
-            %         end
-            %     end
-            % 
-            %     % C. Rúd-Felni
-            %     d_rim = segment_finite_cylinder_distance(C_pts(i,:)', K_pts(i,:)', ...
-            %         rim_center, rim_axis, Collision.rim_inner_radius, Collision.rim_width);
-            %     if d_rim < (radii(i) + Collision.min_clearance)
-            %         collision_detected = true;
-            %         if isequal(ax, ax1)
-            %             fprintf('ÜTKÖZÉS (Rúd-Felni): Link %d beleér a felnibe! (Rugóút: %.1f mm)\n', ...
-            %                 i, wheel_travel_range(wheel_step));
-            %         end
-            %     end
-            % 
-            %     if collision_detected
-            %         rod_color = [1.0 0.0 0.0];
-            %     end
-            % 
-            %     draw_rod(ax, C_pts(i,:), K_pts(i,:), radii(i), rod_color, 1.0);
-
-            % === PDF-szerű motor + felni ütközésvizsgálat (síkmetszés) ===
-            % Motor hátlap középpontja (V0). A jelenlegi Collision.motor_center
-            % a henger közepe; a hátlapot a tengely mentén eltoljuk.
-            % % % motor_axis_u = Collision.motor_axis(:) / norm(Collision.motor_axis);
-            % % % V0_motor = Collision.motor_center(:) - motor_axis_u * (Collision.motor_length/2);  % hátlap
-            % % % d_motor  = 2 * Collision.motor_radius;
-
-            motor_axis_u = motor_a(:) / norm(motor_a);
-            V0_motor = motor_c(:) - motor_axis_u * (motor_l/2);  % hátlap
-            d_motor_val  = 2 * motor_r;
-
-            % Felni belső sík középpontja (a kerék középpontjából a tengely mentén)
-            % unit_normal már a kerék tengelye
-            rim_inner_offset = Collision.rim_width/2;          % vagy a valós belső sík távolsága
-            V0_rim = WC_pos(:) - unit_normal(:) * rim_inner_offset;
-            d_rim  = 2 * Collision.rim_inner_radius;
-
-            % for i = 1:num_rods
-            %     collision_detected = false;
-            %     rod_color = [0.2 0.6 1.0];
-            %     P0 = C_pts(i,:)';          % váz oldali pont
-            %     P1 = K_pts(i,:)';          % upright oldali pont
-            %     d_rod = 2 * radii(i);
-            % 
-            %     % ---------- Rúd–rúd (megmarad) ----------
-            %     for j = i+1:num_rods
-            %         if (i==1 && j==2) || (i==3 && j==4), continue; end
-            %         d = segment_segment_distance(C_pts(i,:)', K_pts(i,:)', C_pts(j,:)', K_pts(j,:)');
-            %         if d < (radii(i) + radii(j) + Collision.min_clearance)
-            %             collision_detected = true;
-            %             if isequal(ax, ax1)
-            %                 fprintf('ÜTKÖZÉS (Rúd-Rúd): Link %d – %d  d=%.1f\n', i, j, d);
-            %             end
-            %         end
-            %     end
-            % 
-            %     % ---------- Motor (PDF 4.2) ----------
-            %     u = P1 - P0;
-            %     w = V0_motor - P0;
-            %     n = WC_pos(:) - V0_motor;          % vagy egyszerűen a motor tengelye
-            %     n = n / (norm(n) + 1e-12);
-            %     N = dot(w, n);
-            %     D = dot(u, n);
-            %     if abs(D) > 1e-9
-            %         sI = (N / D) * u;
-            %         % csak akkor érvényes, ha a metszéspont a rúd szakaszán van
-            %         t = dot(sI, u) / (dot(u,u) + 1e-12);
-            %         if t >= 0 && t <= 1
-            %             I = P0 + sI;
-            %             l_mr = norm(V0_motor - I);
-            %             if l_mr < (d_motor + d_rod)/2
-            %                 collision_detected = true;
-            %                 if isequal(ax, ax1)
-            %                     fprintf('ÜTKÖZÉS (Motor): Link %d  l_mr=%.1f < %.1f\n', ...
-            %                         i, l_mr, (d_motor+d_rod)/2);
-            %                 end
-            %             end
-            %         end
-            %     end
-            % 
-            %     % ---------- Felni (PDF 4.2) ----------
-            %     w = V0_rim - P0;
-            %     n = unit_normal(:);                % felni sík normálisa = keréktengely
-            %     N = dot(w, n);
-            %     D = dot(u, n);
-            %     if abs(D) > 1e-9
-            %         sI = (N / D) * u;
-            %         t = dot(sI, u) / (dot(u,u) + 1e-12);
-            %         if t >= 0 && t <= 1
-            %             I = P0 + sI;
-            %             l_rr = norm(V0_rim - I);
-            %             % PDF: nincs ütközés, ha l_rr <= (d_rim + d_rod)/2
-            %             % (a metszéspont a felni sugarán belül van-e)
-            %             if l_rr > (d_rim + d_rod)/2
-            %                 % a metszéspont a felni sugarán kívül van → nincs ütközés
-            %             else
-            %                 collision_detected = true;
-            %                 if isequal(ax, ax1)
-            %                     fprintf('ÜTKÖZÉS (Felni): Link %d  l_rr=%.1f\n', i, l_rr);
-            %                 end
-            %             end
-            %         end
-            %     end
-            % 
-            %     if collision_detected
-            %         rod_color = [1 0 0];
-            %     end
-            %     draw_rod(ax, C_pts(i,:), K_pts(i,:), radii(i), rod_color, 1.0);
-            % end
-            % 
-            % % =========================================================================
-            % % 3. A többi segédrúd kirajzolása (Kivéve a fő 5-öt, ami már kész van)
-            % % =========================================================================
-            % main_pairs = [1 3; 2 3; 4 6; 5 6; 7 8];
-            % for p_idx = 1:size(line_pairs,1)
-            %     idx1 = line_pairs{p_idx,1}(1);
-            %     idx2 = line_pairs{p_idx,1}(2);
-            % 
-            %     % Ellenőrizzük, hogy ez a pár benne van-e a fő rudakban
-            %     is_main = false;
-            %     for m = 1:size(main_pairs,1)
-            %         if (idx1 == main_pairs(m,1) && idx2 == main_pairs(m,2)) || (idx1 == main_pairs(m,2) && idx2 == main_pairs(m,1))
-            %             is_main = true;
-            %             break;
-            %         end
-            %     end
-            % 
-            %     % Ha nincs a fő rudak között (pl. pushrod, damper), akkor megrajzoljuk
-            %     if ~is_main
-            %         pos1 = p(idx1, :);
-            %         pos2 = p(idx2, :);
-            %         col = line_pairs{p_idx,2};
-            %         rad = line_pairs{p_idx,3};         
-            %         draw_rod(ax, pos1, pos2, rad, col, 1);
-            %     end
-            % end
-            % 
-
-            for i = 1:num_rods
-                collision_detected = false;
-                rod_color = [0.2 0.6 1.0];
-                reasons = {};
-
-                % --- Rúd–rúd (marad) ---
-                for j = i+1:num_rods
-                    if (i == 1 && j == 2) || (i == 3 && j == 4)
-                        continue;
-                    end
-                    d = segment_segment_distance(C_pts(i,:)', K_pts(i,:)', C_pts(j,:)', K_pts(j,:)');
-                    if d < (radii(i) + radii(j) + Collision.min_clearance)
-                        collision_detected = true;
-                        reasons{end+1} = sprintf('Rúd-%d (d=%.1f)', j, d);
-                    end
-                end
-
-                % --- Motor (3D henger) ---
-                d_motor = segment_finite_cylinder_distance( ...
-                    C_pts(i,:)', K_pts(i,:)', motor_c, motor_a, motor_r, motor_l);
-
-                % Diagnosztika – mindig írd ki
-                if isequal(ax, ax1)
-                    fprintf('Link %d  d_motor = %6.1f mm   (küszöb = %.1f)\n', ...
-                        i, d_motor, radii(i) + Collision.min_clearance);
-                end
-
-                if d_motor < (radii(i) + Collision.min_clearance)
-                    collision_detected = true;
-                    reasons{end+1} = sprintf('Motor (d=%.1f)', d_motor);
-                end
-
-                % --- Felni (gyűrű = annulus ellenőrzés) ---
-                rim_axis   = unit_normal(:);
-                rim_center = WC_pos(:) + Collision.rim_y_offset * rim_axis;   % ha van offset
-                r_inner    = Collision.rim_inner_radius;
-                r_outer    = Collision.rim_outer_radius;
-                half_w     = Collision.rim_width / 2;
-
-                % A rúd mentén mintavételezünk (ugyanúgy, mint a motorhoz)
-                n_samples = 24;
-                d_rim_min = inf;
-                for k = 0:n_samples
-                    t = k / n_samples;
-                    pt = C_pts(i,:)' + t * (K_pts(i,:)' - C_pts(i,:)');
-
-                    w = pt - rim_center;
-                    axial = dot(w, rim_axis);
-                    radial_vec = w - axial * rim_axis;
-                    radial = norm(radial_vec);
-
-                    % Csak a felni szélességén belül érdekel
-                    if abs(axial) <= half_w
-                        % Távolság a felni anyagától (gyűrű)
-                        if radial < r_inner
-                            % a nyílásban van → nincs ütközés a felni anyagával
-                            d = r_inner - radial;          % pozitív = távolság a belső éltől
-                        elseif radial > r_outer
-                            d = radial - r_outer;          % kívül van
-                        else
-                            d = 0;                         % benne van az anyagban → ütközés
-                        end
-                        d_rim_min = min(d_rim_min, d);
-                    end
-                end
-
-                if isequal(ax, ax1)
-                    fprintf('Link %d  d_rim = %6.1f mm\n', i, d_rim_min);
-                end
-
-                if d_rim_min < (radii(i) + Collision.min_clearance)
-                    collision_detected = true;
-                    reasons{end+1} = sprintf('Felni (d=%.1f)', d_rim_min);
-                end
-
-                if collision_detected
+            for i = 1:size(C_pts, 1)
+                if hit(i)
                     rod_color = [1 0 0];
-                    if isequal(ax, ax1)
-                        fprintf('  → PIROS: %s\n', strjoin(reasons, ', '));
-                    end
+                else
+                    rod_color = [0.2 0.6 1.0];
                 end
-
                 draw_rod(ax, C_pts(i,:), K_pts(i,:), radii(i), rod_color, 1.0);
             end
 
@@ -3150,10 +2884,9 @@ function base_program_front_left()
             end
 
             % =========================================================================
-            % 4. Gumiabroncs kirajzolása
+            % 4. Gumiabroncs kirajzolása (F1 méretek, legality camber)
             % =========================================================================
-            pos_center = p(15, :);
-            draw_tire(ax, pos_center, unit_normal, [], []);
+            draw_tire(ax, WC_pos, unit_normal, [], []);
 
         end
     
@@ -3259,6 +2992,8 @@ function base_program_front_left()
 
             % Görbék frissítése
             set(h_toe_curve,   'YData', toe_rel);
+            col_idx = collision_map(:, steer_step);
+            set(h_toe_collision, 'XData', wheel_travel_range(col_idx), 'YData', toe_rel(col_idx));
             set(h_camber_curve, 'YData', camber_rel);
             set(h_contact_patch_x_curve, 'YData', contact_patch_x_rel);
             set(h_contact_patch_y_curve, 'YData', contact_patch_y_rel);
@@ -3433,157 +3168,9 @@ function base_program_front_left()
             % hold(ax, 'off');
         end
 
-% % %         % =========================================================================
-% % %         % INTERAKTÍV KINEMATIKA ÉS IC ELLENŐRZŐ ÁBRA (SÖTÉT TÉMA)
-% % %         % =========================================================================
-% % % 
-% % %         num_steps = size(positions_history, 3);
-% % %         steer_idx = 1; % Ha nincs kormányzás, maradjon 1
-% % % 
-% % %         % --- 1. Sötét Témájú Ábra (Figure) Létrehozása ---
-% % %         fig_check = figure('Name', 'Interaktív Kinematika (Dark Mode)', ...
-% % %                            'Color', [0.12 0.12 0.12], ...
-% % %                            'Position', [100, 100, 900, 700]); 
-% % % 
-% % %         ax = axes('Parent', fig_check, 'Color', [0.15 0.15 0.15], ...
-% % %                   'XColor', 'w', 'YColor', 'w', 'ZColor', 'w', ...
-% % %                   'GridColor', [0.6 0.6 0.6], 'GridAlpha', 0.4);
-% % %         hold(ax, 'on'); grid(ax, 'on'); axis(ax, 'equal'); view(ax, 3);
-% % %         xlabel(ax, 'X (Fore/Aft)'); ylabel(ax, 'Y (Left/Right)'); zlabel(ax, 'Z (Up/Down)');
-% % %         title(ax, 'Futómű Kinematika és IC-k | Húzd a csúszkát!', 'Color', 'w', 'FontSize', 12);
-% % % 
-% % %         % --- 2. Grafikai elemek előkészítése (Kontrasztos színekkel) ---
-% % %         h_upper_arm = plot3(ax, nan, nan, nan, 'c-', 'LineWidth', 2); % Felső - Cián
-% % %         h_lower_arm = plot3(ax, nan, nan, nan, 'y-', 'LineWidth', 2); % Alsó - Sárga
-% % %         h_points = plot3(ax, nan, nan, nan, 'wo', 'MarkerFaceColor', 'w'); % Pontok - Fehér
-% % % 
-% % %         h_front_ic = plot3(ax, nan, nan, nan, 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r'); % FIC - Piros
-% % %         h_side_ic = plot3(ax, nan, nan, nan, 'mo', 'MarkerSize', 8, 'MarkerFaceColor', 'm');  % SIC - Magenta
-% % %         h_cp = plot3(ax, nan, nan, nan, 'wx', 'MarkerSize', 10, 'LineWidth', 2);              % CP - Fehér X
-% % % 
-% % %         % Összekötő vonalak (IC -> Contact Patch)
-% % %         h_line_fic_cp = plot3(ax, nan, nan, nan, 'r--', 'LineWidth', 1.5);
-% % %         h_line_sic_cp = plot3(ax, nan, nan, nan, 'm--', 'LineWidth', 1.5);
-% % % 
-% % %         legend([h_upper_arm, h_lower_arm, h_front_ic, h_side_ic, h_cp], ...
-% % %                {'Felső lengőkar', 'Alsó lengőkar', 'Front IC', 'Side IC', 'Contact Patch'}, ...
-% % %                'Location', 'best', 'TextColor', 'w', 'Color', [0.2 0.2 0.2]);
-% % % 
-% % %         % --- 3. Bounding Box számítása a kamera rögzítéséhez ---
-% % %         % (Hogy a kamera ne ugráljon, amikor az IC a végtelenbe repül)
-% % %         all_x = positions_history(1:6, 1, :, steer_idx);
-% % %         all_y = positions_history(1:6, 2, :, steer_idx);
-% % %         all_z = positions_history(1:6, 3, :, steer_idx);
-% % %         axis(ax, [min(all_x(:))-500, max(all_x(:))+500, ...
-% % %                   min(all_y(:))-500, max(all_y(:))+1500, ...
-% % %                   min(all_z(:))-200, max(all_z(:))+1000]);
-% % % 
-% % %         % --- 4. Adatok becsomagolása a Callback számára ---
-% % %         handles = struct('u_arm', h_upper_arm, 'l_arm', h_lower_arm, 'pts', h_points, ...
-% % %                          'fic', h_front_ic, 'sic', h_side_ic, 'cp', h_cp, ...
-% % %                          'line_fic', h_line_fic_cp, 'line_sic', h_line_sic_cp, 'ax', ax);
-% % % 
-% % %         data = struct('pos', positions_history, 'fic_hist', front_ic_history, ...
-% % %                       'sic_hist', side_ic_history, 'cpx', cp_x, 'cpy', cp_y, 'cpz', cp_z, ...
-% % %                       'steer_idx', steer_idx);
-% % % 
-% % %         % --- 5. Interaktív Csúszka (Slider) Létrehozása ---
-% % %         if num_steps > 1
-% % %             h_slider = uicontrol('Style', 'slider', 'Parent', fig_check, ...
-% % %                                  'Units', 'normalized', 'Position', [0.1 0.02 0.8 0.05], ...
-% % %                                  'Min', 1, 'Max', num_steps, 'Value', 1, ...
-% % %                                  'SliderStep', [1/(num_steps-1), 10/(num_steps-1)], ...
-% % %                                  'BackgroundColor', [0.3 0.3 0.3]);
-% % % 
-% % %             % Listener a folyamatos vizuális frissítéshez (húzás közben is)
-% % %             addlistener(h_slider, 'ContinuousValueChange', @(src, event) update_kinematics(src, handles, data));
-% % %         end
-% % % 
-% % %         % Ábra inicializálása az első lépéssel
-% % %         update_kinematics(struct('Value', 1), handles, data);
-% % % 
-% % %             % =========================================================================
-% % %             % FRISSÍTŐ FÜGGVÉNY (Ezt a részt a fájlod legvégére tedd!)
-% % %             % =========================================================================
-% % %             function update_kinematics(slider_obj, h, d)
-% % %                 % Aktuális lépés lekerekítése
-% % %                 w_step = round(slider_obj.Value);
-% % %                 s_idx = d.steer_idx;
-% % % 
-% % %                 % Adatok kinyerése a tárolókból
-% % %                 pos1 = squeeze(d.pos(1, :, w_step, s_idx));
-% % %                 pos2 = squeeze(d.pos(2, :, w_step, s_idx));
-% % %                 pos3 = squeeze(d.pos(3, :, w_step, s_idx));
-% % %                 pos4 = squeeze(d.pos(4, :, w_step, s_idx));
-% % %                 pos5 = squeeze(d.pos(5, :, w_step, s_idx));
-% % %                 pos6 = squeeze(d.pos(6, :, w_step, s_idx));
-% % % 
-% % %                 fic = squeeze(d.fic_hist(w_step, s_idx, :))';
-% % %                 sic = squeeze(d.sic_hist(w_step, s_idx, :))';
-% % %                 cp_curr = [d.cpx, d.cpy, d.cpz]; % Ha a CP is mozog a kerékkel, ezt cseréld a mozgó vektorra!
-% % % 
-% % %                 % --- Grafika frissítése (set parancsokkal, hogy gyors legyen) ---
-% % %                 set(h.u_arm, 'XData', [pos1(1), pos3(1), pos2(1), pos1(1)], ...
-% % %                              'YData', [pos1(2), pos3(2), pos2(2), pos1(2)], ...
-% % %                              'ZData', [pos1(3), pos3(3), pos2(3), pos1(3)]);
-% % % 
-% % %                 set(h.l_arm, 'XData', [pos4(1), pos6(1), pos5(1), pos4(1)], ...
-% % %                              'YData', [pos4(2), pos6(2), pos5(2), pos4(2)], ...
-% % %                              'ZData', [pos4(3), pos6(3), pos5(3), pos4(3)]);
-% % % 
-% % %                 all_pts = [pos1; pos2; pos3; pos4; pos5; pos6];
-% % %                 set(h.pts, 'XData', all_pts(:,1), 'YData', all_pts(:,2), 'ZData', all_pts(:,3));
-% % % 
-% % %                 set(h.fic, 'XData', fic(1), 'YData', fic(2), 'ZData', fic(3));
-% % %                 set(h.sic, 'XData', sic(1), 'YData', sic(2), 'ZData', sic(3));
-% % %                 set(h.cp, 'XData', cp_curr(1), 'YData', cp_curr(2), 'ZData', cp_curr(3));
-% % % 
-% % %                 % Szaggatott összekötő vonalak az IC-k és a Contact Patch közé
-% % %                 set(h.line_fic, 'XData', [fic(1), cp_curr(1)], ...
-% % %                                 'YData', [fic(2), cp_curr(2)], ...
-% % %                                 'ZData', [fic(3), cp_curr(3)]);
-% % % 
-% % %                 set(h.line_sic, 'XData', [sic(1), cp_curr(1)], ...
-% % %                                 'YData', [sic(2), cp_curr(2)], ...
-% % %                                 'ZData', [sic(3), cp_curr(3)]);
-% % % 
-% % %                 % Cím frissítése
-% % %                 title(h.ax, sprintf('Futómű Kinematika | Mozgási Lépés: %d', w_step), 'Color', 'w');
-% % %             end
-% % % end
-
-
-    % % =========================================================================
-    % % 3. Eredmények Vizualizációja (Figure és Slider)
-    % % =========================================================================
-    % 
-    % % Kormányzási index rögzítése a sliderhez (mivel a kormányzás range most zeros(1,3))
-    % s_idx = zero_steer_step; 
-    % 
-    % % Létrehozzuk a figurát és az ablakot
-    % fig = figure('Name', 'Suspension Kinematics & Instant Axis', 'Position', [100, 100, 1200, 800]);
-    % ax = axes(fig, 'Position', [0.1, 0.2, 0.8, 0.7]);
-    % 
-    % % Slider létrehozása (a berugózás indexeit pörgeti)
-    % slider = uicontrol('Style', 'slider', ...
-    %     'Min', 1, 'Max', num_wheel_steps, 'Value', zero_wheel_step, ...
-    %     'SliderStep', [1/(num_wheel_steps-1) 5/(num_wheel_steps-1)], ...
-    %     'Position', [150, 50, 900, 20]);
-    % 
-    % % Szöveges felirat a sliderhez, ami mutatja a pillanatnyi berugózást mm-ben
-    % txt_label = uicontrol('Style', 'text', ...
-    %     'Position', [500, 20, 250, 20], ...
-    %     'String', sprintf('Wheel Travel: %.1f mm', wheel_travel_range(zero_wheel_step)), ...
-    %     'FontSize', 12, 'FontWeight', 'bold');
-    % 
-    % % Folyamatos callback (ContinuousValueChange) hozzáadása a sliderhez a smooth élményért
-    % addlistener(slider, 'ContinuousValueChange', @(src, event) update_plot2(round(src.Value)));
-    % 
-    % % Kezdeti statikus állapot kirajzolása (0 mm travel)
-    % update_plot2(zero_wheel_step);
-
     % =====================================================================
     % NESTED FUNCTION: A rajzoló rutin (látja a főfüggvény változóit)
+    % (megjegyzés: a hozzá tartozó figure/slider az eredetiben is ki van kommentelve)
     % =====================================================================
     function update_plot2(w_idx)
         % Letöröljük az előző rajzot a gyors frissítéshez
@@ -3624,7 +3211,7 @@ function base_program_front_left()
         % 3. Kerék és abroncs kirajzolása (a kódodban lévő draw_tire hívásával)
         pos_center = p(15, :);
         R_mat = squeeze(R_history(w_idx, s_idx, :, :));
-        unit_normal = R_mat * initial_normal;
+        unit_normal = R_mat * Collision.wheel_axis0(:);
         draw_tire(ax, pos_center, unit_normal, [], []);
 
         hold on
@@ -3680,49 +3267,6 @@ function base_program_front_left()
         drawnow;
     end
 
-
-    % --- ÜTKÖZÉS SZÁMÍTÓ FÜGGVÉNYEK ---
-    function d = segment_segment_distance(p1, q1, p2, q2)
-    p1 = p1(:); q1 = q1(:); p2 = p2(:); q2 = q2(:);
-    u = q1 - p1; v = q2 - p2; w0 = p1 - p2;
-    a = dot(u,u); b = dot(u,v); c = dot(v,v);
-    d_ = dot(u,w0); e = dot(v,w0);
-    D = a*c - b*b;
-    if D < 1e-12
-        sc = 0;
-        tc = 0; if c > 1e-12, tc = e/c; end
-    else
-        sc = (b*e - c*d_) / D;
-        tc = (a*e - b*d_) / D;
-    end
-    sc = min(1, max(0, sc));
-    tc = min(1, max(0, tc));
-    d = norm(w0 + sc*u - tc*v);
-    end
-
-    function d = segment_finite_cylinder_distance(p0, p1, c_center, c_axis, radius, height)
-    p0 = p0(:); p1 = p1(:); c_center = c_center(:); c_axis = c_axis(:);
-    c_axis = c_axis / (norm(c_axis) + 1e-15);
-    n = 24; d = inf; half_h = height / 2;
-    for k = 0:n
-        t = k/n;
-        p = p0 + t*(p1-p0);
-        w = p - c_center;
-        axial = dot(w, c_axis);
-        radial_vec = w - axial * c_axis;
-        radial = norm(radial_vec);
-        if abs(axial) <= half_h
-            d = min(d, max(0, radial - radius));
-        else
-            if radial <= radius
-                d = min(d, abs(axial) - half_h);
-            else
-                d = min(d, norm([radial - radius; abs(axial) - half_h]));
-            end
-        end
-    end
-    end
-
     % --- HENGER RAJZOLÓ (Motor és Felni vizualizáció) ---
     function h = draw_cylinder_custom(ax, center, axis_vec, radius, length, color, alpha)
     u = axis_vec / norm(axis_vec);
@@ -3743,58 +3287,6 @@ function base_program_front_left()
 
     h = surf(ax, X, Y, Z, 'FaceColor', color, 'EdgeColor', 'none', 'FaceAlpha', alpha, 'FaceLighting', 'gouraud');
     end
-
-    % % =========================================================================
-    % % 3x3 KINEMATIKAI MÁTRIX KÉSZÍTÉSE ÉS KIÍRATÁSA
-    % % =========================================================================
-    % 
-    % % Indexek kinyerése a 3x3 rácshoz
-    % % Berugózás (Wheel travel): Max Bound (+30mm), 0, Max Rebound (-30mm)
-    % idx_w = [num_wheel_steps, zero_wheel_step, 1]; 
-    % lbl_w = {'Max Berugozas', '0 Berugozas', 'Max Kirugozas'};
-    % 
-    % % Kormányzás (Steering): Left (negatív max), 0, Right (pozitív max)
-    % idx_s = [1, zero_steer_step, num_steer_steps]; 
-    % lbl_s = {'Left Steer', '0 Steer', 'Right Steer'};
-    % 
-    % % Táblázat fejléce
-    % fprintf('\n====================================================================================================================\n');
-    % fprintf('                                         3x3 KINEMATIKAI MÁTRIX EREDMÉNYEK\n');
-    % fprintf('====================================================================================================================\n');
-    % fprintf('%-15s | %-30s | %-30s | %-30s |\n', 'Travel \ Steer', lbl_s{1}, lbl_s{2}, lbl_s{3});
-    % fprintf('--------------------------------------------------------------------------------------------------------------------\n');
-    % 
-    % % Értékek kiolvasása és formázott kiíratása
-    % for w = 1:3
-    %     wi = idx_w(w);
-    % 
-    %     % 1. Sor: Toe Angle
-    %     fprintf('%-15s | Toe:      %8.3f deg      | Toe:      %8.3f deg      | Toe:      %8.3f deg      |\n', ...
-    %         lbl_w{w}, toe_history(wi, idx_s(1)), toe_history(wi, idx_s(2)), toe_history(wi, idx_s(3)));
-    % 
-    %     % 2. Sor: Camber Angle
-    %     fprintf('%-15s | Camber:   %8.3f deg      | Camber:   %8.3f deg      | Camber:   %8.3f deg      |\n', ...
-    %         '', camber_history(wi, idx_s(1)), camber_history(wi, idx_s(2)), camber_history(wi, idx_s(3)));
-    % 
-    %     % 3. Sor: KPI
-    %     fprintf('%-15s | KPI:      %8.3f deg      | KPI:      %8.3f deg      | KPI:      %8.3f deg      |\n', ...
-    %         '', kpi_history(wi, idx_s(1)), kpi_history(wi, idx_s(2)), kpi_history(wi, idx_s(3)));
-    % 
-    %     % 4. Sor: Caster Angle
-    %     fprintf('%-15s | Caster:   %8.3f deg      | Caster:   %8.3f deg      | Caster:   %8.3f deg      |\n', ...
-    %         '', caster_history(wi, idx_s(1)), caster_history(wi, idx_s(2)), caster_history(wi, idx_s(3)));
-    % 
-    %     % 5. Sor: Scrub Radius
-    %     fprintf('%-15s | Scrub:    %8.3f mm       | Scrub:    %8.3f mm       | Scrub:    %8.3f mm       |\n', ...
-    %         '', scrub_radius_history(wi, idx_s(1)), scrub_radius_history(wi, idx_s(2)), scrub_radius_history(wi, idx_s(3)));
-    % 
-    %     % 6. Sor: Mechanical Trail
-    %     fprintf('%-15s | Mech.T:   %8.3f mm       | Mech.T:   %8.3f mm       | Mech.T:   %8.3f mm       |\n', ...
-    %         '', mechanical_trail_history(wi, idx_s(1)), mechanical_trail_history(wi, idx_s(2)), mechanical_trail_history(wi, idx_s(3)));
-    % 
-    %     % Cella elválasztó
-    %     fprintf('--------------------------------------------------------------------------------------------------------------------\n');
-    % end
 
     %% 3x3 EREDMÉNY MÁTRIX EXPORTÁLÁSA EXCELBE (Comparison.xlsx formátum)
     % Blokkok (sorok):  left steer / static (0 steer) / right steer
@@ -3851,40 +3343,651 @@ function base_program_front_left()
         warning('Az Excel export nem sikerült: %s (ha a fájl meg van nyitva Excelben, zárd be, és futtasd újra)', xl_err.message);
     end
 
-    % % =====================================================================
-    % % EXCEL EXPORTÁLÁS: Kiszámolt kinematikai adatok mentése fájlba
-    % % =====================================================================
-    % disp('Kinematikai adatok exportálása Excel fájlba...');
-    % 
-    % % Hálózat (grid) létrehozása a wheel_travel és steering lépésekből,
-    % % hogy minden sorhoz pontosan tudjuk, mekkora a rugóút és a kormányszög
-    % [SteerGrid, WheelGrid] = meshgrid(steering_range, wheel_travel_range);
-    % 
-    % % Mátrixok kiterítése (flattening) 1D-s oszlopvektorokká
-    % Wheel_Travel_mm = WheelGrid(:);
-    % Steering_mm     = SteerGrid(:);
-    % Camber_deg      = reshape(camber_history(:,:,1), [], 1);   % camber_history 3D tömb, csak az 1. lap van feltöltve
-    % Toe_deg         = toe_history(:);
-    % Caster_deg      = caster_history(:);
-    % KPI_deg         = kpi_history(:);
-    % Scrub_Radius_mm = scrub_radius_history(:);
-    % Mech_Trail_mm   = mechanical_trail_history(:);
-    % % Contact_Patch_X = contact_patch_x_history(:);
-    % % Contact_Patch_Y = contact_patch_y_history(:);
-    % % Contact_Patch_Z = contact_patch_z_history(:);
-    % 
-    % % MATLAB Table létrehozása az oszlopokból
-    % ResultsTable = table(Wheel_Travel_mm, Steering_mm, Camber_deg, Toe_deg, ...
-    %     Caster_deg, KPI_deg, Scrub_Radius_mm, Mech_Trail_mm);
-    % 
-    % % Fájlnév megadása
-    % excel_filename = 'Front_Left_Kinematics_Results.xlsx';
-    % 
-    % % Írás Excelbe (a 'Sheet' paraméterrel megadhatod a munkalap nevét)
-    % writetable(ResultsTable, excel_filename, 'Sheet', 'Kinematics Data');
-    % 
-    % disp(['Az eredmények sikeresen exportálva: ', excel_filename]);
-
-
 end % <-- Ez zárja be magát a legfőbb `function base_program_front_left()` keretet!
 
+%% =====================================================================
+%% LOKÁLIS SEGÉDFÜGGVÉNYEK – VIZUALIZÁCIÓ
+%% =====================================================================
+
+function L = calc_vis_limits(positions_history, WC, R_tyre)
+% A 3D nézetek tengelyhatárai: a teljes sweep összes pontja + a kerék (F1 méretek).
+    P = reshape(permute(positions_history, [2 1 3 4]), 3, [])';
+    P = P(all(isfinite(P), 2) & any(P ~= 0, 2), :);
+    WC = WC(:)';
+    lo = min([P; WC - R_tyre - 60], [], 1);
+    hi = max([P; WC + R_tyre + 60], [], 1);
+    lo(3) = min(lo(3), -50);
+    L = [lo(:), hi(:)];
+end
+
+%% =====================================================================
+%% ÜTKÖZÉS-ELLENŐRZÉS (az optimalizálók get_collision_distances logikája)
+%% =====================================================================
+
+function [hit, reasons, dd] = col_check_pose(C_pts, K_pts, WC, unit_normal, Col)
+% Egy póz ütközés-vizsgálata. hit(i) = true -> az i. rúd PIROS.
+% dd.rod / dd.motor / dd.rim: az i. rúd legkisebb szabad (felület–felület) távolsága [mm];
+% ütközés, ha ez kisebb, mint Col.min_clearance (= optimalizáló: need - d > 0).
+    n = size(C_pts, 1);
+    radii = Col.rod_diameter(:) / 2;
+    if numel(radii) < n, radii = [radii; repmat(radii(end), n - numel(radii), 1)]; end
+    gap = Col.min_clearance;
+    names = col_rod_names(Col, n);
+    hit = false(n, 1);
+    reasons = cell(n, 1);
+    for i = 1:n, reasons{i} = {}; end
+    dd.rod = inf(n, 1); dd.motor = inf(n, 1); dd.rim = inf(n, 1);
+    ax_n = unit_normal(:) / (norm(unit_normal) + 1e-15);
+
+    % 1) Rúd–rúd (A-kar párok és közös végpontú rudak kihagyva)
+    for i = 1:n
+        for j = i+1:n
+            if col_is_skipped(i, j, Col), continue; end
+            if col_share_end(C_pts(i,:), K_pts(i,:), C_pts(j,:), K_pts(j,:)), continue; end
+            d = col_seg_seg(C_pts(i,:), K_pts(i,:), C_pts(j,:), K_pts(j,:)) - radii(i) - radii(j);
+            dd.rod(i) = min(dd.rod(i), d);
+            dd.rod(j) = min(dd.rod(j), d);
+            if d < gap
+                hit(i) = true; hit(j) = true;
+                reasons{i}{end+1} = sprintf('%s (%.1f mm)', names{j}, d);
+                reasons{j}{end+1} = sprintf('%s (%.1f mm)', names{i}, d);
+            end
+        end
+    end
+
+    % 2) Rúd–motor (csak FS módban; F1: nincs agymotor)
+    if ~isfield(Col, 'use_motor') || Col.use_motor
+        mc = WC(:) + Col.motor_y_offset * ax_n;
+        for i = 1:n
+            d = col_seg_cyl(C_pts(i,:), K_pts(i,:), mc, ax_n, Col.motor_radius, Col.motor_length) - radii(i);
+            dd.motor(i) = d;
+            if d < gap
+                hit(i) = true;
+                reasons{i}{end+1} = sprintf('Motor (%.1f mm)', d);
+            end
+        end
+    end
+
+    % 3) Rúd–felni (gyűrű: r_inner..r_outer, ±szélesség/2, előjeles távolság)
+    rc = WC(:) + Col.rim_y_offset * ax_n;
+    for i = 1:n
+        d = f1_seg_rim_dist(C_pts(i,:), K_pts(i,:), rc, ax_n, Col.rim_inner_radius, ...
+            Col.rim_outer_radius, Col.rim_width / 2) - radii(i);
+        dd.rim(i) = d;
+        if d < gap
+            hit(i) = true;
+            reasons{i}{end+1} = sprintf('Felni (%.1f mm)', d);
+        end
+    end
+end
+
+function names = col_rod_names(Col, n)
+    if isfield(Col, 'rod_names') && numel(Col.rod_names) >= n
+        names = Col.rod_names(1:n);
+    else
+        names = arrayfun(@(k) sprintf('Rúd %d', k), 1:n, 'UniformOutput', false);
+    end
+end
+
+function tf = col_is_skipped(i, j, Col)
+    tf = false;
+    if ~isfield(Col, 'skip_pairs') || isempty(Col.skip_pairs), return; end
+    sp = Col.skip_pairs;
+    tf = any((sp(:,1) == i & sp(:,2) == j) | (sp(:,1) == j & sp(:,2) == i));
+end
+
+function tf = col_share_end(Ci, Ki, Cj, Kj)
+    tf = (norm(Ci - Cj) < 1e-6) || (norm(Ki - Kj) < 1e-6) || (norm(Ci - Kj) < 1e-6) || (norm(Ki - Cj) < 1e-6);
+end
+
+function s = col_pose_string(hit, reasons, Col)
+% Rövid szöveg: melyik rúd mihez ér hozzá (üres, ha nincs ütközés).
+    names = col_rod_names(Col, numel(hit));
+    parts = {};
+    for i = find(hit(:))'
+        parts{end+1} = sprintf('%s: %s', names{i}, strjoin(reasons{i}, ', ')); %#ok<AGROW>
+    end
+    s = strjoin(parts, ' | ');
+end
+
+function d = col_seg_seg(p1, q1, p2, q2)
+    p1 = p1(:); q1 = q1(:); p2 = p2(:); q2 = q2(:);
+    u = q1 - p1; v = q2 - p2; w0 = p1 - p2;
+    a = dot(u,u); b = dot(u,v); c = dot(v,v);
+    d_ = dot(u,w0); e = dot(v,w0);
+    D = a*c - b*b;
+    if D < 1e-12
+        sc = 0; tc = 0; if c > 1e-12, tc = e/c; end
+    else
+        sc = (b*e - c*d_) / D; tc = (a*e - b*d_) / D;
+    end
+    sc = min(1, max(0, sc)); tc = min(1, max(0, tc));
+    d = norm(w0 + sc*u - tc*v);
+end
+
+function d = col_seg_cyl(p0, p1, c_center, c_axis, radius, height)
+% Előjeles távolság szakasz és véges henger között (< 0: behatolás).
+    p0 = p0(:); p1 = p1(:); c_center = c_center(:); c_axis = c_axis(:) / (norm(c_axis) + 1e-15);
+    d = inf; half_h = height / 2;
+    for k = 0:60
+        p = p0 + (k/60) * (p1 - p0); w = p - c_center;
+        axial = dot(w, c_axis); radial = norm(w - axial * c_axis);
+        a = radial - radius; b = abs(axial) - half_h;
+        d = min(d, norm([max(a, 0), max(b, 0)]) + min(max(a, b), 0));
+    end
+end
+
+%% =====================================================================
+%% F1 2026 – ÖSSZESÍTŐ SEGÉDFÜGGVÉNYEK (csak a számoló programokban)
+%% =====================================================================
+
+function [ok, failed] = f1_rules_status(names, vals)
+% A f1_report-tal azonos döntés (max(c) <= 1e-3 = OK), a sérülő szabálypontok kódjával.
+    ok = true; failed = {};
+    for i = 1:numel(names)
+        v = vals{i};
+        if ~isempty(v) && max(v) > 1e-3
+            ok = false;
+            failed{end+1} = strtok(names{i}); %#ok<AGROW>
+        end
+    end
+end
+
+function [ok, failed] = f1_static_wheel_status(WC, F1)
+% C10.10.1 (nyomtáv / WCS |Y|) és C10.1c (WCS Z) – a f1_check_wheel_static döntése, szövegesen.
+    ok = true; failed = {};
+    if ~F1.Enable, return; end
+    n0  = f1_wheel_axes(F1);
+    O   = f1_wcs_origin(WC, n0, F1);
+    zF1 = O(3) - F1.RefPlaneZ;
+    if abs(O(2)) > F1.WCS_Ymax + 1e-6, ok = false; failed{end+1} = 'C10.10.1 (nyomtáv)'; end
+    if zF1 < F1.WCS_Zrange(1) || zF1 > F1.WCS_Zrange(2), ok = false; failed{end+1} = 'C10.1c (WCS Z)'; end
+end
+
+function ok = f1_outboard_ok(P, WC, F1, on_member)
+% A f1_check_outboard_point döntése logikai értékként.
+    ok = true;
+    if ~F1.Enable, return; end
+    [n0, zw0] = f1_wheel_axes(F1);
+    [yw, zw, r] = f1_wcs_coords(P(:)', WC, n0, zw0, F1);
+    if on_member
+        ok = yw <= F1.PushrodExcYWmax;
+    else
+        ok = (yw <= F1.OutboardYWmax) && (zw >= F1.OutboardZWmin);
+        if F1.Drum.Enable
+            ok = ok && r <= F1.Drum.Radius && yw >= F1.Drum.YW(1) && yw <= F1.Drum.YW(2);
+        end
+    end
+end
+
+function err = f1_link_errors(q, C_curr, K_loc, WC_init, dz, L0)
+% = az optimalizáló calc_link_errors-a (5 tag + merev upright, WC Z rögzített)
+    WC_current = [q(1), q(2), WC_init(3) + dz];
+    R = f1_euler_rot(q(3), q(4), q(5));
+    err = zeros(size(K_loc, 1), 1);
+    for i = 1:size(K_loc, 1)
+        K_current = WC_current' + R * K_loc(i,:)';
+        err(i) = norm(K_current' - C_curr(i,:)) - L0(i);
+    end
+end
+
+function R = f1_euler_rot(rx, ry, rz)
+% = az optimalizáló euler_to_rot-ja
+    Rx = [1 0 0; 0 cos(rx) -sin(rx); 0 sin(rx) cos(rx)];
+    Ry = [cos(ry) 0 sin(ry); 0 1 0; -sin(ry) 0 cos(ry)];
+    Rz = [cos(rz) -sin(rz) 0; sin(rz) cos(rz) 0; 0 0 1];
+    R = Rz * Ry * Rx;
+end
+
+
+%% =====================================================================
+%% F1 2026 SZABÁLYZAT (Section C10, Issue 20) – KÖZÖS SEGÉDFÜGGVÉNYEK
+%% (az optimalizálók blokkja; a kinematikát itt a f1_link_errors / f1_euler_rot adja,
+%%  mert a számoló programban a calc_link_errors / euler_to_rot nested függvény)
+%% =====================================================================
+
+function F1 = f1_rules_2026(axle)
+% A C10 szabályokból adódó kényszerek alapértékei egy tengelyre ('front' / 'rear').
+%
+% KOORDINÁTÁK: a kód saját rendszere marad (X előre, Y balra, Z fel, Z = 0 a TALAJ,
+% bal kerék: Y > 0). Az F1 Z = 0 referenciasík a talaj felett F1.RefPlaneZ magasságban van.
+%
+% WHEEL COORDINATE SYSTEM (WCS) – a C10.7.2 felniméretekből, a C10.2.6b setup-kerékből
+% (YW = -168) és a C10.10.1 szélességi határból levezetve:
+%   origó: a kerék tengelyén, a felni BELSŐ síkjában;  YW: a kerék tengelye, BEFELÉ pozitív;
+%   ZW: YW-re merőleges, felfelé.  A gumi közepe (a kód WC pontja) YW = F1.WC_YW-nél van.
+% Legality Setup (C10.1): toe = 0, camber = -3° elöl / -1° hátul. A kód kinematikája a
+% kereket a design pózban függőlegesnek veszi; az F1 ellenőrzések a legality cambert
+% használják (a szabály is így írja elő a CAD-ellenőrzést).
+    axle = lower(strtrim(axle));
+    F1.Enable  = true;
+    F1.Axle    = axle;
+    F1.IsFront = strcmp(axle, 'front');
+
+    if F1.IsFront
+        F1.LegalCamber    = -3;           % C10.1b [deg]
+        F1.WCS_Zrange     = [290 320];    % C10.1c  WCS origó Z az F1 Z=0 síkhoz [mm]
+        F1.WCS_Ymax       = 603;          % C10.10.1 WCS origó max. Y [mm]
+        F1.OutboardZWmin  = -100;         % C10.3.4b [mm]
+        F1.TyreRadius     = 705/2;        % Pirelli 2026 első gumi Ø705 mm (csak ellenőrzéshez)
+        F1.Rim.MountWidth = 315;          % C10.7.2a Tyre Mounting Width
+        F1.Rim.Width      = 334;          % C10.7.2a Overall Width (ref.)
+        F1.RefPlaneZ      = 45;           % [mm] <- SAJÁT: F1 Z=0 sík magassága a talaj felett (Legality Setup)
+    else
+        F1.LegalCamber    = -1;
+        F1.WCS_Zrange     = [225 285];
+        F1.WCS_Ymax       = 525;
+        F1.OutboardZWmin  = -40;
+        F1.TyreRadius     = 710/2;        % Pirelli 2026 hátsó gumi Ø710 mm
+        F1.Rim.MountWidth = 401.3;
+        F1.Rim.Width      = 420.3;
+        F1.RefPlaneZ      = 95;           % [mm] <- SAJÁT
+    end
+    F1.Rim.InboardLip   = 10.5;           % C10.7.2a
+    F1.Rim.OutboardLip  = 8.5;            % C10.7.2a
+    F1.WC_YW            = -(F1.Rim.InboardLip + F1.Rim.MountWidth/2);  % első: -168 (= C10.2.6b), hátsó: -211.15
+    F1.Rim.OuterRadius  = 496/2;          % C10.7.2a Lip External Diameter
+    F1.Rim.BeadRadius   = 462.5/2;        % C10.7.2a Rim Diameter
+    F1.Rim.MinThickness = 2.5;            % C10.7.2f
+    F1.Rim.InnerRadius  = 215;            % [mm] <- SAJÁT: a felni belső (hordó) sugara a CAD-ből (RV-RIM-MIN)
+    F1.Rim.CenterOffset = F1.Rim.Width/2 + F1.WC_YW;   % felniközép a WC-hez képest, a kifelé mutató tengely mentén
+
+    F1.OutboardYWmax = 0;                 % C10.3.4a: outboard pontok YW <= 0
+    F1.Drum.Enable = false;               % C10.3.4c / C3.14.2: a Drum nincs a C10 szövegben -> töltsd ki, majd true
+    F1.Drum.Radius = NaN;                 % [mm] a Drum sugara a YW tengely körül
+    F1.Drum.YW     = [NaN NaN];           % [YW_min YW_max] a Drum axiális kiterjedése
+
+    F1.ZWgradMax         = 1;             % C10.3.1 [deg] ...
+    F1.ZWgradWindow      = 10;            % ... ennyi [mm] rugóúton
+    F1.IncidenceHeaveMax = 5;             % C10.3.6c [deg] rugóút
+    F1.IncidenceSteerMax = 1;             % C10.3.6c [deg] kormányzás
+    F1.CheckDz    = -30:5:30;             % [mm] az F1 heave-ellenőrzés pózai (a 10 mm-es ablakhoz 5 mm-es lépés kell)
+    F1.NoMountBox = [];                   % C10.3.10 (hátul): PU tiltott doboz [xmin xmax; ymin ymax; zmin zmax], [] = ki
+
+    % --- csak első tengely ---
+    F1.PairMinDX      = 300;              % C10.3.5 [mm]
+    F1.PairMinZ       = 250;              % C10.3.5 [mm, F1 Z]
+    F1.JackAngle      = 12;               % C10.2.6b [deg]
+    F1.JackMax        = 2;                % C10.2.6b [mm]
+    F1.LockToeIn      = 23;               % C10.3.7 [deg] (+ = toe-in)
+    F1.LockToeOut     = 21;               % C10.3.7 [deg]
+    F1.MaxRackTravel  = Inf;              % [mm] ha véges: a lockhoz szükséges rack-út korlátja
+    F1.SteerCheckRack = 30;               % [mm] C10.3.6c kormányzási tartomány (±rack)
+
+    % --- pushrod (rocker optimalizálók) ---
+    F1.PushrodOnMember       = false;     % true: a pushrod egy másik tagra (lengőkarra) köt -> C10.3.4 d-f
+    F1.PushrodExcYWmax       = 50;        % C10.3.4d [mm]
+    F1.PushrodExcLineDist    = 25;        % C10.3.4e [mm]
+    F1.CheckPushrodIncidence = true;      % C10.3.6c a pushrodra (kör keresztmetszetnél állítsd false-ra)
+end
+
+function [n0, zw0] = f1_wheel_axes(F1)
+% Legality Setup kerék-tengely (bal kerék): n0 = KIFELÉ mutató forgástengely, zw0 = ZW.
+% Negatív camber: a kerék teteje befelé dől -> a kifelé mutató tengely felfelé dől.
+    phi = -deg2rad(F1.LegalCamber);
+    n0  = [0;  cos(phi); sin(phi)];
+    zw0 = [0; -sin(phi); cos(phi)];
+end
+
+function O = f1_wcs_origin(WC, n, F1)
+% WCS origó: WC = O + WC_YW*YW, YW = -n  ->  O = WC + WC_YW*n
+    O = WC(:) + F1.WC_YW * n(:);
+end
+
+function [yw, zw, r] = f1_wcs_coords(P, WC, n, zw_ax, F1)
+% P (Nx3) pontok WCS koordinátái: YW (befelé +), ZW, és a YW tengelytől mért sugár.
+    O  = f1_wcs_origin(WC, n, F1)';
+    D  = P - O;
+    yw = -D * n(:);
+    zw =  D * zw_ax(:);
+    r  = sqrt(max(sum(D.^2, 2) - yw.^2, 0));
+end
+
+function f1_check_wheel_static(WC, F1, label)
+% C10.1c / C10.10.1 / gumiméret – a WC rögzített, ezért induláskori ellenőrzés.
+    if ~F1.Enable, return; end
+    n0  = f1_wheel_axes(F1);
+    O   = f1_wcs_origin(WC, n0, F1);
+    zF1 = O(3) - F1.RefPlaneZ;
+    fprintf('[F1 %s] WCS origó: |Y| = %.1f mm (max %g) | Z_F1 = %.1f mm (%g..%g) | WC Z = %.1f mm (gumi sugár %.1f)\n', ...
+        label, abs(O(2)), F1.WCS_Ymax, zF1, F1.WCS_Zrange(1), F1.WCS_Zrange(2), WC(3), F1.TyreRadius);
+    if abs(O(2)) > F1.WCS_Ymax + 1e-6
+        warning('F1 C10.10.1: a WCS origó |Y| = %.1f > %g mm (túl széles nyomtáv)!', abs(O(2)), F1.WCS_Ymax);
+    end
+    if zF1 < F1.WCS_Zrange(1) || zF1 > F1.WCS_Zrange(2)
+        warning('F1 C10.1c: a WCS origó Z_F1 = %.1f mm, kívül esik a %g..%g tartományon (WC Z / F1.RefPlaneZ)!', ...
+            zF1, F1.WCS_Zrange(1), F1.WCS_Zrange(2));
+    end
+    if abs(WC(3) - F1.TyreRadius) > 20
+        warning('A kerékközép magassága (%.1f mm) nem F1 gumiméret (sugár ~%.1f mm). A kódban Z = 0 a talaj!', ...
+            WC(3), F1.TyreRadius);
+    end
+end
+
+function f1_check_outboard_point(P, WC, F1, label, on_member)
+% Egy NEM optimalizált outboard bekötési pont C10.3.4 ellenőrzése (figyelmeztetés).
+% on_member = true: a tag egy másik tagra köt (pl. pushrod a lengőkaron) -> C10.3.4d.
+    if ~F1.Enable, return; end
+    [n0, zw0] = f1_wheel_axes(F1);
+    [yw, zw, r] = f1_wcs_coords(P(:)', WC, n0, zw0, F1);
+    if on_member
+        fprintf('[F1] %s: YW = %.1f mm (C10.3.4d: <= %g)\n', label, yw, F1.PushrodExcYWmax);
+        if yw > F1.PushrodExcYWmax
+            warning('F1 C10.3.4d: %s túl beljebb van (YW = %.1f > %g mm)!', label, yw, F1.PushrodExcYWmax);
+        end
+    else
+        fprintf('[F1] %s: YW = %.1f mm (<= %g), ZW = %.1f mm (>= %g), r = %.1f mm\n', ...
+            label, yw, F1.OutboardYWmax, zw, F1.OutboardZWmin, r);
+        if yw > F1.OutboardYWmax, warning('F1 C10.3.4a: %s YW = %.1f > %g mm!', label, yw, F1.OutboardYWmax); end
+        if zw < F1.OutboardZWmin, warning('F1 C10.3.4b: %s ZW = %.1f < %g mm!', label, zw, F1.OutboardZWmin); end
+        if F1.Drum.Enable && (r > F1.Drum.Radius || yw < F1.Drum.YW(1) || yw > F1.Drum.YW(2))
+            warning('F1 C10.3.4c: %s a Drumon kívül van!', label);
+        end
+    end
+end
+
+function R = f1_axis_rot(a, t)
+% Forgatási mátrix az (origón átmenő) a tengely körül t [rad] szöggel (Rodrigues).
+    a = a(:) / norm(a);
+    W = [0 -a(3) a(2); a(3) 0 -a(1); -a(2) a(1) 0];
+    R = eye(3) + sin(t) * W + (1 - cos(t)) * (W * W);
+end
+
+function R = f1_rot_between(u, v)
+% Minimális forgatás az u iránytól a v irányig.
+    u = u(:) / norm(u); v = v(:) / norm(v);
+    w = cross(u, v); s = norm(w); c = u' * v;
+    if s < 1e-12, R = eye(3); return; end
+    W = [0 -w(3) w(2); w(3) 0 -w(1); -w(2) w(1) 0];
+    R = eye(3) + W + W * W * ((1 - c) / s^2);
+end
+
+function t = f1_signed_angle(v0, v1, a)
+% v0 -> v1 előjeles szöge az a tengely körül [rad].
+    a  = a(:) / norm(a);
+    v0 = v0(:) - a * (a' * v0(:));
+    v1 = v1(:) - a * (a' * v1(:));
+    t  = atan2(a' * cross(v0, v1), v0' * v1);
+end
+
+function m0 = f1_major_axis0(L)
+% C10.3.6c feltevés: a keresztmetszet főtengelye a Legality Setupban vízszintes
+% és merőleges a terhelési vonalra (szárnyprofilú tag).
+    m0 = cross(L(:), [0; 0; 1]);
+    if norm(m0) < 1e-9, m0 = [1; 0; 0]; end
+    m0 = m0 / norm(m0);
+end
+
+function a = f1_incidence(m)
+% A főtengely és a Z = 0 sík szöge [deg].
+    a = asind(max(-1, min(1, m(3) / norm(m))));
+end
+
+function d = f1_seg_rim_dist(p0, p1, center, axis, r_in, r_out, half_w)
+% Előjeles távolság szakasz és felni-gyűrű (r_in..r_out, ±half_w) között (< 0: behatolás).
+    p0 = p0(:); p1 = p1(:); center = center(:); axis = axis(:) / norm(axis);
+    d = inf;
+    for k = 0:60
+        pt = p0 + (k/60) * (p1 - p0); w = pt - center;
+        ax = axis' * w; rad = norm(w - ax * axis);
+        a = max(r_in - rad, rad - r_out); b = abs(ax) - half_w;
+        d = min(d, norm([max(a, 0), max(b, 0)]) + min(max(a, b), 0));
+    end
+end
+
+function s = f1_box_sdf(P, box)
+% Pont előjeles távolsága egy tengelyirányú dobozhoz (box = [xmin xmax; ymin ymax; zmin zmax]); < 0: belül.
+    q = max(box(:,1)' - P(:)', P(:)' - box(:,2)');
+    s = norm(max(q, 0)) + min(max(q), 0);
+end
+
+function [names, vals] = f1_add(names, vals, name, v)
+    names{end+1} = name; vals{end+1} = v(:);
+end
+
+function f1_report(names, vals, label)
+% Az F1 kényszerek összesítése (c <= 0 = megfelel).
+    fprintf('\n===== F1 2026 C10 megfelelőség: %s =====\n', label);
+    if isempty(names), disp('  (F1 ellenőrzés kikapcsolva)'); return; end
+    for i = 1:numel(names)
+        v = vals{i};
+        if isempty(v), continue; end
+        mx = max(v);
+        if mx <= 1e-3, st = 'OK'; else, st = '*** SÉRÜL ***'; end
+        fprintf('  %-66s max(c) = %9.3f   %s\n', names{i}, mx, st);
+    end
+end
+
+%% ---------------- F1 KINEMATIKAI KÉNYSZEREK ----------------
+
+function [Q, ok, Cp] = f1_pose_sweep(C, K_loc, WC_init, L0, vals, mode, steer_idx)
+% Pózsorozat megoldása melegindítással a 0-hoz legközelebbi pózból kifelé.
+% mode = 'dz' (heave: váz Z -= v) vagy 'dy' (kormány: a steer_idx vázpont Y += v).
+    opt = optimoptions('lsqnonlin', 'Display', 'off', 'FunctionTolerance', 1e-10, ...
+        'StepTolerance', 1e-12, 'MaxIterations', 200);
+    n = numel(vals); Q = nan(n, 5); ok = false(n, 1); Cp = cell(n, 1);
+    q_def = [WC_init(1), WC_init(2), 0, 0, 0];
+    [~, i0] = min(abs(vals));
+    order = [i0:n, i0-1:-1:1];
+    q_prev = q_def; q_at0 = q_def;
+    for k = order
+        if k == i0 - 1, q_prev = q_at0; end
+        Ck = C;
+        if strcmp(mode, 'dz')
+            Ck(:,3) = C(:,3) - vals(k);
+        else
+            Ck(steer_idx,2) = C(steer_idx,2) + vals(k);
+        end
+        obj = @(q) f1_link_errors(q, Ck, K_loc, WC_init, 0, L0);
+        [q, resn, ~, ef] = lsqnonlin(obj, q_prev, [], [], opt);
+        good = (ef > 0) && (resn < 1e-6);
+        if ~good
+            [q, resn, ~, ef] = lsqnonlin(obj, q_def, [], [], opt);
+            good = (ef > 0) && (resn < 1e-6);
+        end
+        if good
+            Q(k,:) = q; ok(k) = true; Cp{k} = Ck; q_prev = q;
+            if k == i0, q_at0 = q; end
+        end
+    end
+end
+
+function Kk = f1_pose_points(q, K_loc, WC_init)
+% Az upright pontok adott pózban.
+    R   = f1_euler_rot(q(3), q(4), q(5));
+    WCk = [q(1), q(2), WC_init(3)];
+    Kk  = (WCk(:) + R * K_loc')';
+end
+
+function inc = f1_member_incidences(C0, K0, C, K, hinge)
+% C10.3.6c: a tagok keresztmetszet-főtengelyének dőlésváltozása [deg] a Legality Setuphoz képest.
+% hinge(i,:) = [a b]: az i. tag az a-b vázpontokon átmenő csuklótengely körül fordul (A-kar szára);
+% hinge(i,:) = [0 0]: kétgömbcsuklós rúd -> minimális elfordulás.
+    n = size(C0, 1); inc = zeros(n, 1);
+    for i = 1:n
+        L0 = K0(i,:) - C0(i,:);
+        m0 = f1_major_axis0(L0);
+        if hinge(i,1) > 0
+            a0 = C0(hinge(i,2),:) - C0(hinge(i,1),:);
+            a1 = C(hinge(i,2),:)  - C(hinge(i,1),:);
+            Rh = f1_rot_between(a0, a1);                  % a váz elfordulása (heave/steer: I)
+            v0 = Rh * (K0(i,:) - C0(hinge(i,1),:))';
+            v1 = (K(i,:) - C(hinge(i,1),:))';
+            m  = f1_axis_rot(a1, f1_signed_angle(v0, v1, a1)) * (Rh * m0);
+        else
+            m  = f1_rot_between(L0, K(i,:) - C(i,:)) * m0;
+        end
+        inc(i) = f1_incidence(m) - f1_incidence(m0);
+    end
+end
+
+function [names, vals] = f1_static_cons(C, Kout, WC, F1, pairs, names, vals)
+% Design (= Legality Setup) póz: C10.3.4 a-c, C10.3.5 (elöl), C10.3.10.
+    [n0, zw0] = f1_wheel_axes(F1);
+    [yw, zw, r] = f1_wcs_coords(Kout, WC, n0, zw0, F1);
+    [names, vals] = f1_add(names, vals, 'C10.3.4a outboard pontok YW <= 0 [mm]', yw - F1.OutboardYWmax);
+    [names, vals] = f1_add(names, vals, sprintf('C10.3.4b outboard pontok ZW >= %g [mm]', F1.OutboardZWmin), ...
+        F1.OutboardZWmin - zw);
+    if F1.Drum.Enable
+        [names, vals] = f1_add(names, vals, 'C10.3.4c outboard pontok a Drumon belül [mm]', ...
+            [r - F1.Drum.Radius; F1.Drum.YW(1) - yw; yw - F1.Drum.YW(2)]);
+    else
+        [names, vals] = f1_add(names, vals, 'C10.3.4c Drum (KIKAPCSOLVA – töltsd ki: F1.Drum)', -ones(3*numel(yw), 1));
+    end
+    if F1.IsFront && ~isempty(pairs)
+        dx = abs(C(pairs(:,1),1) - C(pairs(:,2),1));
+        [names, vals] = f1_add(names, vals, sprintf('C10.3.5 párok vázpontjainak X-távolsága >= %g [mm]', F1.PairMinDX), ...
+            F1.PairMinDX - dx);
+        idx = unique(pairs(:));
+        [names, vals] = f1_add(names, vals, sprintf('C10.3.5 pár-vázpontok Z_F1 >= %g [mm]', F1.PairMinZ), ...
+            (F1.PairMinZ + F1.RefPlaneZ) - C(idx,3));
+    end
+    if ~isempty(F1.NoMountBox)
+        s = zeros(size(C,1), 1);
+        for i = 1:size(C,1), s(i) = f1_box_sdf(C(i,:), F1.NoMountBox); end
+        [names, vals] = f1_add(names, vals, 'C10.3.10 vázpontok a PU-dobozon kívül [mm]', -s);
+    end
+end
+
+function [names, vals] = f1_heave_cons(C, Km, WC_init, F1, hinge, names, vals)
+% Rugóút mentén: C10.3.1 (ZW oldalnézeti szöge max. 1° / 10 mm) és C10.3.6c (±5°).
+    nM = size(Km, 1);
+    L0 = sqrt(sum((Km - C).^2, 2));
+    K_loc = Km - WC_init;
+    dzs = F1.CheckDz(:)'; np = numel(dzs);
+    [Q, ok, Cp] = f1_pose_sweep(C, K_loc, WC_init, L0, dzs, 'dz', 0);
+    [~, zw0] = f1_wheel_axes(F1);
+    th  = nan(1, np);
+    inc = (10 + F1.IncidenceHeaveMax) * ones(nM, np);   % sikertelen póz -> sértés
+    for k = 1:np
+        if ~ok(k), continue; end
+        R  = f1_euler_rot(Q(k,3), Q(k,4), Q(k,5));
+        zw = R * zw0; th(k) = atan2d(zw(1), zw(3));
+        Kk = f1_pose_points(Q(k,:), K_loc, WC_init);
+        inc(:,k) = f1_member_incidences(C, Km, Cp{k}, Kk, hinge);
+    end
+    g = zeros(0, 1);
+    for i = 1:np
+        for j = i+1:np
+            if abs((dzs(j) - dzs(i)) - F1.ZWgradWindow) < 1e-9
+                if isnan(th(i)) || isnan(th(j))
+                    g(end+1, 1) = 10; %#ok<AGROW>
+                else
+                    g(end+1, 1) = abs(th(j) - th(i)) - F1.ZWgradMax; %#ok<AGROW>
+                end
+            end
+        end
+    end
+    [names, vals] = f1_add(names, vals, sprintf('C10.3.1 ZW oldalnézeti szögváltozás <= %g° / %g mm [deg]', ...
+        F1.ZWgradMax, F1.ZWgradWindow), g);
+    [names, vals] = f1_add(names, vals, sprintf('C10.3.6c tag-főtengely dőlésváltozás rugóúton <= %g° [deg]', ...
+        F1.IncidenceHeaveMax), abs(inc(:)) - F1.IncidenceHeaveMax);
+end
+
+function [names, vals] = f1_steer_cons(C, Km, WC_init, F1, hinge, steer_idx, names, vals)
+% Kormányzás mentén (WC Z állandó, mint a kód kormányzási modelljében): C10.3.6c ±1°.
+    nM = size(Km, 1);
+    L0 = sqrt(sum((Km - C).^2, 2));
+    K_loc = Km - WC_init;
+    dys = linspace(-F1.SteerCheckRack, F1.SteerCheckRack, 7);
+    [Q, ok, Cp] = f1_pose_sweep(C, K_loc, WC_init, L0, dys, 'dy', steer_idx);
+    inc = (10 + F1.IncidenceSteerMax) * ones(nM, numel(dys));
+    for k = 1:numel(dys)
+        if ~ok(k), continue; end
+        Kk = f1_pose_points(Q(k,:), K_loc, WC_init);
+        inc(:,k) = f1_member_incidences(C, Km, Cp{k}, Kk, hinge);
+    end
+    [names, vals] = f1_add(names, vals, sprintf('C10.3.6c tag-főtengely dőlésváltozás kormányzáson <= %g° [deg]', ...
+        F1.IncidenceSteerMax), abs(inc(:)) - F1.IncidenceSteerMax);
+end
+
+%% ---------------- F1 – DAA (első tengely) specifikus kényszerek (= optimalizáló) ----------------
+
+function [names, vals] = f1_kingpin_cons(C, Kb, WC, F1, radii, gap, Col, names, vals)
+% Rögzített lengőkarok mellett (Legality Setup, rögzített rocker; a pushrod a lengőkaron
+% vagy a gömbcsukló közelében) az upright a királycsap (alsó -> felső gömbcsukló) körül fordul:
+%   C10.2.6b: ±12° kerékszögön a 700 mm-es setup-gömb (közepe = WC) alsó pontjának,
+%             azaz a WC Z-jének változása <= 2 mm
+%   C10.3.7 : +23° (toe-in) / -21° (toe-out) elérhető, és a felni nem ér a tagokhoz.
+%             A szabály szerint a kormányzás ehhez leválasztható -> a kormányösszekötőt csak
+%             akkor vizsgáljuk, ha a rack (csak Y-ban mozogva) el tudja érni a pózt.
+    n0 = f1_wheel_axes(F1);
+    P  = Kb(2,:)'; a = Kb(1,:)' - P; a = a / norm(a);
+    al = deg2rad(-70:0.25:70); N = numel(al);
+    delta = zeros(1, N); dzc = zeros(1, N);
+    for k = 1:N
+        Rk = f1_axis_rot(a, al(k));
+        nk = Rk * n0;  delta(k) = asind(nk(1));            % bal kerék, X előre: + = toe-in
+        wk = P + Rk * (WC(:) - P); dzc(k) = wk(3) - WC(3);
+    end
+
+    % C10.2.6b
+    if max(delta) >= F1.JackAngle && min(delta) <= -F1.JackAngle
+        cj = max(abs(dzc(abs(delta) <= F1.JackAngle))) - F1.JackMax;
+    else
+        cj = 10;
+    end
+    [names, vals] = f1_add(names, vals, sprintf('C10.2.6b kerékközép Z-változás ±%g° kerékszögön <= %g mm [mm]', ...
+        F1.JackAngle, F1.JackMax), cj);
+
+    % C10.3.7 – elérhetőség
+    [names, vals] = f1_add(names, vals, sprintf('C10.3.7 elérhető toe-in >= %g° és toe-out >= %g° [deg]', ...
+        F1.LockToeIn, F1.LockToeOut), [F1.LockToeIn - max(delta); F1.LockToeOut + min(delta)]);
+
+    % C10.3.7 – felni-tag szabadmagasság a két lock pózban (+ szükséges rack-út)
+    [ds, is] = sort(delta); [ds, iu] = unique(ds); als = al(is(iu));
+    targets = [F1.LockToeIn, -F1.LockToeOut];
+    Km  = [Kb(1,:); Kb(1,:); Kb(2,:); Kb(2,:)];
+    L5  = norm(Kb(3,:) - C(5,:));
+    c_rim = zeros(10, 1); c_rack = zeros(2, 1);
+    for t = 1:2
+        tg  = max(ds(1), min(ds(end), targets(t)));
+        Rk  = f1_axis_rot(a, interp1(ds, als, tg));
+        nk  = Rk * n0; wk = P + Rk * (WC(:) - P);
+        rc  = wk + Col.rim_y_offset * nk;
+        for i = 1:4
+            dd = f1_seg_rim_dist(C(i,:), Km(i,:), rc, nk, Col.rim_inner_radius, Col.rim_outer_radius, Col.rim_width/2);
+            c_rim((t-1)*5 + i) = radii(i) + gap - dd;
+        end
+        tr = (P + Rk * (Kb(3,:)' - P))';
+        dxx = tr(1) - C(5,1); dzz = tr(3) - C(5,3); disc = L5^2 - dxx^2 - dzz^2;
+        if disc >= 0
+            yc = tr(2) + [-1, 1] * sqrt(disc);
+            [~, j] = min(abs(yc - C(5,2)));
+            rk = [C(5,1), yc(j), C(5,3)];
+            dd = f1_seg_rim_dist(rk, tr, rc, nk, Col.rim_inner_radius, Col.rim_outer_radius, Col.rim_width/2);
+            c_rim((t-1)*5 + 5) = radii(5) + gap - dd;
+            travel = abs(yc(j) - C(5,2));
+        else
+            c_rim((t-1)*5 + 5) = -1;     % a kormányösszekötő így nem éri el (kormánykar cserélhető)
+            travel = Inf;
+        end
+        if isfinite(F1.MaxRackTravel)
+            c_rack(t) = min(travel - F1.MaxRackTravel, 100);
+        else
+            c_rack(t) = -1;
+        end
+    end
+    [names, vals] = f1_add(names, vals, 'C10.3.7 felni–tag szabadmagasság a lock pózokban [mm]', c_rim);
+    [names, vals] = f1_add(names, vals, 'C10.3.7 lockhoz szükséges rack-út <= F1.MaxRackTravel [mm]', c_rack);
+end
+
+function [c, ceq, names, vals] = f1_nonlcon_DAA(x, WC_init, F1, Collision)
+% Az összes F1 2026 kényszer a DAA-ra (c <= 0 = megfelel). 4 kimenettel a riporthoz is.
+    ceq = []; names = {}; vals = {};
+    if ~F1.Enable, c = zeros(0, 1); return; end
+    C  = reshape(x(1:15), [5,3]);
+    Kb = reshape(x(16:24), [3,3]);
+    Km = [Kb(1,:); Kb(1,:); Kb(2,:); Kb(2,:); Kb(3,:)];   % 5 tag (virtuális szétbontás, C10.3.2)
+    hinge = [1 2; 1 2; 3 4; 3 4; 0 0];                     % A-karok szárai a csuklótengelyük körül
+    radii = [Collision.rod_diameter_upper; Collision.rod_diameter_upper; ...
+             Collision.rod_diameter_lower; Collision.rod_diameter_lower; Collision.rod_diameter_tie] / 2;
+
+    [names, vals] = f1_static_cons(C, Kb, WC_init, F1, [1 2; 3 4], names, vals);
+    [names, vals] = f1_heave_cons(C, Km, WC_init, F1, hinge, names, vals);
+    if F1.IsFront
+        [names, vals] = f1_steer_cons(C, Km, WC_init, F1, hinge, 5, names, vals);
+        [names, vals] = f1_kingpin_cons(C, Kb, WC_init, F1, radii, Collision.min_clearance, Collision, names, vals);
+    end
+    c = vertcat(vals{:});
+end
