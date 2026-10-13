@@ -178,11 +178,11 @@ function full_kinematic_optimalization_multilink_plot
     camber_heave_tol = 0.01;
     toe_heave_tol = 0.01;
     rc_tol = 0.5;
-    antisquat_tol = 2;
-    kpi_tol = 1;
-    caster_tol = 1;
-    trail_tol = 1;
-    scrub_tol = 1;
+    antisquat_tol = 0.5;
+    kpi_tol = 0.5;
+    caster_tol = 0.5;
+    trail_tol = 0.5;
+    scrub_tol = 0.5;
     camber_roll_tol = 0.05;
     toe_roll_tol = 0.01;
 
@@ -328,17 +328,17 @@ function full_kinematic_optimalization_multilink_plot
     % dev_K4 = [-20, 20; -20, 20; -20, 20]; 
     % dev_K5 = [-20, 20; -20, 20; -20, 20]; 
 
-    dev_C1 = [-30, 30; 0, 0; -30, 30]; 
-    dev_C2 = [-30, 30; 0, 0; -30, 30]; 
-    dev_C3 = [-30, 30; 0, 0; -30, 30]; 
-    dev_C4 = [-30, 30; 0, 0; -30, 30]; 
-    dev_C5 = [-30, 30; 0, 0; -30, 30]; 
+    dev_C1 = [-40, 40; 0, 0; -40, 40]; 
+    dev_C2 = [-40, 40; 0, 0; -40, 40]; 
+    dev_C3 = [-40, 40; 0, 0; -40, 40]; 
+    dev_C4 = [-40, 40; 0, 0; -40, 40]; 
+    dev_C5 = [-40, 40; 0, 0; -40, 40]; 
 
-    dev_K1 = [-30, 30; -30, 30; -30, 30]; 
-    dev_K2 = [-30, 30; -30, 30; -30, 30]; 
-    dev_K3 = [-30, 30; -30, 30; -30, 30]; 
-    dev_K4 = [-30, 30; -30, 30; -30, 30]; 
-    dev_K5 = [-30, 30; -30, 30; -30, 30]; 
+    dev_K1 = [-60, 60; -60, 60; -60, 60]; 
+    dev_K2 = [-60, 60; -60, 60; -60, 60]; 
+    dev_K3 = [-60, 60; -60, 60; -60, 60]; 
+    dev_K4 = [-60, 60; -60, 60; -60, 60]; 
+    dev_K5 = [-60, 60; -60, 60; -60, 60]; 
 
     % dev_C1 = [-100, 100; 0, 0; -100, 100]; 
     % dev_C2 = [-100, 100; 0, 0; -100, 100]; 
