@@ -3623,7 +3623,7 @@ function F1 = f1_rules_2026(axle)
     F1.SteerCheckRack = 30;               % [mm] C10.3.6c kormányzási tartomány (±rack)
 
     % --- pushrod (rocker optimalizálók) ---
-    % F1.PushrodOnMember       = true;     % true: a pushrod egy másik tagra (lengőkarra) köt -> C10.3.4 d-f
+    F1.PushrodOnMember       = true;     % true: a pushrod egy másik tagra (lengőkarra) köt -> C10.3.4 d-f
     F1.PushrodExcYWmax       = 50;        % C10.3.4d [mm]
     F1.PushrodExcLineDist    = 25;        % C10.3.4e [mm]
     F1.CheckPushrodIncidence = true;      % C10.3.6c a pushrodra (kör keresztmetszetnél állítsd false-ra)
