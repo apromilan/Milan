@@ -1,0 +1,98 @@
+%% sikpont_mozgatas.m
+% 3 pont meghataroz egy siknak. A kivalasztott pontot ezen a sikon mozgatjuk:
+% megadsz ket cel koordinatat, a harmadikat a script szamolja ki.
+
+clear; clc; close all;
+
+%% ===== BEMENET =====
+% 3 pont [x y z] (soronkent egy pont)
+P = [-1267.079, 230.345, 218.372;      % P1
+    -1594.490, 229.702, 143.241;     % P2
+    -1544.923, 561.643, 103.528];    % P3
+
+kivalasztott = 1;       % melyik pontot mozgatjuk (1, 2 vagy 3)
+
+szamolt_koord = 'z';    % melyik koordinatat szamolja ki: 'x', 'y' vagy 'z'
+
+% Cel ertekek a MASIK ket koordinatara (a szamolt koordinata erteke itt nem szamit)
+% sorrend: [x y z] -> a szamolt koordinata helyere barmit irhatsz (pl. NaN)
+cel = [-1327.079, 230.345  NaN];
+
+abrazol = true;         % abra be/ki
+
+%% ===== SZAMOLAS =====
+ax = find('xyz' == lower(szamolt_koord));
+if isempty(ax)
+    error('szamolt_koord csak ''x'', ''y'' vagy ''z'' lehet.');
+end
+if ~ismember(kivalasztott, 1:3)
+    error('kivalasztott csak 1, 2 vagy 3 lehet.');
+end
+
+% sik normalvektora: n = (P2-P1) x (P3-P1)
+n = cross(P(2,:) - P(1,:), P(3,:) - P(1,:));
+if norm(n) < 1e-12
+    error('A 3 pont egy egyenesen van (vagy egybeesik), nem hataroz meg siket.');
+end
+
+% sikegyenlet: n . (Q - P1) = 0, ahol P1 a sik egy pontja
+% (a sik fix: az EREDETI 3 pont hatarozza meg, a mozgatott pont ezen marad)
+P0 = P(1,:);
+if abs(n(ax)) < 1e-12
+    error(['A sik parhuzamos a(z) ' szamolt_koord ' tengellyel, ezt a koordinatat ' ...
+        'nem lehet egyertelmuen kiszamolni. Valassz masik koordinatat.']);
+end
+
+Q = cel;
+mas = setdiff(1:3, ax);
+if any(isnan(Q(mas)))
+    error('A ket nem szamolt koordinatanak meg kell adni a cel erteket.');
+end
+
+Q(ax) = P0(ax) - (n(mas) * (Q(mas) - P0(mas))') / n(ax);
+
+% eredmeny
+Puj = P;
+Puj(kivalasztott, :) = Q; %#ok<NASGU>
+Pu = P;
+Pu(kivalasztott, :) = Q;
+
+fprintf('Sik normalvektor: [%.4f %.4f %.4f]\n', n);
+fprintf('P%d regi: [%.4f %.4f %.4f]\n', kivalasztott, P(kivalasztott,:));
+fprintf('P%d uj:   [%.4f %.4f %.4f]  (szamolt: %s)\n', kivalasztott, Q, lower(szamolt_koord));
+
+% ellenorzes: az uj pont rajta van-e az eredeti siken
+hiba = n * (Q - P0)';
+fprintf('Ellenorzes (n.(Q-P1), 0-nak kell lennie): %.3e\n', hiba);
+
+%% ===== ABRA =====
+if abrazol
+    figure('Name','Sikpont mozgatas'); hold on; grid on; axis equal;
+    xlabel('x'); ylabel('y'); zlabel('z'); view(3);
+
+    % sik megjelenitese az eredeti 3 pont + uj pont koruli teglalapon
+    pts = [P; Q];
+    u = P(2,:) - P(1,:);  u = u / norm(u);
+    v = cross(n/norm(n), u);
+    c = mean(pts, 1);
+    st = [(pts - c) * u', (pts - c) * v'];
+    umin = min(st(:,1)); umax = max(st(:,1));
+    vmin = min(st(:,2)); vmax = max(st(:,2));
+    mu = 0.2 * (umax - umin + eps); mv = 0.2 * (vmax - vmin + eps);
+    [U, V] = meshgrid(linspace(umin-mu, umax+mu, 2), linspace(vmin-mv, vmax+mv, 2));
+    X = c(1) + U*u(1) + V*v(1);
+    Y = c(2) + U*u(2) + V*v(2);
+    Z = c(3) + U*u(3) + V*v(3);
+    surf(X, Y, Z, 'FaceAlpha', 0.2, 'EdgeColor', 'none', 'FaceColor', [0.3 0.6 0.9]);
+
+    % eredeti haromszog
+    plot3(P([1 2 3 1],1), P([1 2 3 1],2), P([1 2 3 1],3), 'k--');
+    plot3(P(:,1), P(:,2), P(:,3), 'ko', 'MarkerFaceColor', 'k');
+    % uj haromszog
+    plot3(Pu([1 2 3 1],1), Pu([1 2 3 1],2), Pu([1 2 3 1],3), 'r-');
+    plot3(Q(1), Q(2), Q(3), 'rs', 'MarkerFaceColor', 'r', 'MarkerSize', 9);
+    for i = 1:3
+        text(P(i,1), P(i,2), P(i,3), sprintf('  P%d', i));
+    end
+    legend({'sik','eredeti','','','uj','uj pont'}, 'Location','best');
+end
