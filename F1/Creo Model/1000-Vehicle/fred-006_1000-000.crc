@@ -1,0 +1,28 @@
+﻿  MODEL FRED-006_1000-000 :
+ 
+
+  1 CIRCULAR REFERENCE LOOPS FOUND
+ 
+
+   LOOP #  1
+
+   Depth of loop is 6
+
+Feature number 10 (EXTERN COPY GEOM, id = 2143) 
+  in model FRED-006_1106-000_SKEL refers to:
+
+Feature number 10 (COMPONENT, id = 403) 
+  in model FRED-006_1110-000 refers to:
+
+Feature number 17 (PATTERN_1, id = 680) 
+  in model FRED-006_1106-201 must follow after:
+
+Feature number 16 (EXTERN COPY GEOM, id = 633) 
+  in model FRED-006_1106-201 refers to:
+
+Feature number 30 (Symbols, id = 274) 
+  in model FRED-006_1106-000_SKEL must follow after:
+
+Feature number 10 (EXTERN COPY GEOM, id = 2143) 
+  in model FRED-006_1106-000_SKEL - circle closed.
+

@@ -1,0 +1,25 @@
+﻿  MODEL FRONT_LEFT_TYRE :
+ 
+
+  1 CIRCULAR REFERENCE LOOPS FOUND
+ 
+
+   LOOP #  1
+
+   Depth of loop is 5
+
+Feature number 10 (COPY GEOMETRY, id = 216) 
+  in model FRONT_TIRE refers to:
+
+Feature number 76 (PUBLISHED GEOMETRY, id = 293) 
+  in model FRONT_RIM must follow after:
+
+Feature number 17 (EXTRUDE_2, id = 294) 
+  in model FRONT_RIM refers to:
+
+Feature number 14 (REVOLVE_1, id = 379) 
+  in model FRONT_TIRE must follow after:
+
+Feature number 10 (COPY GEOMETRY, id = 216) 
+  in model FRONT_TIRE - circle closed.
+
