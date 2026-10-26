@@ -4,12 +4,12 @@ clear; clc;
 % Alappontok (2D vagy 3D, a dimenzio automatikusan kezelt)
 % P1 = [60.474, 650, 505.769];      % rogzitett pont
 % P2 = [200, 150, 505];      % mozgatando pont
-P1 = [-37.875, 213.337, 586.014];      % rogzitett pont
-P2 = [-37.875, 705.641, 281];      % mozgatando pont
+P1 = [-1437.188, 515.000, 167.255];      % rogzitett pont
+P2 = [-1448.545, 228.997, 203.224];      % mozgatando pont
 
 
 % Mozgatas merteke: pozitiv = tavolodas, negativ = kozeledes
-delta = -40;          % pl. 2 egysegnyivel kozelebb
+delta = 0.242;          % pl. 2 egysegnyivel kozelebb
 
 % Egyseg iranyvektor P1-bol P2 fele
 v = P2 - P1;

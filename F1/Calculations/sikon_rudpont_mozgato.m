@@ -6,17 +6,17 @@ clear; clc; close all;
 
 %% ===== BEMENET =====
 % 3 pont [x y z] (soronkent egy pont)
-P = [-1267.079, 230.345, 218.372;      % P1
-    -1594.490, 229.702, 143.241;     % P2
-    -1544.923, 561.643, 103.528];    % P3
+P = [-1482.977, 230.017, 316.405;      % P1
+    -1609.680, 230.898, 295.542;     % P2
+    -1535.842, 502.499, 286.939];    % P3
 
-kivalasztott = 1;       % melyik pontot mozgatjuk (1, 2 vagy 3)
+kivalasztott = 2;       % melyik pontot mozgatjuk (1, 2 vagy 3)
 
 szamolt_koord = 'z';    % melyik koordinatat szamolja ki: 'x', 'y' vagy 'z'
 
 % Cel ertekek a MASIK ket koordinatara (a szamolt koordinata erteke itt nem szamit)
 % sorrend: [x y z] -> a szamolt koordinata helyere barmit irhatsz (pl. NaN)
-cel = [-1327.079, 230.345  NaN];
+cel = [-1609.680, 230.368  NaN];
 
 abrazol = true;         % abra be/ki
 
