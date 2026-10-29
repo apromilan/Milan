@@ -104,32 +104,62 @@ for k = 1:numel(corners)
         title([c.name ' ' rodNames{i}]); xlim([0 2*pi]);
     end
 
-    % --- Csapagyero (bearing): csak A-karnal ertelmes ---
-    % Multilinknel nincs A-kar csapagy: minden link ketgombcsuklos rud, a csuklo ereje = a rudero.
+    % --- Csapagyero (bearing) --- KIKOMMENTELVE (a csoportos eredok tartalmazzak, lasd lentebb)
+
+    % --- Eredo erokomponensek (visszaredukalas) mindket tengelyre ---
+    % Fvec{i} = D_i*F_i a rud ereje az UPRIGHTRA. Az eredoket a KAROSSZERIARA hato
+    % erokent adjuk (-Fvec): nyomott rud negativ, huzott pozitiv.
+    %  DAA (elol): UCA = UCAfront + UCArear + pushrod (a felso upright pontra hat),
+    %              LCA = LCAfront + LCArear, Tierod, es az osszes rud eredoje.
+    %  ML  (hatul): minden link / pushrod kulon, es az osszes rud eredoje.
     if strcmp(c.type, 'DAA')
-        UCAb = res.Fvec{1} + res.Fvec{2} + res.Fvec{5};   % UCA front + UCA rear + pushrod
-        LCAb = res.Fvec{3} + res.Fvec{4};                 % LCA front + LCA rear
-        UCAbV = sqrt(sum(UCAb.^2, 1));
-        LCAbV = sqrt(sum(LCAb.^2, 1));
+        gName = {'UCA (+pushrod)', 'LCA', 'Tierod', 'Osszes'};
+        gIdx  = {[1 2 5], [3 4], 6, 1:6};
+        gCSV  = [true true false true];
+    else
+        gName = {'Link 1','Link 2','Link 3','Link 4','Link 5','Pushrod','Osszes'};
+        gIdx  = {1, 2, 3, 4, 5, 6, 1:6};
+        gCSV  = [false false false false false false true];
+    end
+    ng = numel(gName);
+    W  = cell(1, ng);
+    for q = 1:ng
+        W{q} = zeros(3, numel(alpha));
+        for i = gIdx{q}
+            W{q} = W{q} - res.Fvec{i};
+        end
+    end
 
-        [mx, iU] = max(UCAbV);
-        fprintf('%s UCA bearing: min %.2f N, max %.2f N, vektor a maximumnal [x y z] = [%.1f %.1f %.1f]\n', ...
-            c.name, min(UCAbV), mx, UCAb(:,iU));
-        [mx, iL] = max(LCAbV);
-        fprintf('%s LCA bearing: min %.2f N, max %.2f N, vektor a maximumnal [x y z] = [%.1f %.1f %.1f]\n', ...
-            c.name, min(LCAbV), mx, LCAb(:,iL));
+    fprintf('\n--- %s: eredo ero a karosszeriara [N] (nyomas negativ) ---\n', c.name);
+    fprintf('%-16s %-4s %10s %10s\n', 'Csoport', '', 'Min', 'Max');
+    comp = {'x','y','z'};
+    for q = 1:ng
+        for j = 1:3
+            fprintf('%-16s %-4s %10.2f %10.2f\n', gName{q}, comp{j}, min(W{q}(j,:)), max(W{q}(j,:)));
+        end
+        Wv = sqrt(sum(W{q}.^2, 1));
+        [mx, iM] = max(Wv);
+        fprintf('%-16s %-4s %10.2f %10.2f   irany a maximumnal: [%.3f %.3f %.3f]\n', ...
+            gName{q}, '|F|', min(Wv), mx, W{q}(:,iM)/max(mx, eps));
+    end
 
-        figure('Name', [c.name ' bearing'], 'NumberTitle', 'off');
-        subplot(1,2,1); plot(alpha, UCAbV, 'LineWidth', 1.2); grid on;
-        xlabel('alpha [rad]'); ylabel('F [N]'); title([c.name ' UCA bearing']); xlim([0 2*pi]);
-        subplot(1,2,2); plot(alpha, LCAbV, 'LineWidth', 1.2); grid on;
-        xlabel('alpha [rad]'); ylabel('F [N]'); title([c.name ' LCA bearing']); xlim([0 2*pi]);
+    figure('Name', [c.name ' eredo komponensek'], 'NumberTitle', 'off');
+    for q = 1:ng
+        subplot(2, ceil(ng/2), q);
+        plot(alpha, W{q}(1,:), alpha, W{q}(2,:), alpha, W{q}(3,:), 'LineWidth', 1.2); grid on;
+        legend('F_x','F_y','F_z'); xlabel('alpha [rad]'); ylabel('F [N]');
+        title([c.name ' ' gName{q}]); xlim([0 2*pi]);
     end
 
     % --- CSV adatok ---
     for i = 1:6
         csvData = [csvData, res.Fvec{i}']; %#ok<AGROW>
         csvHead = [csvHead, strcat(strrep([c.name '_' rodNames{i}], ' ', ''), {'_x','_y','_z'})]; %#ok<AGROW>
+    end
+    for q = find(gCSV)
+        tag = strrep(strrep(gName{q}, ' ', ''), '(+pushrod)', '');
+        csvData = [csvData, W{q}', sqrt(sum(W{q}.^2, 1))']; %#ok<AGROW>
+        csvHead = [csvHead, strcat([c.name '_' tag '_chassis'], {'_x','_y','_z'}), {[c.name '_' tag '_chassis_abs']}]; %#ok<AGROW>
     end
 end
 

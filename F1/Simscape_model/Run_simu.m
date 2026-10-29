@@ -8,5 +8,6 @@ close all
 % LOG = "Acceleration\acceleration.csv";
 LOG = "Cornering\cornering.csv";
 % LOG = "Braking\braking.csv";
+% LOG = "Testrig\testrig.csv";
 motion(LOG)
 Simulation_setup;
