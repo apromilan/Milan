@@ -431,8 +431,8 @@ PLANETARY_GEAR_RATIO = 15;
 R_WHEEL = 0.36;
 
 wheelbase = 3;
-front_track = 1.66;
-rear_track = 1.55;
+front_track = 1.6;
+rear_track = 1.6;
 COG = [-1650; 0; 300]; %sprung mass cog
 aero_distribution = 0.45; % [%]
 COP = [-wheelbase*aero_distribution*1000; 0; 100];
@@ -501,45 +501,47 @@ I_engine = 0.2;
 % A sima erőnél az emelőhatás csak egyszer működik (a karok aránya határozza meg az erőt). 
 % A merevségnél azért kell a négyzet, mert az emelő kétszeresen büntet: egyszer lefelezi (ha MR=2) a rugó elmozdulását, másodszor pedig lefelezi (ha MR=2) a rugóból visszajutó erőt is!
 % Front
-front_spring = 8000;
+% front_spring = 8000;
+front_spring = 600;
 front_spring_stiffness = front_spring*175.127; %[lbf/in]*conversion constant=[N/m]
-front_static_length = 110.881; % mm
-front_static_motion_ratio = 1.860; % needs optkin
-front_lower_limit_motion_ratio = 1.903; % needs optkin
-front_upper_limit_motion_ratio = 1.806; % needs optkin
+front_static_length = 183.484; % mm
+front_static_motion_ratio = 0.687; % needs optkin
+front_lower_limit_motion_ratio = 0.671; % needs optkin
+front_upper_limit_motion_ratio = 0.701; % needs optkin
 front_wheel_fz = m_s0_driver*weight_distribution/2*g;
 front_static_spring_force = front_wheel_fz*front_static_motion_ratio;
 front_static_spring_compression = front_static_spring_force/front_spring_stiffness*1000; % mm! ez lesz a delta x, amit hozzá kell adni a beépítési hosszhoz és kijön a equilibrium position
 front_equilibrium_position = front_static_length+front_static_spring_compression;
-front_lower_limit = front_static_length-30/front_lower_limit_motion_ratio;
-front_upper_limit = front_static_length+30/front_upper_limit_motion_ratio;
+front_lower_limit = front_static_length-15/front_lower_limit_motion_ratio;
+front_upper_limit = front_static_length+15/front_upper_limit_motion_ratio;
 ARB_K_tors_front = 409; %[Nm/rad]
 front_damping_ratio = 0.7;
 front_c_krit = 2*sqrt(front_spring_stiffness/front_static_motion_ratio^2*(m_sprung*weight_distribution)/2);
 front_c = front_damping_ratio*front_c_krit;
 front_damping_coefficient = front_c*front_static_motion_ratio^2;
-front_roll_center = 183.615;
-pitch_center = 140;
+front_roll_center = 100;
+pitch_center = 200;
 
 % Rear 
-rear_spring = 8000;
+% rear_spring = 8000;
+rear_spring = 700;
 rear_spring_stiffness = rear_spring*175.127; %[lbf/in]*conversion constant=[N/m]
-rear_static_length = 137.341; % mm
-rear_static_motion_ratio = 1.717; % needs optkin
-rear_lower_limit_motion_ratio = 2.131; % needs optkin
-rear_upper_limit_motion_ratio = 1.578; % needs optkin
+rear_static_length = 176.208; % mm
+rear_static_motion_ratio = 0.743; % needs optkin
+rear_lower_limit_motion_ratio = 0.703; % needs optkin
+rear_upper_limit_motion_ratio = 0.778; % needs optkin
 rear_wheel_fz = m_s0_driver*(1-weight_distribution)/2*g;
 rear_static_spring_force = rear_wheel_fz*rear_static_motion_ratio;
 rear_static_spring_compression = rear_static_spring_force/rear_spring_stiffness*1000; % mm! ez lesz a delta x, amit hozzá kell adni a beépítési hosszhoz és kijön a equilibrium position
 rear_equilibrium_position = rear_static_length+rear_static_spring_compression;
-rear_lower_limit = rear_static_length-30/rear_lower_limit_motion_ratio;
-rear_upper_limit = rear_static_length+30/rear_upper_limit_motion_ratio;
+rear_lower_limit = rear_static_length-15/rear_lower_limit_motion_ratio;
+rear_upper_limit = rear_static_length+15/rear_upper_limit_motion_ratio;
 ARB_K_tors_rear = 271; % [Nm/rad]
 rear_damping_ratio = 0.7;
 rear_c_krit = 2*sqrt(rear_spring_stiffness/rear_static_motion_ratio^2*(m_sprung*(1-weight_distribution))/2);
 rear_c = rear_damping_ratio*rear_c_krit;
 rear_damping_coefficient = rear_c*rear_static_motion_ratio^2;
-rear_roll_center = 100;
+rear_roll_center = 130;
 
 % Aerodynamics
 cl = 5;
