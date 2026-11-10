@@ -1,0 +1,9 @@
+*.autosave
+*.slxc
+*/slprj/
+*slprj/
+*.asv
+*.m.txt
+*.roadgeo
+*.info
+*.log

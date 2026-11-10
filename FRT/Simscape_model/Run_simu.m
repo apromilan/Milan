@@ -2,6 +2,6 @@ clc
 clear all
 close all
 
-LOG = "torque_and_steering.csv";
+LOG = "Input\torque0_and_steering0.csv";
 input(LOG)
 Simulation_setup;

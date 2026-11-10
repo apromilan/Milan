@@ -60,7 +60,7 @@
                                     <value__PO__ws_val__PC__>Interface type:</value__PO__ws_val__PC__>
                                 </name>
                                 <value pointer="TRUE" type="6">
-                                    <value__PO__cs_val__PC__>STEP</value__PO__cs_val__PC__>
+                                    <value__PO__cs_val__PC__>IGES</value__PO__cs_val__PC__>
                                 </value>
                             </attrs_ENTRY>
                             <attrs_ENTRY pointer="TRUE" tag="File name">
@@ -68,7 +68,7 @@
                                     <value__PO__ws_val__PC__>File name:</value__PO__ws_val__PC__>
                                 </name>
                                 <value pointer="TRUE" type="10">
-                                    <value__PO__ws_val__PC__>C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Creo Model\1000-Vehicle\lower_insert_inconel2.step</value__PO__ws_val__PC__>
+                                    <value__PO__ws_val__PC__>C:\Users\Milán\Desktop\FRT\GitHub\Milan\F1\Creo Model\1000-Vehicle\lower_insert_inconel2.iges</value__PO__ws_val__PC__>
                                 </value>
                             </attrs_ENTRY>
                             <attrs_ENTRY pointer="TRUE" tag="Model name">
@@ -76,7 +76,7 @@
                                     <value__PO__ws_val__PC__>Model name:</value__PO__ws_val__PC__>
                                 </name>
                                 <value pointer="TRUE" type="10">
-                                    <value__PO__ws_val__PC__>LOWER_INSERT_INCONEL2</value__PO__ws_val__PC__>
+                                    <value__PO__ws_val__PC__>PRT0001</value__PO__ws_val__PC__>
                                 </value>
                             </attrs_ENTRY>
                         </attrs>
