@@ -1,3 +1,4 @@
+%% 
 function Simulation_Setup_GUI_v2(mode)
 % =========================================================================
 % SIMULATION SETUP – grafikus felület a Simulation.slx paraméterezéséhez
