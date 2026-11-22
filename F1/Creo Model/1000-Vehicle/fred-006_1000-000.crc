@@ -6,23 +6,14 @@
 
    LOOP #  1
 
-   Depth of loop is 6
+   Depth of loop is 3
 
-Feature number 10 (EXTERN COPY GEOM, id = 2143) 
-  in model FRED-006_1106-000_SKEL refers to:
+Feature number 12 (COMPONENT, id = 409) 
+  in model FRED-006_1102-400 refers to:
 
-Feature number 10 (COMPONENT, id = 403) 
-  in model FRED-006_1110-000 refers to:
+Feature number 10 (COMPONENT, id = 99) 
+  in model ASKUBAL_KA_5_DNRBF0_0 refers to:
 
-Feature number 17 (PATTERN_1, id = 680) 
-  in model FRED-006_1106-201 must follow after:
-
-Feature number 16 (EXTERN COPY GEOM, id = 633) 
-  in model FRED-006_1106-201 refers to:
-
-Feature number 30 (Symbols, id = 274) 
-  in model FRED-006_1106-000_SKEL must follow after:
-
-Feature number 10 (EXTERN COPY GEOM, id = 2143) 
-  in model FRED-006_1106-000_SKEL - circle closed.
+Feature number 12 (COMPONENT, id = 409) 
+  in model FRED-006_1102-400 - circle closed.
 
